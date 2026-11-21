@@ -103,7 +103,7 @@
 <body class="bg-slate-100 text-slate-900 dark:bg-[#090d16] dark:text-slate-100 h-screen h-[100dvh] w-screen flex flex-col">
 
     <!-- =====================================================================
-         1. TOP CAD LAB HEADER BAR (TAHUPOST 3D CAD LAB IDENTITY)
+         1. TOP CAD LAB HEADER BAR (3D CAD LAB IDENTITY)
     ====================================================================== -->
     <header class="h-13 min-h-[52px] px-3 sm:px-4 bg-white/95 dark:bg-[#0f172a]/95 border-b border-slate-300 dark:border-slate-800 flex items-center justify-between gap-2 z-30 backdrop-blur-md">
         <!-- Brand & Module Title -->
@@ -209,7 +209,7 @@
     <!-- =====================================================================
          3. MAIN WORKSPACE: DOMINANT 3D VIEWPORT + FLOATING TELEMETRY + DRAWERS
     ====================================================================== -->
-    <main class="relative flex-1 w-full overflow-hidden flex">
+    <main class="relative flex-1 min-h-0 w-full overflow-hidden flex">
         
         <!-- 3D WEBGL CANVAS CONTAINER -->
         <div id="cad-viewport" class="relative flex-1 h-full w-full bg-slate-100 dark:bg-[#090d16]">
@@ -590,29 +590,29 @@
     <!-- =====================================================================
          4. BOTTOM CAD PLAYBACK & KINEMATICS CONTROL DOCK (RESPONSIVE MOBILE & DESKTOP)
     ====================================================================== -->
-    <footer class="bg-white/95 dark:bg-slate-900/95 border-t border-slate-300 dark:border-slate-800 px-2.5 sm:px-3 py-2 z-30 backdrop-blur-md">
-        <div class="w-full flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2">
+    <footer class="shrink-0 bg-white/95 dark:bg-slate-900/95 border-t border-slate-300 dark:border-slate-800 px-2 sm:px-3 py-1.5 sm:py-2 z-30 backdrop-blur-md">
+        <div class="w-full flex flex-col lg:flex-row lg:items-center lg:justify-between gap-1.5 sm:gap-2">
             
             <!-- Row 1 (Mobile) / Left (Desktop): Transport Controls & Engine Filter -->
-            <div class="flex items-center justify-between lg:justify-start gap-1.5 w-full lg:w-auto">
-                <div class="flex items-center gap-1.5">
-                    <button onclick="togglePlay()" id="btn-play-pause" class="px-2.5 sm:px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm shrink-0 transition">
+            <div class="flex items-center justify-between lg:justify-start gap-1 sm:gap-1.5 w-full lg:w-auto min-w-0">
+                <div class="flex items-center gap-1 sm:gap-1.5 shrink-0">
+                    <button onclick="togglePlay()" id="btn-play-pause" class="px-2 sm:px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] sm:text-xs font-bold flex items-center justify-center gap-1 sm:gap-1.5 shadow-sm shrink-0 transition">
                         <i id="icon-play-pause" class="fa-solid fa-pause"></i>
                         <span id="txt-play-pause">Pause</span>
                     </button>
-                    <button onclick="singleStep()" title="Langkah Tunggal (+5° Crankshaft)" class="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition">
+                    <button onclick="singleStep()" title="Langkah Tunggal (+5° Crankshaft)" class="px-2 sm:px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-[11px] sm:text-xs font-semibold flex items-center justify-center gap-1 sm:gap-1.5 shrink-0 transition">
                         <i class="fa-solid fa-forward-step"></i> <span class="hidden sm:inline">Step</span>
                     </button>
-                    <button onclick="toggleSlowMo()" id="btn-slowmo" title="Slow Motion (0.2x)" class="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition">
-                        <i class="fa-solid fa-gauge-simple-low text-amber-500 dark:text-amber-400"></i><span class="hidden sm:inline">Slow</span>
+                    <button onclick="toggleSlowMo()" id="btn-slowmo" title="Slow Motion (0.2x)" class="px-2 sm:px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-[11px] sm:text-xs font-semibold flex items-center justify-center gap-1 sm:gap-1.5 shrink-0 transition">
+                        <i class="fa-solid fa-clock text-amber-500 dark:text-amber-400"></i> <span class="hidden sm:inline">Slow</span>
                     </button>
-                    <button onclick="resetSimulation()" title="Reset Siklus & Semua Parameter Lab ke Default" class="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition">
+                    <button onclick="resetSimulation()" title="Reset Siklus & Semua Parameter Lab ke Default" class="px-2 sm:px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-[11px] sm:text-xs font-semibold flex items-center justify-center gap-1 sm:gap-1.5 shrink-0 transition">
                         <i class="fa-solid fa-rotate-left"></i> <span class="hidden sm:inline">Reset</span>
                     </button>
                 </div>
 
                 <!-- Engine Display Filter -->
-                <select id="sel-engine-display" onchange="setEngineVisibility(this.value)" class="px-2 sm:px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-[11px] sm:text-xs font-semibold text-slate-800 dark:text-slate-200 outline-none shrink-0">
+                <select id="sel-engine-display" onchange="setEngineVisibility(this.value)" class="px-1.5 sm:px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-[10px] sm:text-xs font-semibold text-slate-800 dark:text-slate-200 outline-none min-w-0 max-w-[130px] sm:max-w-none truncate">
                     <option value="both">Tampil: 2T & 4T</option>
                     <option value="2t">Fokus: 2 Tak</option>
                     <option value="4t">Fokus: 4 Tak</option>
@@ -622,50 +622,50 @@
             <div class="hidden lg:block h-5 w-px bg-slate-300 dark:bg-slate-700/80 shrink-0"></div>
 
             <!-- Row 2 (Mobile) / Center (Desktop): Responsive 2x2 Grid on Mobile, Inline Flex on Desktop -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 lg:flex lg:items-center gap-x-3 gap-y-1.5 w-full lg:w-auto">
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:flex lg:items-center gap-x-2 sm:gap-x-3 gap-y-1 w-full lg:w-auto">
                 <!-- Manual Crankshaft Angle (0 - 720 deg) -->
-                <div class="flex items-center gap-1.5 lg:w-[165px]">
+                <div class="flex items-center gap-1 min-w-0 lg:w-[165px]">
                     <span class="text-[10px] sm:text-[11px] font-mono text-slate-500 dark:text-slate-400 shrink-0">Sudut:</span>
-                    <input type="range" id="slider-crank-angle" min="0" max="720" step="1" value="0" class="w-full cad-slider" oninput="scrubCrankAngle(this.value)">
-                    <span id="lbl-crank-angle" class="text-[10px] sm:text-[11px] font-mono font-bold text-sky-600 dark:text-sky-400 w-8 text-right shrink-0">0°</span>
+                    <input type="range" id="slider-crank-angle" min="0" max="720" step="1" value="0" class="w-full min-w-0 cad-slider" oninput="scrubCrankAngle(this.value)">
+                    <span id="lbl-crank-angle" class="text-[10px] sm:text-[11px] font-mono font-bold text-sky-600 dark:text-sky-400 w-7 sm:w-8 text-right shrink-0">0°</span>
                 </div>
 
                 <!-- Engine RPM Slider -->
-                <div class="flex items-center gap-1.5 lg:w-[165px]">
+                <div class="flex items-center gap-1 min-w-0 lg:w-[165px]">
                     <span class="text-[10px] sm:text-[11px] font-mono text-slate-500 dark:text-slate-400 shrink-0">RPM:</span>
-                    <input type="range" id="slider-rpm" min="300" max="6000" step="100" value="1200" class="w-full cad-slider" oninput="setEngineRpm(this.value)">
-                    <span id="lbl-rpm" class="text-[10px] sm:text-[11px] font-mono font-bold text-amber-600 dark:text-amber-400 w-9 text-right shrink-0">1200</span>
+                    <input type="range" id="slider-rpm" min="300" max="6000" step="100" value="1200" class="w-full min-w-0 cad-slider" oninput="setEngineRpm(this.value)">
+                    <span id="lbl-rpm" class="text-[10px] sm:text-[11px] font-mono font-bold text-amber-600 dark:text-amber-400 w-8 sm:w-9 text-right shrink-0">1200</span>
                 </div>
 
                 <!-- Time Speed Multiplier (0.1x - 3.0x) -->
-                <div class="flex items-center gap-1.5 lg:w-[145px]">
+                <div class="flex items-center gap-1 min-w-0 lg:w-[145px]">
                     <span class="text-[10px] sm:text-[11px] font-mono text-slate-500 dark:text-slate-400 shrink-0">Speed:</span>
-                    <input type="range" id="slider-speed" min="0.1" max="3.0" step="0.1" value="1.0" class="w-full cad-slider" oninput="setSimSpeed(this.value)">
-                    <span id="lbl-speed" class="text-[10px] sm:text-[11px] font-mono font-bold text-emerald-600 dark:text-emerald-400 w-8 text-right shrink-0">1.0x</span>
+                    <input type="range" id="slider-speed" min="0.1" max="3.0" step="0.1" value="1.0" class="w-full min-w-0 cad-slider" oninput="setSimSpeed(this.value)">
+                    <span id="lbl-speed" class="text-[10px] sm:text-[11px] font-mono font-bold text-emerald-600 dark:text-emerald-400 w-7 sm:w-8 text-right shrink-0">1.0x</span>
                 </div>
 
                 <!-- Block Opacity Slider -->
-                <div class="flex items-center gap-1.5 lg:w-[135px]">
+                <div class="flex items-center gap-1 min-w-0 lg:w-[135px]">
                     <span class="text-[10px] sm:text-[11px] font-mono text-slate-500 dark:text-slate-400 shrink-0">Opasitas:</span>
-                    <input type="range" id="slider-opacity" min="0.15" max="1.0" step="0.05" value="1.0" class="w-full cad-slider" oninput="setBlockOpacity(this.value)">
+                    <input type="range" id="slider-opacity" min="0.15" max="1.0" step="0.05" value="1.0" class="w-full min-w-0 cad-slider" oninput="setBlockOpacity(this.value)">
                 </div>
             </div>
 
             <div class="hidden lg:block h-5 w-px bg-slate-300 dark:bg-slate-700/80 shrink-0"></div>
 
             <!-- Row 3 (Mobile) / Right (Desktop): CAD Overlays (4 equal columns on mobile) -->
-            <div class="grid grid-cols-4 lg:flex lg:items-center gap-1.5 w-full lg:w-auto">
-                <button onclick="toggleOverlay('gas')" id="btn-ov-gas" class="px-2 py-1.5 rounded-md text-[11px] sm:text-xs font-semibold bg-sky-500/20 text-sky-600 dark:text-sky-300 border border-sky-500/40 flex items-center justify-center gap-1 transition">
-                    <i class="fa-solid fa-wind"></i><span>Gas</span>
+            <div class="grid grid-cols-4 lg:flex lg:items-center gap-1 sm:gap-1.5 w-full lg:w-auto">
+                <button onclick="toggleOverlay('gas')" id="btn-ov-gas" class="px-1.5 sm:px-2 py-1 sm:py-1.5 rounded-md text-[10px] sm:text-xs font-semibold bg-sky-500/20 text-sky-600 dark:text-sky-300 border border-sky-500/40 flex items-center justify-center gap-1 min-w-0 transition">
+                    <i class="fa-solid fa-wind shrink-0"></i><span class="truncate">Gas</span>
                 </button>
-                <button onclick="toggleOverlay('labels')" id="btn-ov-labels" class="px-2 py-1.5 rounded-md text-[11px] sm:text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700 flex items-center justify-center gap-1 transition">
-                    <i class="fa-solid fa-tag"></i><span>Label</span>
+                <button onclick="toggleOverlay('labels')" id="btn-ov-labels" class="px-1.5 sm:px-2 py-1 sm:py-1.5 rounded-md text-[10px] sm:text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700 flex items-center justify-center gap-1 min-w-0 transition">
+                    <i class="fa-solid fa-tag shrink-0"></i><span class="truncate">Label</span>
                 </button>
-                <button onclick="toggleOverlay('axes')" id="btn-ov-axes" class="px-2 py-1.5 rounded-md text-[11px] sm:text-xs font-semibold bg-sky-500/20 text-sky-600 dark:text-sky-300 border border-sky-500/40 flex items-center justify-center gap-1 transition">
-                    <i class="fa-solid fa-ruler-combined"></i><span>Sumbu</span>
+                <button onclick="toggleOverlay('axes')" id="btn-ov-axes" class="px-1.5 sm:px-2 py-1 sm:py-1.5 rounded-md text-[10px] sm:text-xs font-semibold bg-sky-500/20 text-sky-600 dark:text-sky-300 border border-sky-500/40 flex items-center justify-center gap-1 min-w-0 transition">
+                    <i class="fa-solid fa-ruler-combined shrink-0"></i><span class="truncate">Sumbu</span>
                 </button>
-                <button onclick="toggleOverlay('strokeHud')" id="btn-ov-strokeHud" class="px-2 py-1.5 rounded-md text-[11px] sm:text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700 flex items-center justify-center gap-1 transition" title="Tampilkan / Sembunyikan Indikator Langkah Mesin">
-                    <i class="fa-solid fa-gauge-high"></i><span>Langkah</span>
+                <button onclick="toggleOverlay('strokeHud')" id="btn-ov-strokeHud" class="px-1.5 sm:px-2 py-1 sm:py-1.5 rounded-md text-[10px] sm:text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700 flex items-center justify-center gap-1 min-w-0 transition" title="Tampilkan / Sembunyikan Indikator Langkah Mesin">
+                    <i class="fa-solid fa-gauge-high shrink-0"></i><span class="truncate">Langkah</span>
                 </button>
             </div>
         </div>
@@ -3705,11 +3705,11 @@
         if (physicsEngine.isPlaying) {
             icon.className = 'fa-solid fa-pause';
             txt.textContent = 'Pause';
-            btn.className = 'px-2.5 sm:px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm shrink-0 transition';
+            btn.className = 'px-2 sm:px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] sm:text-xs font-bold flex items-center justify-center gap-1 sm:gap-1.5 shadow-sm shrink-0 transition';
         } else {
             icon.className = 'fa-solid fa-play';
             txt.textContent = 'Play';
-            btn.className = 'px-2.5 sm:px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm shrink-0 transition';
+            btn.className = 'px-2 sm:px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-[11px] sm:text-xs font-bold flex items-center justify-center gap-1 sm:gap-1.5 shadow-sm shrink-0 transition';
         }
     }
 
@@ -3841,8 +3841,8 @@
             const btn = document.getElementById(`btn-ov-${k}`);
             if (!btn) return;
             btn.className = map[k]
-                ? 'px-2 py-1.5 rounded-md text-[11px] sm:text-xs font-semibold bg-sky-500/20 text-sky-600 dark:text-sky-300 border border-sky-500/40 flex items-center justify-center gap-1 transition'
-                : 'px-2 py-1.5 rounded-md text-[11px] sm:text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700 flex items-center justify-center gap-1 transition';
+                ? 'px-1.5 sm:px-2 py-1 sm:py-1.5 rounded-md text-[10px] sm:text-xs font-semibold bg-sky-500/20 text-sky-600 dark:text-sky-300 border border-sky-500/40 flex items-center justify-center gap-1 min-w-0 transition'
+                : 'px-1.5 sm:px-2 py-1 sm:py-1.5 rounded-md text-[10px] sm:text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700 flex items-center justify-center gap-1 min-w-0 transition';
         });
     }
 
