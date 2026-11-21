@@ -620,26 +620,26 @@
     <footer id="cad-footer-dock" class="shrink-0 bg-white/95 dark:bg-slate-900/95 border-t border-slate-300 dark:border-slate-800 px-2 sm:px-3 pt-1.5 sm:py-2 z-30 backdrop-blur-md">
         <div class="w-full flex flex-col lg:flex-row lg:items-center lg:justify-between gap-1.5 sm:gap-2">
             
-            <!-- Row 1 (Mobile) / Left (Desktop): Transport Controls & Engine Filter -->
-            <div class="flex items-center justify-between lg:justify-start gap-1.5 w-full lg:w-auto shrink-0">
-                <div class="flex items-center gap-1.5 shrink-0">
-                    <button onclick="togglePlay()" id="btn-play-pause" class="px-2.5 sm:px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm shrink-0 transition">
-                        <i id="icon-play-pause" class="fa-solid fa-pause"></i>
-                        <span id="txt-play-pause">Pause</span>
+            <!-- Row 1 (Mobile) / Left (Desktop): Responsive Transport Controls & Engine Filter -->
+            <div class="grid grid-cols-12 sm:flex sm:items-center sm:justify-between lg:justify-start gap-1 sm:gap-1.5 w-full lg:w-auto shrink-0">
+                <div class="col-span-8 sm:w-auto grid grid-cols-4 sm:flex sm:items-center gap-1 sm:gap-1.5 min-w-0">
+                    <button onclick="togglePlay()" id="btn-play-pause" class="px-1.5 sm:px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] sm:text-xs font-bold flex items-center justify-center gap-1 sm:gap-1.5 shadow-sm min-w-0 transition">
+                        <i id="icon-play-pause" class="fa-solid fa-pause shrink-0"></i>
+                        <span id="txt-play-pause" class="truncate">Pause</span>
                     </button>
-                    <button onclick="singleStep()" title="Langkah Tunggal (+5° Crankshaft)" class="px-2.5 sm:px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition">
-                        <i class="fa-solid fa-forward-step"></i><span>Step</span>
+                    <button onclick="singleStep()" title="Langkah Tunggal (+5° Crankshaft)" class="px-1.5 sm:px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-[11px] sm:text-xs font-semibold flex items-center justify-center gap-1 sm:gap-1.5 min-w-0 transition">
+                        <i class="fa-solid fa-forward-step shrink-0"></i><span class="truncate">Step</span>
                     </button>
-                    <button onclick="toggleSlowMo()" id="btn-slowmo" title="Slow Motion (0.2x)" class="px-2.5 sm:px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition">
-                        <i class="fa-solid fa-gauge-simple-low text-amber-500 dark:text-amber-400"></i><span>Slow</span>
+                    <button onclick="toggleSlowMo()" id="btn-slowmo" title="Slow Motion (0.2x)" class="px-1.5 sm:px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-[11px] sm:text-xs font-semibold flex items-center justify-center gap-1 sm:gap-1.5 min-w-0 transition">
+                        <i class="fa-solid fa-gauge-simple-low text-amber-500 dark:text-amber-400 shrink-0"></i><span class="truncate">Slow</span>
                     </button>
-                    <button onclick="resetSimulation()" title="Reset Siklus & Semua Parameter Lab ke Default" class="px-2.5 sm:px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition">
-                        <i class="fa-solid fa-rotate-left"></i><span>Reset</span>
+                    <button onclick="resetSimulation()" title="Reset Siklus & Semua Parameter Lab ke Default" class="px-1.5 sm:px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-[11px] sm:text-xs font-semibold flex items-center justify-center gap-1 sm:gap-1.5 min-w-0 transition">
+                        <i class="fa-solid fa-rotate-left shrink-0"></i><span class="truncate">Reset</span>
                     </button>
                 </div>
 
                 <!-- Engine Display Filter -->
-                <select id="sel-engine-display" onchange="setEngineVisibility(this.value)" class="px-2 sm:px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-[11px] sm:text-xs font-semibold text-slate-800 dark:text-slate-200 outline-none shrink-0 sm:min-w-[138px]">
+                <select id="sel-engine-display" onchange="setEngineVisibility(this.value)" class="col-span-4 sm:w-auto w-full min-w-0 px-1.5 sm:px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-[11px] sm:text-xs font-semibold text-slate-800 dark:text-slate-200 outline-none truncate sm:min-w-[138px]">
                     <option value="both">Tampil: 2T & 4T</option>
                     <option value="2t">Fokus: 2 Tak</option>
                     <option value="4t">Fokus: 4 Tak</option>
@@ -3588,8 +3588,8 @@
             data: {
                 labels: angles,
                 datasets: [
-                    { label: 'Kecepatan 2T (m/s)', data: [], borderColor: '#f59e0b', borderWidth: 1.6, pointRadius: 0, tension: 0.3 },
-                    { label: 'Kecepatan 4T (m/s)', data: [], borderColor: '#38bdf8', borderWidth: 1.6, pointRadius: 0, tension: 0.3 }
+                    { label: 'Vel 2T (m/s)', data: [], borderColor: '#f59e0b', borderWidth: 1.6, pointRadius: 0, tension: 0.3 },
+                    { label: 'Vel 4T (m/s)', data: [], borderColor: '#38bdf8', borderWidth: 1.6, pointRadius: 0, tension: 0.3 }
                 ]
             },
             options: commonOpts
@@ -3600,9 +3600,9 @@
             data: {
                 labels: angles,
                 datasets: [
-                    { label: '4T Intake Lift (mm)', data: [], borderColor: '#0ea5e9', borderWidth: 1.6, pointRadius: 0, tension: 0.25 },
-                    { label: '4T Exhaust Lift (mm)', data: [], borderColor: '#f43f5e', borderWidth: 1.6, pointRadius: 0, tension: 0.25 },
-                    { label: '2T Exhaust Port (rel)', data: [], borderColor: '#f59e0b', borderWidth: 1.4, borderDash: [3, 2], pointRadius: 0, tension: 0.25 }
+                    { label: '4T Intake Lift', data: [], borderColor: '#38bdf8', borderWidth: 1.6, pointRadius: 0 },
+                    { label: '4T Exhaust Lift', data: [], borderColor: '#fb7185', borderWidth: 1.6, pointRadius: 0 },
+                    { label: '2T Exhaust Port', data: [], borderColor: '#f59e0b', borderWidth: 1.4, borderDash: [3, 2], pointRadius: 0 }
                 ]
             },
             options: commonOpts
@@ -3613,8 +3613,8 @@
             data: {
                 labels: ['0-180°', '180-360°', '360-540°', '540-720°'],
                 datasets: [
-                    { label: '2-Tak (2x Usaha / 720°)', data: [1, 0, 1, 0], backgroundColor: 'rgba(245, 158, 11, 0.75)', borderRadius: 4 },
-                    { label: '4-Tak (1x Usaha / 720°)', data: [0, 0, 1, 0], backgroundColor: 'rgba(56, 189, 248, 0.75)', borderRadius: 4 }
+                    { label: '2-Tak (2x Usaha / 720°)', data: [1, 0, 1, 0], backgroundColor: 'rgba(245, 158, 11, 0.75)' },
+                    { label: '4-Tak (1x Usaha / 720°)', data: [0, 0, 1, 0], backgroundColor: 'rgba(56, 189, 248, 0.75)' }
                 ]
             },
             options: {
@@ -3626,37 +3626,35 @@
             }
         });
 
-        recomputeChartsData(physics);
+        rebuildStaticChartCurves(physics);
     }
 
-    function recomputeChartsData(physics) {
+    function rebuildStaticChartCurves(physics) {
         if (!chartPos) return;
-        const pos2 = [], pos4 = [], vel2 = [], vel4 = [], inL = [], exL = [], port2 = [];
+        const pos2 = [], pos4 = [], vel2 = [], vel4 = [], inL = [], exL = [], ex2P = [];
+        const halfDur = physics.p4.vDur / 2.0;
+        const effTim = physics.p4.vTim + physics.physicsFaultOffset();
+        const inCenter = (110 - effTim + 720) % 720;
+        const exCenter = (610 - effTim + 720) % 720;
 
         for (let a = 0; a <= 720; a += 15) {
             const sc2 = physics.calcSliderCrank(a % 360, physics.p2.stroke, physics.p2.rod, physics.rpm);
             const sc4 = physics.calcSliderCrank(a % 360, physics.p4.stroke, physics.p4.rod, physics.rpm);
-            pos2.push(sc2.dispFromTDC.toFixed(1));
-            pos4.push(sc4.dispFromTDC.toFixed(1));
+            pos2.push(sc2.dispFromTDC.toFixed(2));
+            pos4.push(sc4.dispFromTDC.toFixed(2));
             vel2.push(sc2.vel.toFixed(2));
             vel4.push(sc4.vel.toFixed(2));
 
-            const halfDur = physics.p4.vDur / 2;
-            const inCenter = (110 - physics.p4.vTim + 720) % 720;
-            const exCenter = (610 - physics.p4.vTim + 720) % 720;
-            const liftFn = (ang, c) => {
-                let d = Math.abs(ang - c);
-                if (d > 360) d = 720 - d;
-                return d > halfDur ? 0 : physics.p4.lift * Math.pow(Math.cos((d / halfDur) * (Math.PI / 2)), 1.6);
-            };
-            inL.push(liftFn(a, inCenter).toFixed(2));
-            exL.push(liftFn(a, exCenter).toFixed(2));
+            let dIn = Math.abs(a - inCenter); if (dIn > 360) dIn = 720 - dIn;
+            inL.push(dIn <= halfDur ? (physics.p4.lift * Math.pow(Math.cos((dIn / halfDur) * Math.PI / 2), 1.6)).toFixed(2) : 0);
+
+            let dEx = Math.abs(a - exCenter); if (dEx > 360) dEx = 720 - dEx;
+            exL.push(dEx <= halfDur ? (physics.p4.lift * Math.pow(Math.cos((dEx / halfDur) * Math.PI / 2), 1.6)).toFixed(2) : 0);
 
             const a2 = a % 360;
-            const exO = 180 - physics.p2.exDur / 2;
-            const exC = 180 + physics.p2.exDur / 2;
-            const pOpen = (a2 >= exO && a2 <= exC) ? Math.sin(((a2 - exO) / physics.p2.exDur) * Math.PI) * physics.p4.lift * 0.85 : 0;
-            port2.push(pOpen.toFixed(2));
+            const exOpen = 180 - physics.p2.exDur / 2;
+            const exClose = 180 + physics.p2.exDur / 2;
+            ex2P.push((a2 >= exOpen && a2 <= exClose) ? (Math.sin(((a2 - exOpen) / physics.p2.exDur) * Math.PI) * 8).toFixed(2) : 0);
         }
 
         chartPos.data.datasets[0].data = pos2;
@@ -3669,131 +3667,207 @@
 
         chartValve.data.datasets[0].data = inL;
         chartValve.data.datasets[1].data = exL;
-        chartValve.data.datasets[2].data = port2;
+        chartValve.data.datasets[2].data = ex2P;
         chartValve.update('none');
     }
 
     /**
      * =========================================================================
-     * MODULE 5: UI CONTROLLERS, DOM UPDATES & INITIALIZATION
+     * MODULE 5: UI CONTROLLERS, PANEL TOGGLES & REAL-TIME HUD UPDATER
      * =========================================================================
      */
     const physics = new EnginePhysicsEngine();
-    const viewportEl = document.getElementById('cad-viewport');
-    const cadApp = new EngineCadVisualizer(viewportEl, physics);
+    let cadApp;
+    let currentInspectorPart = null;
+    let currentInspectorTab = 'ident';
 
-    let activeInspectKey = null;
-    let activeInspectTab = 'ident';
-
-    function populateDrawerLists() {
-        const expList = document.getElementById('experiments-list');
-        expList.innerHTML = EXPERIMENTS_DATA.map(exp => `
-            <div class="p-2.5 rounded-xl bg-slate-800/70 hover:bg-slate-800 border border-slate-700/80 transition">
-                <div class="font-bold text-slate-100 text-[11px]">${exp.title}</div>
-                <p class="text-[10px] text-slate-400 mt-0.5 mb-2">${exp.desc}</p>
-                <button onclick="runExperiment(${exp.id})" class="px-2.5 py-1 rounded-md bg-emerald-600/20 hover:bg-emerald-600 text-emerald-300 hover:text-white border border-emerald-500/40 text-[10px] font-bold transition">
-                    <i class="fa-solid fa-play mr-1"></i>Jalankan Simulasi Eksperimen
-                </button>
-            </div>
-        `).join('');
-
-        const faultList = document.getElementById('faults-list');
-        faultList.innerHTML = FAULTS_DATA.map(f => `
-            <div onclick="setFaultMode('${f.id}')" class="fault-card cursor-pointer p-2.5 rounded-xl border transition ${f.id === 'none' ? 'bg-emerald-950/30 border-emerald-500/50' : 'bg-slate-800/60 hover:bg-slate-800 border-slate-700/80'}" data-fault="${f.id}">
-                <div class="flex items-center justify-between">
-                    <span class="font-bold text-[11px] ${f.id === 'none' ? 'text-emerald-300' : 'text-rose-300'}">${f.title}</span>
-                    <span class="fault-badge text-[9px] font-mono px-1.5 py-0.5 rounded ${f.id === 'none' ? 'bg-emerald-500/20 text-emerald-300' : 'hidden'}">AKTIF</span>
-                </div>
-                <p class="text-[10px] text-slate-400 mt-1">${f.desc}</p>
-            </div>
-        `).join('');
-
-        const tbody = document.getElementById('comparison-table-body');
-        tbody.innerHTML = COMPARISON_ROWS.map(r => `
-            <tr class="hover:bg-slate-800/50">
-                <td class="p-2 font-semibold text-slate-200">${r.param}</td>
-                <td class="p-2 text-amber-200/90">${r.t2}</td>
-                <td class="p-2 text-sky-200/90">${r.t4}</td>
-            </tr>
-        `).join('');
+    function updateViewportHeight() {
+        const vh = (window.visualViewport ? window.visualViewport.height : window.innerHeight);
+        document.documentElement.style.setProperty('--app-height', `${vh}px`);
+        if (cadApp) cadApp.onResize();
     }
 
-    function runExperiment(id) {
-        const exp = EXPERIMENTS_DATA.find(e => e.id === id);
-        if (exp && exp.action) {
-            exp.action();
-            recomputeChartsData(physics);
+    window.addEventListener('DOMContentLoaded', () => {
+        updateViewportHeight();
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', updateViewportHeight);
         }
-    }
+        window.addEventListener('resize', updateViewportHeight);
+        window.addEventListener('orientationchange', () => setTimeout(updateViewportHeight, 120));
 
-    function setFaultMode(faultId) {
-        physics.faultMode = faultId;
-        physics.computeState();
+        const container = document.getElementById('cad-viewport');
+        cadApp = new EngineCadVisualizer(container, physics);
+        initTelemetryCharts(physics);
+        populateDrawerLists();
 
-        document.querySelectorAll('.fault-card').forEach(el => {
-            const isMatch = el.dataset.fault === faultId;
-            const badge = el.querySelector('.fault-badge');
-            if (isMatch) {
-                el.classList.add('border-rose-500', 'bg-rose-950/30');
-                badge.classList.remove('hidden');
-            } else {
-                el.classList.remove('border-rose-500', 'bg-rose-950/30');
-                badge.classList.add('hidden');
-            }
-        });
+        let lastTime = performance.now();
+        function animate(now) {
+            requestAnimationFrame(animate);
+            const dt = Math.min(0.05, (now - lastTime) / 1000.0);
+            lastTime = now;
 
-        const banner = document.getElementById('fault-alert-banner');
-        if (faultId === 'none') {
-            banner.classList.add('hidden');
-        } else {
-            const fObj = FAULTS_DATA.find(x => x.id === faultId);
-            document.getElementById('fault-alert-title').textContent = fObj.title;
-            document.getElementById('fault-alert-desc').textContent = fObj.desc;
-            banner.classList.remove('hidden');
+            physics.step(dt);
+            cadApp.update();
+            updateHudAndTelemetry();
         }
-    }
+        requestAnimationFrame(animate);
+    });
 
-    function openComponentInspector(partKey) {
-        const data = COMPONENT_DB[partKey];
-        if (!data) return;
-        activeInspectKey = partKey;
+    function updateHudAndTelemetry() {
+        const s2 = physics.state2T;
+        const s4 = physics.state4T;
 
-        document.getElementById('insp-engine-tag').textContent = data.engine;
-        document.getElementById('insp-title').textContent = data.title;
-        document.getElementById('panel-inspector').classList.remove('hidden');
-        setInspectorTab(activeInspectTab);
-    }
+        document.getElementById('slider-crank-angle').value = Math.round(physics.masterAngleDeg);
+        document.getElementById('lbl-crank-angle').textContent = Math.round(physics.masterAngleDeg) + '°';
 
-    function setInspectorTab(tab) {
-        activeInspectTab = tab;
-        document.querySelectorAll('.insp-tab-btn').forEach(btn => {
-            const active = btn.dataset.tab === tab;
-            btn.className = active
-                ? 'insp-tab-btn active py-2 text-sky-400 border-b-2 border-sky-400'
-                : 'insp-tab-btn py-2 text-slate-400 hover:text-slate-200';
-        });
+        document.getElementById('hdr-2t-phase').textContent = s2.phase.split(': ')[1] || s2.phase;
+        document.getElementById('hdr-4t-phase').textContent = s4.phase;
 
-        if (!activeInspectKey) return;
-        const data = COMPONENT_DB[activeInspectKey];
-        const titles = {
-            ident: 'Identifikasi & Material Komponen',
-            work: 'Prinsip & Mekanisme Kerja',
-            comp: 'Perbandingan Teknis 2 Tak vs 4 Tak',
-            fact: 'Fakta Rekayasa & Diagnostik SMK'
+        document.getElementById('badge-2t-angle').textContent = s2.ang.toFixed(0) + '° / 360°';
+        document.getElementById('badge-2t-stroke').textContent = s2.phase;
+
+        const setBadgeState = (id, label, open) => {
+            const el = document.getElementById(id);
+            el.textContent = label + (open ? 'BUKA' : 'TUTUP');
+            el.className = open
+                ? 'px-0.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 truncate'
+                : 'px-0.5 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700 truncate';
         };
-        document.getElementById('insp-content').innerHTML = `
-            <div class="font-bold text-sky-300 text-[11px] uppercase tracking-wider">${titles[tab]}</div>
-            <p class="text-slate-200">${data[tab]}</p>
-            <div class="pt-2 border-t border-slate-800 text-[10px] text-slate-400 flex items-center justify-between">
-                <span>Klik komponen 3D lain untuk inspeksi</span>
-                <span class="font-mono text-sky-400">CAD INSPECTOR</span>
-            </div>
-        `;
+        setBadgeState('port-2t-in', 'INT: ', s2.reedOpenFrac > 0.08);
+        setBadgeState('port-2t-tr', 'TRANS: ', s2.trOpenFrac > 0.08);
+        setBadgeState('port-2t-ex', 'EXH: ', s2.exOpenFrac > 0.08);
+
+        document.getElementById('badge-4t-angle').textContent = s4.ang.toFixed(0) + '° / 720°';
+        document.getElementById('badge-4t-stroke').textContent = s4.phase;
+        setBadgeState('valve-4t-in', 'IN: ', s4.inOpenFrac > 0.08);
+        setBadgeState('valve-4t-ex', 'EX: ', s4.exOpenFrac > 0.08);
+        document.getElementById('cam-4t-rpm').textContent = `CAM ${s4.camAngleDeg.toFixed(0)}°`;
+
+        if (!document.getElementById('panel-telemetry').classList.contains('hidden')) {
+            document.getElementById('tel-2t-rpm').textContent = physics.rpm + ' RPM';
+            document.getElementById('tel-2t-ang').textContent = s2.ang.toFixed(1) + '°';
+            document.getElementById('tel-2t-pos').textContent = s2.dispFromTDC.toFixed(2) + ' mm';
+            document.getElementById('tel-2t-vel').textContent = s2.vel.toFixed(2) + ' m/s';
+            document.getElementById('tel-2t-acc').textContent = Math.round(s2.acc) + ' m/s²';
+            document.getElementById('tel-2t-rod').textContent = s2.betaDeg.toFixed(1) + '°';
+            document.getElementById('tel-2t-trq').textContent = s2.torque.toFixed(1) + ' Nm';
+            document.getElementById('tel-2t-pwr').textContent = s2.powerKw.toFixed(2) + ' kW';
+            document.getElementById('tel-2t-cycle').textContent = s2.gasState.toUpperCase();
+
+            document.getElementById('tel-2t-p-in').textContent = 'INT: ' + (s2.reedOpenFrac > 0.08 ? 'OPEN' : 'SHUT');
+            document.getElementById('tel-2t-p-tr').textContent = 'TR: ' + (s2.trOpenFrac > 0.08 ? 'OPEN' : 'SHUT');
+            document.getElementById('tel-2t-p-ex').textContent = 'EX: ' + (s2.exOpenFrac > 0.08 ? 'OPEN' : 'SHUT');
+
+            document.getElementById('tel-4t-rpm').textContent = `${physics.rpm} / ${Math.round(s4.camRpm)}`;
+            document.getElementById('tel-4t-ang').textContent = s4.ang.toFixed(1) + '°';
+            document.getElementById('tel-4t-pos').textContent = s4.dispFromTDC.toFixed(2) + ' mm';
+            document.getElementById('tel-4t-vel').textContent = s4.vel.toFixed(2) + ' m/s';
+            document.getElementById('tel-4t-acc').textContent = Math.round(s4.acc) + ' m/s²';
+            document.getElementById('tel-4t-rod').textContent = s4.betaDeg.toFixed(1) + '°';
+            document.getElementById('tel-4t-inl').textContent = s4.inValveLift.toFixed(2) + ' mm';
+            document.getElementById('tel-4t-exl').textContent = s4.exValveLift.toFixed(2) + ' mm';
+            document.getElementById('tel-4t-trq').textContent = s4.torque.toFixed(1) + ' Nm';
+            document.getElementById('tel-4t-pwr').textContent = s4.powerKw.toFixed(2) + ' kW';
+            document.getElementById('tel-4t-cycle').textContent = s4.gasState.toUpperCase();
+        }
     }
 
-    function closeInspector() {
-        document.getElementById('panel-inspector').classList.add('hidden');
-        activeInspectKey = null;
+    function togglePlay() {
+        physics.isPlaying = !physics.isPlaying;
+        const icon = document.getElementById('icon-play-pause');
+        const txt = document.getElementById('txt-play-pause');
+        const btn = document.getElementById('btn-play-pause');
+        if (physics.isPlaying) {
+            icon.className = 'fa-solid fa-pause shrink-0';
+            txt.textContent = 'Pause';
+            btn.className = 'px-1.5 sm:px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] sm:text-xs font-bold flex items-center justify-center gap-1 sm:gap-1.5 shadow-sm min-w-0 transition';
+        } else {
+            icon.className = 'fa-solid fa-play shrink-0';
+            txt.textContent = 'Play';
+            btn.className = 'px-1.5 sm:px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-[11px] sm:text-xs font-bold flex items-center justify-center gap-1 sm:gap-1.5 shadow-sm min-w-0 transition';
+        }
+    }
+
+    function singleStep() {
+        if (physics.isPlaying) togglePlay();
+        physics.setAngle(physics.masterAngleDeg + 5);
+    }
+
+    function toggleSlowMo() {
+        physics.slowMo = !physics.slowMo;
+        const btn = document.getElementById('btn-slowmo');
+        btn.className = physics.slowMo
+            ? 'px-1.5 sm:px-3 py-1.5 rounded-lg bg-amber-500/20 text-amber-600 dark:text-amber-300 border border-amber-500/50 text-[11px] sm:text-xs font-bold flex items-center justify-center gap-1 sm:gap-1.5 min-w-0 transition'
+            : 'px-1.5 sm:px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-[11px] sm:text-xs font-semibold flex items-center justify-center gap-1 sm:gap-1.5 min-w-0 transition';
+    }
+
+    function resetSimulation() {
+        // 1. Reset Sudut Crankshaft, RPM, Speed & SlowMo ke kondisi awal
+        physics.setAngle(0);
+        physics.rpm = 1200;
+        physics.simSpeed = 1.0;
+        if (physics.slowMo) {
+            physics.slowMo = false;
+            const slowBtn = document.getElementById('btn-slowmo');
+            if (slowBtn) {
+                slowBtn.className = 'px-1.5 sm:px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-[11px] sm:text-xs font-semibold flex items-center justify-center gap-1 sm:gap-1.5 min-w-0 transition';
+            }
+        }
+        document.getElementById('slider-rpm').value = 1200;
+        document.getElementById('lbl-rpm').textContent = '1200';
+        document.getElementById('slider-speed').value = 1.0;
+        document.getElementById('lbl-speed').textContent = '1.0x';
+
+        // 2. Reset Seluruh Parameter Spesifikasi 2-Tak & 4-Tak di Panel Laboratorium ke Default
+        resetEngineParams('2t');
+        resetEngineParams('4t');
+
+        // 3. Reset Mode Gangguan (Fault Simulation) ke Kondisi Normal Pabrikan
+        setFaultMode('none');
+
+        // 4. Reset Mode Tampilan, Opasitas Blok, Filter Mesin, Overlay & Kamera CAD
+        setEngineVisibility('both');
+        document.getElementById('sel-engine-display').value = 'both';
+        setBlockOpacity(1.0);
+        document.getElementById('slider-opacity').value = 1.0;
+        setViewMode('normal');
+        if (cadApp) {
+            cadApp.showGas = true;
+            cadApp.showLabels = false;
+            cadApp.showAxes = true;
+            cadApp.showStrokeHud = false;
+            cadApp.cadLinesGroup.visible = true;
+            updateOverlayButtons(cadApp);
+            cadApp.resetCamera();
+        }
+        closeInspector();
+
+        // 5. Pastikan Simulasi Kembali Berjalan (Play)
+        if (!physics.isPlaying) {
+            togglePlay();
+        }
+    }
+
+    function scrubCrankAngle(val) {
+        if (physics.isPlaying) togglePlay();
+        physics.setAngle(parseFloat(val));
+    }
+
+    function setEngineRpm(val) {
+        physics.rpm = parseInt(val, 10);
+        document.getElementById('lbl-rpm').textContent = val;
+        physics.computeState();
+        rebuildStaticChartCurves(physics);
+    }
+
+    function setSimSpeed(val) {
+        physics.simSpeed = parseFloat(val);
+        document.getElementById('lbl-speed').textContent = parseFloat(val).toFixed(1) + 'x';
+    }
+
+    function setBlockOpacity(val) {
+        cadApp.blockOpacity = parseFloat(val);
+        cadApp.applyViewMode(cadApp.viewMode);
     }
 
     function setViewMode(mode) {
@@ -3806,13 +3880,40 @@
         cadApp.applyViewMode(mode);
     }
 
-    function togglePanel(which, forceState = null) {
-        const el = document.getElementById(which === 'telemetry' ? 'panel-telemetry' : 'panel-drawer');
-        const willShow = forceState !== null ? forceState : el.classList.contains('hidden');
-        el.classList.toggle('hidden', !willShow);
-        if (which === 'telemetry' && willShow && !chartPos) {
-            initTelemetryCharts(physics);
+    function setEngineVisibility(val) {
+        cadApp.setEngineVisibility(val);
+    }
+
+    function toggleOverlay(key) {
+        if (key === 'gas') cadApp.showGas = !cadApp.showGas;
+        if (key === 'labels') cadApp.showLabels = !cadApp.showLabels;
+        if (key === 'axes') {
+            cadApp.showAxes = !cadApp.showAxes;
+            cadApp.cadLinesGroup.visible = cadApp.showAxes;
         }
+        if (key === 'strokeHud') {
+            cadApp.showStrokeHud = !cadApp.showStrokeHud;
+        }
+        updateOverlayButtons(cadApp);
+    }
+
+    function setOverlay(key, state) {
+        if (key === 'gas') cadApp.showGas = state;
+        if (key === 'labels') cadApp.showLabels = state;
+        if (key === 'axes') {
+            cadApp.showAxes = state;
+            cadApp.cadLinesGroup.visible = state;
+        }
+        if (key === 'strokeHud') {
+            cadApp.showStrokeHud = state;
+        }
+        updateOverlayButtons(cadApp);
+    }
+
+    function togglePanel(which, forceState = null) {
+        const el = document.getElementById('panel-' + which);
+        const show = forceState !== null ? forceState : el.classList.contains('hidden');
+        el.classList.toggle('hidden', !show);
     }
 
     function switchTelemetryTab(tab) {
@@ -3826,8 +3927,6 @@
         document.getElementById('t-tab-charts').className = !isNum
             ? 'py-2 text-sky-400 border-b-2 border-sky-400'
             : 'py-2 text-slate-400 hover:text-slate-200';
-
-        if (!isNum && !chartPos) initTelemetryCharts(physics);
     }
 
     function switchDrawerTab(tab) {
@@ -3839,248 +3938,111 @@
         });
     }
 
-    // Playback & Kinematics Controls
-    function togglePlay() {
-        physics.isPlaying = !physics.isPlaying;
-        const icon = document.getElementById('icon-play-pause');
-        const txt = document.getElementById('txt-play-pause');
-        const btn = document.getElementById('btn-play-pause');
-        if (physics.isPlaying) {
-            icon.className = 'fa-solid fa-pause';
-            txt.textContent = 'Pause';
-            btn.className = 'px-2.5 sm:px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm shrink-0 transition';
-        } else {
-            icon.className = 'fa-solid fa-play';
-            txt.textContent = 'Play';
-            btn.className = 'px-2.5 sm:px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm shrink-0 transition';
-        }
+    function openComponentInspector(partKey) {
+        const info = COMPONENT_DB[partKey];
+        if (!info) return;
+        currentInspectorPart = info;
+        document.getElementById('insp-engine-tag').textContent = info.engine;
+        document.getElementById('insp-title').textContent = info.title;
+        document.getElementById('panel-inspector').classList.remove('hidden');
+        setInspectorTab(currentInspectorTab);
     }
 
-    function singleStep() {
-        if (physics.isPlaying) togglePlay();
-        physics.setAngle(physics.masterAngleDeg + 5);
-    }
-
-    function toggleSlowMo() {
-        physics.slowMo = !physics.slowMo;
-        const btn = document.getElementById('btn-slowmo');
-        btn.classList.toggle('border-amber-500', physics.slowMo);
-        btn.classList.toggle('bg-amber-500/20', physics.slowMo);
-    }
-
-    function resetSimulation() {
-        // 1. Reset Simulation Playback, Angle, RPM, Speed & Block Opacity to Defaults
-        physics.setAngle(0);
-        physics.rpm = 1200;
-        physics.simSpeed = 1.0;
-        physics.slowMo = false;
-
-        const btnSlow = document.getElementById('btn-slowmo');
-        if (btnSlow) {
-            btnSlow.classList.remove('border-amber-500', 'bg-amber-500/20');
-        }
-
-        const sliderRpm = document.getElementById('slider-rpm');
-        const lblRpm = document.getElementById('lbl-rpm');
-        if (sliderRpm) sliderRpm.value = 1200;
-        if (lblRpm) lblRpm.textContent = '1200';
-
-        const sliderSpeed = document.getElementById('slider-speed');
-        const lblSpeed = document.getElementById('lbl-speed');
-        if (sliderSpeed) sliderSpeed.value = 1.0;
-        if (lblSpeed) lblSpeed.textContent = '1.0x';
-
-        const sliderOpacity = document.getElementById('slider-opacity');
-        if (sliderOpacity) sliderOpacity.value = 1.0;
-        cadApp.blockOpacity = 1.0;
-
-        if (!physics.isPlaying) togglePlay();
-
-        // 2. Reset All 2-Stroke & 4-Stroke Lab Geometry & Timing Parameters to Factory Defaults
-        resetEngineParams('2t');
-        resetEngineParams('4t');
-
-        // 3. Clear Any Active Fault Mode
-        setFaultMode('none');
-
-        // 4. Reset Engine Visibility Filter & View Mode to Default Side-by-Side Normal View
-        const selDisplay = document.getElementById('sel-engine-display');
-        if (selDisplay) selDisplay.value = 'both';
-        setEngineVisibility('both');
-        setViewMode('normal');
-        cadApp.resetCamera();
-    }
-
-    function scrubCrankAngle(val) {
-        if (physics.isPlaying) togglePlay();
-        physics.setAngle(parseFloat(val));
-    }
-
-    function setEngineRpm(val) {
-        physics.rpm = parseInt(val, 10);
-        document.getElementById('lbl-rpm').textContent = physics.rpm;
-        recomputeChartsData(physics);
-    }
-
-    function setSimSpeed(val) {
-        physics.simSpeed = parseFloat(val);
-        physics.slowMo = false;
-        document.getElementById('lbl-speed').textContent = physics.simSpeed.toFixed(1) + 'x';
-    }
-
-    function setBlockOpacity(val) {
-        cadApp.blockOpacity = parseFloat(val);
-        cadApp.applyViewMode(cadApp.viewMode);
-    }
-
-    function setEngineVisibility(val) {
-        cadApp.setEngineVisibility(val);
-        document.getElementById('hud-2t-card').classList.toggle('hidden', val === '4t');
-        document.getElementById('hud-4t-card').classList.toggle('hidden', val === '2t');
-    }
-
-    function setOverlay(type, forceVal = null) {
-        if (type === 'gas') cadApp.showGas = forceVal !== null ? forceVal : !cadApp.showGas;
-        if (type === 'labels') cadApp.showLabels = forceVal !== null ? forceVal : !cadApp.showLabels;
-        if (type === 'axes') {
-            cadApp.showAxes = forceVal !== null ? forceVal : !cadApp.showAxes;
-            cadApp.cadLinesGroup.visible = cadApp.showAxes;
-        }
-        if (type === 'strokeHud') {
-            cadApp.showStrokeHud = forceVal !== null ? forceVal : !cadApp.showStrokeHud;
-        }
-        updateOverlayButtons(cadApp);
-    }
-
-    function toggleOverlay(type) {
-        setOverlay(type);
-    }
-
-    function toggleCadTheme() {
-        const html = document.documentElement;
-        const isDark = !html.classList.contains('dark');
-        html.classList.toggle('dark', isDark);
-        document.getElementById('icon-sun').classList.toggle('hidden', !isDark);
-        document.getElementById('icon-moon').classList.toggle('hidden', isDark);
-        cadApp.setTheme(isDark);
-    }
-
-    function toggleCanvasFullscreen() {
-        const viewport = document.getElementById('cad-viewport');
-        const isNativeFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
-        const isPureFs = document.body.classList.contains('canvas-pure-fullscreen');
-
-        if (!isNativeFs && !isPureFs) {
-            if (viewport.requestFullscreen) {
-                viewport.requestFullscreen().catch(() => {
-                    document.body.classList.add('canvas-pure-fullscreen');
-                    updateFullscreenBtnUI(true);
-                    cadApp.onResize();
-                });
-            } else if (viewport.webkitRequestFullscreen) {
-                viewport.webkitRequestFullscreen();
-            } else {
-                document.body.classList.add('canvas-pure-fullscreen');
-                updateFullscreenBtnUI(true);
-                cadApp.onResize();
-            }
-        } else {
-            if (isNativeFs) {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen().catch(() => {});
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
-                }
-            }
-            if (isPureFs) {
-                document.body.classList.remove('canvas-pure-fullscreen');
-                updateFullscreenBtnUI(false);
-                cadApp.onResize();
-            }
-        }
-    }
-
-    function updateFullscreenBtnUI(isFullscreen) {
-        const icon = document.getElementById('icon-canvas-fullscreen');
-        const txt = document.getElementById('txt-canvas-fullscreen');
-        if (icon) {
-            icon.className = isFullscreen ? 'fa-solid fa-compress text-amber-400' : 'fa-solid fa-expand text-sky-400';
-        }
-        if (txt) {
-            txt.textContent = isFullscreen ? 'Keluar Layar Penuh' : 'Layar Penuh';
-        }
-    }
-
-    ['fullscreenchange', 'webkitfullscreenchange'].forEach(evt => {
-        document.addEventListener(evt, () => {
-            const isFs = !!(document.fullscreenElement || document.webkitFullscreenElement || document.body.classList.contains('canvas-pure-fullscreen'));
-            updateFullscreenBtnUI(isFs);
-            setTimeout(() => cadApp.onResize(), 60);
+    function setInspectorTab(tab) {
+        currentInspectorTab = tab;
+        document.querySelectorAll('.insp-tab-btn').forEach(b => {
+            const act = b.dataset.tab === tab;
+            b.className = act
+                ? 'insp-tab-btn active py-2 text-sky-400 border-b-2 border-sky-400'
+                : 'insp-tab-btn py-2 text-slate-400 hover:text-slate-200';
         });
-    });
+        if (!currentInspectorPart) return;
+        const map = {
+            ident: `<div class="font-bold text-slate-100 mb-1">Identifikasi Komponen:</div><p>${currentInspectorPart.ident}</p>`,
+            work: `<div class="font-bold text-emerald-400 mb-1">Cara Kerja dalam Siklus:</div><p>${currentInspectorPart.work}</p>`,
+            comp: `<div class="font-bold text-amber-400 mb-1">Perbandingan 2 Tak vs 4 Tak:</div><p>${currentInspectorPart.comp}</p>`,
+            fact: `<div class="font-bold text-sky-400 mb-1">Fakta & Prinsip Teknik:</div><p>${currentInspectorPart.fact}</p>`
+        };
+        document.getElementById('insp-content').innerHTML = map[tab];
+    }
 
-    function updateEngineParam(eng, key, val) {
-        const num = parseFloat(val);
+    function closeInspector() {
+        document.getElementById('panel-inspector').classList.add('hidden');
+    }
+
+    function updateEngineParam(eng, param, val) {
+        const v = parseFloat(val);
         if (eng === '2t') {
-            physics.p2[key] = num;
-            const swept2 = (Math.PI / 4) * Math.pow(physics.p2.bore / 10, 2) * (physics.p2.stroke / 10);
-            if (key === 'cr') {
-                // User manually adjusted Compression Ratio -> recompute clearance volume Vc
-                physics.p2.vc = swept2 / Math.max(1.5, num - 1.0);
-            } else if (key === 'bore' || key === 'stroke') {
-                // Bore or Stroke changed -> swept volume changed while clearance volume stays physically constant -> recompute Compression Ratio!
-                physics.p2.cr = Math.max(4.5, Math.min(18.0, (swept2 + physics.p2.vc) / physics.p2.vc));
-                const crSlider2 = document.getElementById('inp-2t-cr');
-                if (crSlider2) crSlider2.value = physics.p2.cr.toFixed(1);
+            physics.p2[param] = v;
+            if (param === 'bore' || param === 'stroke') {
+                // Bore & stroke physically alter swept volume Vs; recalculate CR from constant clearance volume Vc
+                const vs = (Math.PI / 4) * Math.pow(physics.p2.bore / 10, 2) * (physics.p2.stroke / 10);
+                const newCr = Math.max(4.5, Math.min(16.0, (vs + physics.p2.vc) / physics.p2.vc));
+                physics.p2.cr = Number(newCr.toFixed(1));
+                document.getElementById('inp-2t-cr').value = physics.p2.cr;
+                document.getElementById('val-2t-cr').textContent = physics.p2.cr.toFixed(1) + ' : 1';
+            } else if (param === 'cr') {
+                // Direct CR adjustment updates clearance volume Vc for the current swept volume
+                const vs = (Math.PI / 4) * Math.pow(physics.p2.bore / 10, 2) * (physics.p2.stroke / 10);
+                physics.p2.vc = vs / Math.max(0.5, v - 1.0);
             }
-            document.getElementById('val-2t-bore').textContent = physics.p2.bore + ' mm';
-            document.getElementById('val-2t-stroke').textContent = physics.p2.stroke + ' mm';
-            document.getElementById('val-2t-rod').textContent = physics.p2.rod + ' mm';
-            document.getElementById('val-2t-cr').textContent = physics.p2.cr.toFixed(1) + ' : 1';
-            document.getElementById('val-2t-exdur').textContent = physics.p2.exDur + '° CA';
-            document.getElementById('val-2t-trdur').textContent = physics.p2.trDur + '° CA';
-            document.getElementById('calc-2t-cc').textContent = swept2.toFixed(1) + ' cc';
-            document.getElementById('calc-2t-vc').textContent = physics.p2.vc.toFixed(1) + ' cc';
+
+            if (param === 'bore') document.getElementById('val-2t-bore').textContent = v + ' mm';
+            if (param === 'stroke') document.getElementById('val-2t-stroke').textContent = v + ' mm';
+            if (param === 'rod') document.getElementById('val-2t-rod').textContent = v + ' mm';
+            if (param === 'cr') document.getElementById('val-2t-cr').textContent = v.toFixed(1) + ' : 1';
+            if (param === 'exDur') document.getElementById('val-2t-exdur').textContent = v + '° CA';
+            if (param === 'trDur') document.getElementById('val-2t-trdur').textContent = v + '° CA';
+
+            const cc = (Math.PI / 4) * Math.pow(physics.p2.bore / 10, 2) * (physics.p2.stroke / 10);
+            const vc = cc / (physics.p2.cr - 1);
+            document.getElementById('calc-2t-cc').textContent = cc.toFixed(1) + ' cc';
+            document.getElementById('calc-2t-vc').textContent = vc.toFixed(1) + ' cc';
         } else {
-            physics.p4[key] = num;
-            const swept4 = (Math.PI / 4) * Math.pow(physics.p4.bore / 10, 2) * (physics.p4.stroke / 10);
-            if (key === 'cr') {
-                // User manually adjusted Compression Ratio -> recompute clearance volume Vc
-                physics.p4.vc = swept4 / Math.max(1.5, num - 1.0);
-            } else if (key === 'bore' || key === 'stroke') {
-                // Bore or Stroke changed -> swept volume changed while clearance volume stays physically constant -> recompute Compression Ratio!
-                physics.p4.cr = Math.max(5.5, Math.min(22.0, (swept4 + physics.p4.vc) / physics.p4.vc));
-                const crSlider4 = document.getElementById('inp-4t-cr');
-                if (crSlider4) crSlider4.value = physics.p4.cr.toFixed(1);
+            physics.p4[param] = v;
+            if (param === 'bore' || param === 'stroke') {
+                // Bore & stroke physically alter swept volume Vs; recalculate CR from constant clearance volume Vc
+                const vs = (Math.PI / 4) * Math.pow(physics.p4.bore / 10, 2) * (physics.p4.stroke / 10);
+                const newCr = Math.max(6.0, Math.min(22.0, (vs + physics.p4.vc) / physics.p4.vc));
+                physics.p4.cr = Number(newCr.toFixed(1));
+                document.getElementById('inp-4t-cr').value = physics.p4.cr;
+                document.getElementById('val-4t-cr').textContent = physics.p4.cr.toFixed(1) + ' : 1';
+            } else if (param === 'cr') {
+                // Direct CR adjustment updates clearance volume Vc for the current swept volume
+                const vs = (Math.PI / 4) * Math.pow(physics.p4.bore / 10, 2) * (physics.p4.stroke / 10);
+                physics.p4.vc = vs / Math.max(0.5, v - 1.0);
             }
-            document.getElementById('val-4t-bore').textContent = physics.p4.bore + ' mm';
-            document.getElementById('val-4t-stroke').textContent = physics.p4.stroke + ' mm';
-            document.getElementById('val-4t-rod').textContent = physics.p4.rod + ' mm';
-            document.getElementById('val-4t-cr').textContent = physics.p4.cr.toFixed(1) + ' : 1';
-            document.getElementById('val-4t-lift').textContent = physics.p4.lift.toFixed(1) + ' mm';
-            document.getElementById('val-4t-vdur').textContent = `${physics.p4.vDur}° / ${physics.p4.vDur}°`;
-            document.getElementById('val-4t-vtim').textContent = (physics.p4.vTim >= 0 ? '+' : '') + physics.p4.vTim + '° CA';
-            document.getElementById('calc-4t-cc').textContent = swept4.toFixed(1) + ' cc';
-            document.getElementById('calc-4t-vc').textContent = physics.p4.vc.toFixed(1) + ' cc';
+
+            if (param === 'bore') document.getElementById('val-4t-bore').textContent = v + ' mm';
+            if (param === 'stroke') document.getElementById('val-4t-stroke').textContent = v + ' mm';
+            if (param === 'rod') document.getElementById('val-4t-rod').textContent = v + ' mm';
+            if (param === 'cr') document.getElementById('val-4t-cr').textContent = v.toFixed(1) + ' : 1';
+            if (param === 'lift') document.getElementById('val-4t-lift').textContent = v.toFixed(1) + ' mm';
+            if (param === 'vDur') document.getElementById('val-4t-vdur').textContent = `${v}° / ${v}°`;
+            if (param === 'vTim') document.getElementById('val-4t-vtim').textContent = `${v > 0 ? '+' : ''}${v}° CA`;
+
+            const cc = (Math.PI / 4) * Math.pow(physics.p4.bore / 10, 2) * (physics.p4.stroke / 10);
+            const vc = cc / (physics.p4.cr - 1);
+            document.getElementById('calc-4t-cc').textContent = cc.toFixed(1) + ' cc';
+            document.getElementById('calc-4t-vc').textContent = vc.toFixed(1) + ' cc';
         }
         physics.computeState();
-        recomputeChartsData(physics);
+        rebuildStaticChartCurves(physics);
     }
 
     function resetEngineParams(eng) {
         if (eng === '2t') {
-            const sweptInit2 = (Math.PI / 4) * Math.pow(54 / 10, 2) * (54 / 10);
-            physics.p2 = { bore: 54, stroke: 54, rod: 105, cr: 7.5, vc: sweptInit2 / 6.5, exDur: 170, trDur: 124 };
+            const defs = { bore: 54, stroke: 54, rod: 105, cr: 7.5, exDur: 170, trDur: 124 };
+            Object.entries(defs).forEach(([k, val]) => updateEngineParam('2t', k, val));
             document.getElementById('inp-2t-bore').value = 54;
             document.getElementById('inp-2t-stroke').value = 54;
             document.getElementById('inp-2t-rod').value = 105;
             document.getElementById('inp-2t-cr').value = 7.5;
             document.getElementById('inp-2t-exdur').value = 170;
             document.getElementById('inp-2t-trdur').value = 124;
-            updateEngineParam('2t', 'cr', 7.5);
         } else {
-            const sweptInit4 = (Math.PI / 4) * Math.pow(54 / 10, 2) * (54 / 10);
-            physics.p4 = { bore: 54, stroke: 54, rod: 105, cr: 10.5, vc: sweptInit4 / 9.5, lift: 8.5, vDur: 220, vTim: 0 };
+            const defs = { bore: 54, stroke: 54, rod: 105, cr: 10.5, lift: 8.5, vDur: 220, vTim: 0 };
+            Object.entries(defs).forEach(([k, val]) => updateEngineParam('4t', k, val));
             document.getElementById('inp-4t-bore').value = 54;
             document.getElementById('inp-4t-stroke').value = 54;
             document.getElementById('inp-4t-rod').value = 105;
@@ -4088,98 +4050,129 @@
             document.getElementById('inp-4t-lift').value = 8.5;
             document.getElementById('inp-4t-vdur').value = 220;
             document.getElementById('inp-4t-vtim').value = 0;
-            updateEngineParam('4t', 'cr', 10.5);
         }
     }
 
-    function syncHudAndTelemetry() {
-        const s2 = physics.state2T;
-        const s4 = physics.state4T;
+    function setFaultMode(faultId) {
+        physics.faultMode = faultId;
+        physics.computeState();
+        rebuildStaticChartCurves(physics);
 
-        document.getElementById('slider-crank-angle').value = Math.round(physics.masterAngleDeg);
-        document.getElementById('lbl-crank-angle').textContent = Math.round(physics.masterAngleDeg) + '°';
+        const banner = document.getElementById('fault-alert-banner');
+        const found = FAULTS_DATA.find(f => f.id === faultId);
+        if (faultId === 'none' || !found) {
+            banner.classList.add('hidden');
+        } else {
+            document.getElementById('fault-alert-title').textContent = found.title;
+            document.getElementById('fault-alert-desc').textContent = found.desc;
+            banner.classList.remove('hidden');
+        }
 
-        document.getElementById('badge-2t-angle').textContent = s2.ang.toFixed(0) + '°';
-        document.getElementById('badge-2t-stroke').textContent = s2.phase;
-        document.getElementById('hdr-2t-phase').textContent = s2.phase.split(': ')[1] || s2.phase;
+        document.querySelectorAll('.fault-card').forEach(card => {
+            const active = card.dataset.fault === faultId;
+            card.className = active
+                ? 'fault-card p-2.5 rounded-xl bg-rose-950/70 border border-rose-500 cursor-pointer transition'
+                : 'fault-card p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700 cursor-pointer transition';
+        });
+    }
 
-        const setPill = (id, open, label) => {
-            const el = document.getElementById(id);
-            el.textContent = `${label}: ${open ? 'BUKA' : 'TUTUP'}`;
-            el.className = open
-                ? 'px-1 py-0.5 rounded bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 font-bold'
-                : 'px-1 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700';
-        };
-        setPill('port-2t-in', s2.reedOpenFrac > 0.08, 'INT');
-        setPill('port-2t-tr', s2.trOpenFrac > 0.08, 'TRANS');
-        setPill('port-2t-ex', s2.exOpenFrac > 0.08, 'EXH');
+    function populateDrawerLists() {
+        const expContainer = document.getElementById('experiments-list');
+        expContainer.innerHTML = EXPERIMENTS_DATA.map((exp, idx) => `
+            <div onclick="EXPERIMENTS_DATA[${idx}].action()" class="p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700 hover:border-sky-500/60 cursor-pointer transition group">
+                <div class="flex items-center justify-between">
+                    <span class="font-bold text-slate-100 group-hover:text-sky-400 text-[11px]">${exp.title}</span>
+                    <i class="fa-solid fa-play text-[10px] text-sky-400 opacity-70 group-hover:opacity-100"></i>
+                </div>
+                <p class="text-[11px] text-slate-400 mt-1 leading-snug">${exp.desc}</p>
+            </div>
+        `).join('');
 
-        document.getElementById('badge-4t-angle').textContent = s4.ang.toFixed(0) + '°';
-        document.getElementById('badge-4t-stroke').textContent = s4.phase;
-        document.getElementById('hdr-4t-phase').textContent = s4.phase;
-        setPill('valve-4t-in', s4.inOpenFrac > 0.08, 'IN');
-        setPill('valve-4t-ex', s4.exOpenFrac > 0.08, 'EX');
-        document.getElementById('cam-4t-rpm').textContent = `CAM ${s4.camAngleDeg.toFixed(0)}°`;
+        const faultContainer = document.getElementById('faults-list');
+        faultContainer.innerHTML = FAULTS_DATA.map(f => `
+            <div onclick="setFaultMode('${f.id}')" data-fault="${f.id}" class="fault-card p-2.5 rounded-xl ${f.id === 'none' ? 'bg-rose-950/70 border-rose-500' : 'bg-slate-800/60 border-slate-700'} hover:bg-slate-800 border cursor-pointer transition">
+                <div class="font-bold text-slate-100 text-[11px]">${f.title}</div>
+                <p class="text-[11px] text-slate-400 mt-1 leading-snug">${f.desc}</p>
+            </div>
+        `).join('');
 
-        if (!document.getElementById('panel-telemetry').classList.contains('hidden')) {
-            document.getElementById('tel-2t-cycle').textContent = s2.gasState.toUpperCase();
-            document.getElementById('tel-2t-rpm').textContent = `${physics.rpm} RPM`;
-            document.getElementById('tel-2t-ang').textContent = `${s2.ang.toFixed(1)}°`;
-            document.getElementById('tel-2t-pos').textContent = `${s2.dispFromTDC.toFixed(2)} mm`;
-            document.getElementById('tel-2t-vel').textContent = `${s2.vel.toFixed(2)} m/s`;
-            document.getElementById('tel-2t-acc').textContent = `${Math.round(s2.acc)} m/s²`;
-            document.getElementById('tel-2t-rod').textContent = `${s2.betaDeg.toFixed(1)}°`;
-            document.getElementById('tel-2t-trq').textContent = `${s2.torque.toFixed(1)} Nm`;
-            document.getElementById('tel-2t-pwr').textContent = `${s2.powerKw.toFixed(2)} kW`;
+        const tbody = document.getElementById('comparison-table-body');
+        tbody.innerHTML = COMPARISON_ROWS.map(r => `
+            <tr class="hover:bg-slate-800/40">
+                <td class="p-2 font-semibold text-slate-200 align-top">${r.param}</td>
+                <td class="p-2 text-amber-200/90 align-top">${r.t2}</td>
+                <td class="p-2 text-sky-200/90 align-top">${r.t4}</td>
+            </tr>
+        `).join('');
+    }
 
-            document.getElementById('tel-2t-p-in').textContent = `INT: ${s2.reedOpenFrac > 0.08 ? 'OPEN' : 'SHUT'}`;
-            document.getElementById('tel-2t-p-tr').textContent = `TR: ${s2.trOpenFrac > 0.08 ? 'OPEN' : 'SHUT'}`;
-            document.getElementById('tel-2t-p-ex').textContent = `EX: ${s2.exOpenFrac > 0.08 ? 'OPEN' : 'SHUT'}`;
+    function toggleCadTheme() {
+        const html = document.documentElement;
+        const isDark = html.classList.toggle('dark');
+        document.getElementById('icon-sun').classList.toggle('hidden', !isDark);
+        document.getElementById('icon-moon').classList.toggle('hidden', isDark);
+        cadApp.setTheme(isDark);
+    }
 
-            document.getElementById('tel-4t-cycle').textContent = s4.gasState.toUpperCase();
-            document.getElementById('tel-4t-rpm').textContent = `${physics.rpm} / ${Math.round(s4.camRpm)}`;
-            document.getElementById('tel-4t-ang').textContent = `${s4.ang.toFixed(1)}°`;
-            document.getElementById('tel-4t-pos').textContent = `${s4.dispFromTDC.toFixed(2)} mm`;
-            document.getElementById('tel-4t-vel').textContent = `${s4.vel.toFixed(2)} m/s`;
-            document.getElementById('tel-4t-acc').textContent = `${Math.round(s4.acc)} m/s²`;
-            document.getElementById('tel-4t-rod').textContent = `${s4.betaDeg.toFixed(1)}°`;
-            document.getElementById('tel-4t-inl').textContent = `${s4.inValveLift.toFixed(2)} mm`;
-            document.getElementById('tel-4t-exl').textContent = `${s4.exValveLift.toFixed(2)} mm`;
-            document.getElementById('tel-4t-trq').textContent = `${s4.torque.toFixed(1)} Nm`;
-            document.getElementById('tel-4t-pwr').textContent = `${s4.powerKw.toFixed(2)} kW`;
+    function updateCanvasFullscreenButton(isFull) {
+        const icon = document.getElementById('icon-canvas-fullscreen');
+        const txt = document.getElementById('txt-canvas-fullscreen');
+        if (!icon || !txt) return;
+        if (isFull) {
+            icon.className = 'fa-solid fa-compress text-amber-400';
+            txt.textContent = 'Keluar Layar Penuh';
+        } else {
+            icon.className = 'fa-solid fa-expand text-sky-400';
+            txt.textContent = 'Layar Penuh';
         }
     }
 
-    // Dynamic Viewport Height Synchronization (Fixes mobile browser address-bar clipping of bottom footer dock)
-    function syncViewportHeight() {
-        const h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-        document.documentElement.style.setProperty('--app-height', `${h}px`);
-        if (typeof cadApp !== 'undefined' && cadApp && cadApp.onResize) {
-            cadApp.onResize();
+    async function toggleCanvasFullscreen() {
+        const viewport = document.getElementById('cad-viewport');
+        const fsElem = document.fullscreenElement || document.webkitFullscreenElement;
+        const isPureFull = document.body.classList.contains('canvas-pure-fullscreen');
+
+        if (fsElem || isPureFull) {
+            document.body.classList.remove('canvas-pure-fullscreen');
+            if (fsElem) {
+                try {
+                    if (document.exitFullscreen) await document.exitFullscreen();
+                    else if (document.webkitExitFullscreen) await document.webkitExitFullscreen();
+                } catch (e) {}
+            }
+            updateCanvasFullscreenButton(false);
+            setTimeout(() => { updateViewportHeight(); }, 80);
+            return;
         }
-    }
-    window.addEventListener('resize', syncViewportHeight);
-    window.addEventListener('orientationchange', syncViewportHeight);
-    if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', syncViewportHeight);
+
+        let nativeFsSucceeded = false;
+        try {
+            if (viewport.requestFullscreen) {
+                await viewport.requestFullscreen();
+                nativeFsSucceeded = true;
+            } else if (viewport.webkitRequestFullscreen) {
+                await viewport.webkitRequestFullscreen();
+                nativeFsSucceeded = true;
+            }
+        } catch (err) {
+            nativeFsSucceeded = false;
+        }
+
+        if (!nativeFsSucceeded) {
+            document.body.classList.add('canvas-pure-fullscreen');
+        }
+        updateCanvasFullscreenButton(true);
+        setTimeout(() => { updateViewportHeight(); }, 80);
     }
 
-    // Main Render & Physics Loop
-    populateDrawerLists();
-    updateOverlayButtons(cadApp);
-    syncViewportHeight();
-
-    let lastTime = performance.now();
-    function animate(now) {
-        requestAnimationFrame(animate);
-        const dt = Math.min(0.05, (now - lastTime) / 1000.0);
-        lastTime = now;
-
-        physics.step(dt);
-        cadApp.update();
-        syncHudAndTelemetry();
-    }
-    requestAnimationFrame(animate);
+    document.addEventListener('fullscreenchange', () => {
+        const isFs = Boolean(document.fullscreenElement || document.webkitFullscreenElement);
+        if (!isFs) {
+            document.body.classList.remove('canvas-pure-fullscreen');
+        }
+        updateCanvasFullscreenButton(isFs);
+        setTimeout(() => { updateViewportHeight(); }, 80);
+    });
     </script>
 </body>
 </html>
