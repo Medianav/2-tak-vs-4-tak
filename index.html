@@ -112,6 +112,12 @@
         #cad-viewport {
             touch-action: none;
         }
+        /* Pure Canvas Fullscreen Fallback Mode */
+        body.canvas-pure-fullscreen header,
+        body.canvas-pure-fullscreen #cad-mode-ribbon,
+        body.canvas-pure-fullscreen #cad-footer-dock {
+            display: none !important;
+        }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-900 dark:bg-[#090d16] dark:text-slate-100 w-full flex flex-col">
@@ -229,6 +235,13 @@
         <div id="cad-viewport" class="relative flex-1 h-full w-full bg-slate-100 dark:bg-[#090d16]">
             <!-- Three.js Canvas Injected Here -->
 
+            <!-- CANVAS FULLSCREEN BUTTON (BOTTOM-RIGHT OVERLAY) -->
+            <button onclick="toggleCanvasFullscreen()" id="btn-canvas-fullscreen" title="Layar Penuh Kanvas 3D"
+                class="absolute bottom-3 right-3 z-20 px-2.5 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-800 text-slate-100 border border-slate-700/80 backdrop-blur-md shadow-lg text-xs font-semibold flex items-center gap-1.5 transition">
+                <i id="icon-canvas-fullscreen" class="fa-solid fa-expand text-sky-400"></i>
+                <span id="txt-canvas-fullscreen">Layar Penuh</span>
+            </button>
+
             <!-- TOP ENGINE PHASE & CRANK ANGLE BANNERS OVER 3D VIEWPORT (HIDDEN BY DEFAULT) -->
             <div id="hud-stroke-indicators" class="hidden absolute top-2 sm:top-3 left-2 sm:left-3 right-2 sm:right-3 pointer-events-none flex flex-wrap justify-between items-start gap-1.5 sm:gap-2 z-10">
                 <!-- 2-Stroke Live Cycle Card -->
@@ -280,7 +293,7 @@
             <div id="cad-labels-layer" class="absolute inset-0 pointer-events-none overflow-hidden z-10"></div>
 
             <!-- ACTIVE FAULT WARNING BANNER -->
-            <div id="fault-alert-banner" class="hidden absolute bottom-4 left-1/2 -translate-x-1/2 z-20 bg-rose-950/90 border border-rose-500 text-rose-200 px-3 sm:px-4 py-2 rounded-xl shadow-xl backdrop-blur-md flex items-center gap-2.5 text-xs w-[92vw] sm:w-auto max-w-md">
+            <div id="fault-alert-banner" class="hidden absolute bottom-12 left-1/2 -translate-x-1/2 z-20 bg-rose-950/90 border border-rose-500 text-rose-200 px-3 sm:px-4 py-2 rounded-xl shadow-xl backdrop-blur-md flex items-center gap-2.5 text-xs w-[92vw] sm:w-auto max-w-md">
                 <i class="fa-solid fa-triangle-exclamation text-rose-400 text-base animate-bounce shrink-0"></i>
                 <div class="min-w-0 flex-1">
                     <div class="font-bold text-rose-300 truncate" id="fault-alert-title">Mode Gangguan Aktif</div>
@@ -605,28 +618,28 @@
          4. BOTTOM CAD PLAYBACK & KINEMATICS CONTROL DOCK (RESPONSIVE MOBILE & DESKTOP)
     ====================================================================== -->
     <footer id="cad-footer-dock" class="shrink-0 bg-white/95 dark:bg-slate-900/95 border-t border-slate-300 dark:border-slate-800 px-2 sm:px-3 pt-1.5 sm:py-2 z-30 backdrop-blur-md">
-        <div class="w-full flex flex-col lg:flex-row lg:items-center lg:justify-between gap-1 sm:gap-2">
+        <div class="w-full flex flex-col lg:flex-row lg:items-center lg:justify-between gap-1.5 sm:gap-2">
             
             <!-- Row 1 (Mobile) / Left (Desktop): Transport Controls & Engine Filter -->
-            <div class="flex items-center justify-between lg:justify-start gap-1 sm:gap-1.5 w-full lg:w-auto min-w-0">
-                <div class="flex items-center gap-1 sm:gap-1.5 shrink-0">
-                    <button onclick="togglePlay()" id="btn-play-pause" class="px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] sm:text-xs font-bold flex items-center justify-center gap-1 sm:gap-1.5 shadow-sm shrink-0 transition">
+            <div class="flex items-center justify-between lg:justify-start gap-1.5 w-full lg:w-auto shrink-0">
+                <div class="flex items-center gap-1.5 shrink-0">
+                    <button onclick="togglePlay()" id="btn-play-pause" class="px-2.5 sm:px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm shrink-0 transition">
                         <i id="icon-play-pause" class="fa-solid fa-pause"></i>
                         <span id="txt-play-pause">Pause</span>
                     </button>
-                    <button onclick="singleStep()" title="Langkah Tunggal (+5° Crankshaft)" class="px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-[11px] sm:text-xs font-semibold flex items-center justify-center gap-1 sm:gap-1.5 shrink-0 transition">
-                        <i class="fa-solid fa-forward-step"></i> <span class="hidden sm:inline">Step</span>
+                    <button onclick="singleStep()" title="Langkah Tunggal (+5° Crankshaft)" class="px-2.5 sm:px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition">
+                        <i class="fa-solid fa-forward-step"></i><span>Step</span>
                     </button>
-                    <button onclick="toggleSlowMo()" id="btn-slowmo" title="Slow Motion (0.2x)" class="px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-[11px] sm:text-xs font-semibold flex items-center justify-center gap-1 sm:gap-1.5 shrink-0 transition">
-                        <i class="fa-solid fa-gauge-simple-low text-amber-500 dark:text-amber-400"></i> <span class="hidden sm:inline">Slow</span>
+                    <button onclick="toggleSlowMo()" id="btn-slowmo" title="Slow Motion (0.2x)" class="px-2.5 sm:px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition">
+                        <i class="fa-solid fa-gauge-simple-low text-amber-500 dark:text-amber-400"></i><span>Slow</span>
                     </button>
-                    <button onclick="resetSimulation()" title="Reset Siklus & Semua Parameter Lab ke Default" class="px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-[11px] sm:text-xs font-semibold flex items-center justify-center gap-1 sm:gap-1.5 shrink-0 transition">
-                        <i class="fa-solid fa-rotate-left"></i> <span class="hidden sm:inline">Reset</span>
+                    <button onclick="resetSimulation()" title="Reset Siklus & Semua Parameter Lab ke Default" class="px-2.5 sm:px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-xs font-semibold flex items-center justify-center gap-1.5 shrink-0 transition">
+                        <i class="fa-solid fa-rotate-left"></i><span>Reset</span>
                     </button>
                 </div>
 
                 <!-- Engine Display Filter -->
-                <select id="sel-engine-display" onchange="setEngineVisibility(this.value)" class="px-1.5 sm:px-2.5 py-1 sm:py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-[10px] sm:text-xs font-semibold text-slate-800 dark:text-slate-200 outline-none min-w-0 max-w-[130px] sm:max-w-none truncate">
+                <select id="sel-engine-display" onchange="setEngineVisibility(this.value)" class="px-2 sm:px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-[11px] sm:text-xs font-semibold text-slate-800 dark:text-slate-200 outline-none shrink-0 sm:min-w-[138px]">
                     <option value="both">Tampil: 2T & 4T</option>
                     <option value="2t">Fokus: 2 Tak</option>
                     <option value="4t">Fokus: 4 Tak</option>
@@ -636,30 +649,30 @@
             <div class="hidden lg:block h-5 w-px bg-slate-300 dark:bg-slate-700/80 shrink-0"></div>
 
             <!-- Row 2 (Mobile) / Center (Desktop): Responsive 2x2 Grid on Mobile, Inline Flex on Desktop -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 lg:flex lg:items-center gap-x-2 sm:gap-x-3 gap-y-0.5 sm:gap-y-1 w-full lg:w-auto">
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:flex lg:items-center gap-x-2 sm:gap-x-3 gap-y-0.5 sm:gap-y-1 w-full lg:w-auto min-w-0">
                 <!-- Manual Crankshaft Angle (0 - 720 deg) -->
-                <div class="flex items-center gap-1 min-w-0 lg:w-[165px]">
+                <div class="flex items-center gap-1 min-w-0 lg:w-[155px]">
                     <span class="text-[10px] sm:text-[11px] font-mono text-slate-500 dark:text-slate-400 shrink-0">Sudut:</span>
                     <input type="range" id="slider-crank-angle" min="0" max="720" step="1" value="0" class="w-full min-w-0 cad-slider" oninput="scrubCrankAngle(this.value)">
                     <span id="lbl-crank-angle" class="text-[10px] sm:text-[11px] font-mono font-bold text-sky-600 dark:text-sky-400 w-7 sm:w-8 text-right shrink-0">0°</span>
                 </div>
 
                 <!-- Engine RPM Slider -->
-                <div class="flex items-center gap-1 min-w-0 lg:w-[165px]">
+                <div class="flex items-center gap-1 min-w-0 lg:w-[155px]">
                     <span class="text-[10px] sm:text-[11px] font-mono text-slate-500 dark:text-slate-400 shrink-0">RPM:</span>
                     <input type="range" id="slider-rpm" min="300" max="6000" step="100" value="1200" class="w-full min-w-0 cad-slider" oninput="setEngineRpm(this.value)">
                     <span id="lbl-rpm" class="text-[10px] sm:text-[11px] font-mono font-bold text-amber-600 dark:text-amber-400 w-8 sm:w-9 text-right shrink-0">1200</span>
                 </div>
 
                 <!-- Time Speed Multiplier (0.1x - 3.0x) -->
-                <div class="flex items-center gap-1 min-w-0 lg:w-[145px]">
+                <div class="flex items-center gap-1 min-w-0 lg:w-[138px]">
                     <span class="text-[10px] sm:text-[11px] font-mono text-slate-500 dark:text-slate-400 shrink-0">Speed:</span>
                     <input type="range" id="slider-speed" min="0.1" max="3.0" step="0.1" value="1.0" class="w-full min-w-0 cad-slider" oninput="setSimSpeed(this.value)">
                     <span id="lbl-speed" class="text-[10px] sm:text-[11px] font-mono font-bold text-emerald-600 dark:text-emerald-400 w-7 sm:w-8 text-right shrink-0">1.0x</span>
                 </div>
 
                 <!-- Block Opacity Slider -->
-                <div class="flex items-center gap-1 min-w-0 lg:w-[135px]">
+                <div class="flex items-center gap-1 min-w-0 lg:w-[130px]">
                     <span class="text-[10px] sm:text-[11px] font-mono text-slate-500 dark:text-slate-400 shrink-0">Opasitas:</span>
                     <input type="range" id="slider-opacity" min="0.15" max="1.0" step="0.05" value="1.0" class="w-full min-w-0 cad-slider" oninput="setBlockOpacity(this.value)">
                 </div>
@@ -668,7 +681,7 @@
             <div class="hidden lg:block h-5 w-px bg-slate-300 dark:bg-slate-700/80 shrink-0"></div>
 
             <!-- Row 3 (Mobile) / Right (Desktop): CAD Overlays (4 equal columns on mobile) -->
-            <div class="grid grid-cols-4 lg:flex lg:items-center gap-1 sm:gap-1.5 w-full lg:w-auto">
+            <div class="grid grid-cols-4 lg:flex lg:items-center gap-1 sm:gap-1.5 w-full lg:w-auto shrink-0">
                 <button onclick="toggleOverlay('gas')" id="btn-ov-gas" class="px-1.5 sm:px-2 py-1 sm:py-1.5 rounded-md text-[10px] sm:text-xs font-semibold bg-sky-500/20 text-sky-600 dark:text-sky-300 border border-sky-500/40 flex items-center justify-center gap-1 min-w-0 transition">
                     <i class="fa-solid fa-wind shrink-0"></i><span class="truncate">Gas</span>
                 </button>
@@ -1152,17 +1165,17 @@
             const width = w || this.container.clientWidth || window.innerWidth;
             const height = h || this.container.clientHeight || window.innerHeight;
             const aspect = width / Math.max(1, height);
-            // Pada layar smartphone portrait (sempit), rapatkan kedua mesin ke tengah agar jarak kiri & kanan layar proporsional
-            if (aspect < 0.72) return 3.85;
-            if (aspect < 0.95) return 4.35;
+            // Pada layar smartphone portrait (sempit), beri jarak aman dari tepi kiri & kanan layar agar proporsional
+            if (aspect < 0.72) return 3.65;
+            if (aspect < 0.95) return 4.25;
             return 5.5;
         }
 
         getOptimalCameraDistance(w, h) {
             const aspect = (w && h) ? (w / h) : (window.innerWidth / window.innerHeight);
-            if (aspect < 0.65) return 31.8; // Tall portrait smartphone dengan jarak margin kiri-kanan seimbang
-            if (aspect < 0.90) return 28.5; // Compact portrait mobile/tablet
-            if (aspect < 1.25) return 26.0; // Square / tablet landscape
+            if (aspect < 0.65) return 36.5; // Tall portrait smartphone zoom out proporsional dengan margin kiri-kanan lega
+            if (aspect < 0.90) return 31.5; // Compact portrait mobile/tablet
+            if (aspect < 1.25) return 26.5; // Square / tablet landscape
             return 23.5;                    // Standard widescreen desktop
         }
 
@@ -3563,8 +3576,8 @@
             data: {
                 labels: angles,
                 datasets: [
-                    { label: '2-Tak (mm)', data: [], borderColor: '#f59e0b', borderWidth: 1.8, pointRadius: 0 },
-                    { label: '4-Tak (mm)', data: [], borderColor: '#38bdf8', borderWidth: 1.8, pointRadius: 0, borderDash: [4, 2] }
+                    { label: '2-Tak (mm)', data: [], borderColor: '#f59e0b', borderWidth: 1.8, pointRadius: 0, tension: 0.3 },
+                    { label: '4-Tak (mm)', data: [], borderColor: '#38bdf8', borderWidth: 1.8, borderDash: [4, 3], pointRadius: 0, tension: 0.3 }
                 ]
             },
             options: commonOpts
@@ -3575,8 +3588,8 @@
             data: {
                 labels: angles,
                 datasets: [
-                    { label: 'Vel 2T (m/s)', data: [], borderColor: '#10b981', borderWidth: 1.6, pointRadius: 0 },
-                    { label: 'Vel 4T (m/s)', data: [], borderColor: '#a855f7', borderWidth: 1.6, pointRadius: 0 }
+                    { label: 'Kecepatan 2T (m/s)', data: [], borderColor: '#f59e0b', borderWidth: 1.6, pointRadius: 0, tension: 0.3 },
+                    { label: 'Kecepatan 4T (m/s)', data: [], borderColor: '#38bdf8', borderWidth: 1.6, pointRadius: 0, tension: 0.3 }
                 ]
             },
             options: commonOpts
@@ -3587,9 +3600,9 @@
             data: {
                 labels: angles,
                 datasets: [
-                    { label: '4T Intake (mm)', data: [], borderColor: '#38bdf8', borderWidth: 1.6, pointRadius: 0 },
-                    { label: '4T Exhaust (mm)', data: [], borderColor: '#f43f5e', borderWidth: 1.6, pointRadius: 0 },
-                    { label: '2T Ex-Port (%)', data: [], borderColor: '#f59e0b', borderWidth: 1.4, pointRadius: 0 }
+                    { label: '4T Intake Lift (mm)', data: [], borderColor: '#0ea5e9', borderWidth: 1.6, pointRadius: 0, tension: 0.25 },
+                    { label: '4T Exhaust Lift (mm)', data: [], borderColor: '#f43f5e', borderWidth: 1.6, pointRadius: 0, tension: 0.25 },
+                    { label: '2T Exhaust Port (rel)', data: [], borderColor: '#f59e0b', borderWidth: 1.4, borderDash: [3, 2], pointRadius: 0, tension: 0.25 }
                 ]
             },
             options: commonOpts
@@ -3598,51 +3611,52 @@
         chartPower = new Chart(document.getElementById('chart-power-freq'), {
             type: 'bar',
             data: {
-                labels: ['Langkah Usaha / 720° Engkol', 'Langkah Usaha / Menit (@RPM)'],
+                labels: ['0-180°', '180-360°', '360-540°', '540-720°'],
                 datasets: [
-                    { label: 'Mesin 2 Tak', data: [2, physics.rpm], backgroundColor: 'rgba(245, 158, 11, 0.75)', borderRadius: 4 },
-                    { label: 'Mesin 4 Tak', data: [1, physics.rpm / 2], backgroundColor: 'rgba(56, 189, 248, 0.75)', borderRadius: 4 }
+                    { label: '2-Tak (2x Usaha / 720°)', data: [1, 0, 1, 0], backgroundColor: 'rgba(245, 158, 11, 0.75)', borderRadius: 4 },
+                    { label: '4-Tak (1x Usaha / 720°)', data: [0, 0, 1, 0], backgroundColor: 'rgba(56, 189, 248, 0.75)', borderRadius: 4 }
                 ]
             },
             options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                animation: false,
-                plugins: { legend: { labels: { color: '#94a3b8', font: { size: 9 }, boxWidth: 10 } } },
+                ...commonOpts,
                 scales: {
-                    x: { ticks: { color: '#94a3b8', font: { size: 8 } }, grid: { display: false } },
-                    y: { ticks: { color: '#64748b', font: { size: 8 } }, grid: { color: 'rgba(51,65,85,0.3)' } }
+                    x: { ticks: { color: '#94a3b8', font: { size: 9 } }, grid: { display: false } },
+                    y: { min: 0, max: 1.2, ticks: { stepSize: 1, color: '#64748b', font: { size: 8 } }, grid: { color: 'rgba(51,65,85,0.3)' } }
                 }
             }
         });
 
-        refreshChartsData(physics);
+        recomputeChartsData(physics);
     }
 
-    function refreshChartsData(physics) {
+    function recomputeChartsData(physics) {
         if (!chartPos) return;
-        const pos2 = [], pos4 = [], vel2 = [], vel4 = [], inL = [], exL = [], exP2 = [];
+        const pos2 = [], pos4 = [], vel2 = [], vel4 = [], inL = [], exL = [], port2 = [];
 
         for (let a = 0; a <= 720; a += 15) {
             const sc2 = physics.calcSliderCrank(a % 360, physics.p2.stroke, physics.p2.rod, physics.rpm);
             const sc4 = physics.calcSliderCrank(a % 360, physics.p4.stroke, physics.p4.rod, physics.rpm);
-            pos2.push(Number(sc2.dispFromTDC.toFixed(1)));
-            pos4.push(Number(sc4.dispFromTDC.toFixed(1)));
-            vel2.push(Number(sc2.vel.toFixed(2)));
-            vel4.push(Number(sc4.vel.toFixed(2)));
+            pos2.push(sc2.dispFromTDC.toFixed(1));
+            pos4.push(sc4.dispFromTDC.toFixed(1));
+            vel2.push(sc2.vel.toFixed(2));
+            vel4.push(sc4.vel.toFixed(2));
 
             const halfDur = physics.p4.vDur / 2;
-            const inC = (110 - physics.p4.vTim + 720) % 720;
-            const exC = (610 - physics.p4.vTim + 720) % 720;
-            let dIn = Math.abs(a - inC); if (dIn > 360) dIn = 720 - dIn;
-            let dEx = Math.abs(a - exC); if (dEx > 360) dEx = 720 - dEx;
-            inL.push(dIn <= halfDur ? Number((physics.p4.lift * Math.pow(Math.cos((dIn / halfDur) * Math.PI / 2), 1.6)).toFixed(2)) : 0);
-            exL.push(dEx <= halfDur ? Number((physics.p4.lift * Math.pow(Math.cos((dEx / halfDur) * Math.PI / 2), 1.6)).toFixed(2)) : 0);
+            const inCenter = (110 - physics.p4.vTim + 720) % 720;
+            const exCenter = (610 - physics.p4.vTim + 720) % 720;
+            const liftFn = (ang, c) => {
+                let d = Math.abs(ang - c);
+                if (d > 360) d = 720 - d;
+                return d > halfDur ? 0 : physics.p4.lift * Math.pow(Math.cos((d / halfDur) * (Math.PI / 2)), 1.6);
+            };
+            inL.push(liftFn(a, inCenter).toFixed(2));
+            exL.push(liftFn(a, exCenter).toFixed(2));
 
-            const ang2 = a % 360;
-            const exOpenA = 180 - physics.p2.exDur / 2;
-            const exCloseA = 180 + physics.p2.exDur / 2;
-            exP2.push((ang2 >= exOpenA && ang2 <= exCloseA) ? Number((Math.sin(((ang2 - exOpenA) / physics.p2.exDur) * Math.PI) * 10).toFixed(2)) : 0);
+            const a2 = a % 360;
+            const exO = 180 - physics.p2.exDur / 2;
+            const exC = 180 + physics.p2.exDur / 2;
+            const pOpen = (a2 >= exO && a2 <= exC) ? Math.sin(((a2 - exO) / physics.p2.exDur) * Math.PI) * physics.p4.lift * 0.85 : 0;
+            port2.push(pOpen.toFixed(2));
         }
 
         chartPos.data.datasets[0].data = pos2;
@@ -3655,244 +3669,131 @@
 
         chartValve.data.datasets[0].data = inL;
         chartValve.data.datasets[1].data = exL;
-        chartValve.data.datasets[2].data = exP2;
+        chartValve.data.datasets[2].data = port2;
         chartValve.update('none');
-
-        chartPower.data.datasets[0].data = [2, physics.rpm];
-        chartPower.data.datasets[1].data = [1, Math.round(physics.rpm / 2)];
-        chartPower.update('none');
     }
 
     /**
      * =========================================================================
-     * MODULE 5: UI CONTROLLER, TELEMETRY HUD & INSPECTOR LOGIC
+     * MODULE 5: UI CONTROLLERS, DOM UPDATES & INITIALIZATION
      * =========================================================================
      */
-    let physicsEngine, cadApp;
-    let currentInspPart = null;
-    let currentInspTab = 'ident';
+    const physics = new EnginePhysicsEngine();
+    const viewportEl = document.getElementById('cad-viewport');
+    const cadApp = new EngineCadVisualizer(viewportEl, physics);
 
-    function syncViewportHeight() {
-        const vh = (window.visualViewport ? window.visualViewport.height : window.innerHeight);
-        document.documentElement.style.setProperty('--app-height', `${Math.round(vh)}px`);
-        if (cadApp) cadApp.onResize();
+    let activeInspectKey = null;
+    let activeInspectTab = 'ident';
+
+    function populateDrawerLists() {
+        const expList = document.getElementById('experiments-list');
+        expList.innerHTML = EXPERIMENTS_DATA.map(exp => `
+            <div class="p-2.5 rounded-xl bg-slate-800/70 hover:bg-slate-800 border border-slate-700/80 transition">
+                <div class="font-bold text-slate-100 text-[11px]">${exp.title}</div>
+                <p class="text-[10px] text-slate-400 mt-0.5 mb-2">${exp.desc}</p>
+                <button onclick="runExperiment(${exp.id})" class="px-2.5 py-1 rounded-md bg-emerald-600/20 hover:bg-emerald-600 text-emerald-300 hover:text-white border border-emerald-500/40 text-[10px] font-bold transition">
+                    <i class="fa-solid fa-play mr-1"></i>Jalankan Simulasi Eksperimen
+                </button>
+            </div>
+        `).join('');
+
+        const faultList = document.getElementById('faults-list');
+        faultList.innerHTML = FAULTS_DATA.map(f => `
+            <div onclick="setFaultMode('${f.id}')" class="fault-card cursor-pointer p-2.5 rounded-xl border transition ${f.id === 'none' ? 'bg-emerald-950/30 border-emerald-500/50' : 'bg-slate-800/60 hover:bg-slate-800 border-slate-700/80'}" data-fault="${f.id}">
+                <div class="flex items-center justify-between">
+                    <span class="font-bold text-[11px] ${f.id === 'none' ? 'text-emerald-300' : 'text-rose-300'}">${f.title}</span>
+                    <span class="fault-badge text-[9px] font-mono px-1.5 py-0.5 rounded ${f.id === 'none' ? 'bg-emerald-500/20 text-emerald-300' : 'hidden'}">AKTIF</span>
+                </div>
+                <p class="text-[10px] text-slate-400 mt-1">${f.desc}</p>
+            </div>
+        `).join('');
+
+        const tbody = document.getElementById('comparison-table-body');
+        tbody.innerHTML = COMPARISON_ROWS.map(r => `
+            <tr class="hover:bg-slate-800/50">
+                <td class="p-2 font-semibold text-slate-200">${r.param}</td>
+                <td class="p-2 text-amber-200/90">${r.t2}</td>
+                <td class="p-2 text-sky-200/90">${r.t4}</td>
+            </tr>
+        `).join('');
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-        syncViewportHeight();
-        window.addEventListener('resize', syncViewportHeight);
-        if (window.visualViewport) {
-            window.visualViewport.addEventListener('resize', syncViewportHeight);
-            window.visualViewport.addEventListener('scroll', syncViewportHeight);
-        }
-
-        physicsEngine = new EnginePhysicsEngine();
-        const viewport = document.getElementById('cad-viewport');
-        cadApp = new EngineCadVisualizer(viewport, physicsEngine);
-
-        populateDrawerLists();
-        initTelemetryCharts(physicsEngine);
-        updateOverlayButtons();
-
-        let lastTime = performance.now();
-        function animate(now) {
-            requestAnimationFrame(animate);
-            const dt = Math.min(0.05, (now - lastTime) / 1000.0);
-            lastTime = now;
-
-            physicsEngine.step(dt);
-            cadApp.update();
-            updateLiveHud();
-        }
-        requestAnimationFrame(animate);
-    });
-
-    function updateLiveHud() {
-        const s2 = physicsEngine.state2T;
-        const s4 = physicsEngine.state4T;
-
-        document.getElementById('hdr-2t-phase').textContent = s2.phase.split(':')[0];
-        document.getElementById('hdr-4t-phase').textContent = s4.phase;
-
-        document.getElementById('badge-2t-angle').textContent = `${s2.ang.toFixed(0)}°`;
-        document.getElementById('badge-2t-stroke').textContent = s2.phase;
-
-        const pIn = document.getElementById('port-2t-in');
-        const pTr = document.getElementById('port-2t-tr');
-        const pEx = document.getElementById('port-2t-ex');
-
-        pIn.textContent = s2.reedOpenFrac > 0.05 ? 'INT: BUKA' : 'INT: TUTUP';
-        pIn.className = s2.reedOpenFrac > 0.05
-            ? 'px-1 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-            : 'px-1 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700';
-
-        pTr.textContent = s2.trOpenFrac > 0.05 ? 'TRANS: BUKA' : 'TRANS: TUTUP';
-        pTr.className = s2.trOpenFrac > 0.05
-            ? 'px-1 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
-            : 'px-1 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700';
-
-        pEx.textContent = s2.exOpenFrac > 0.05 ? 'EXH: BUKA' : 'EXH: TUTUP';
-        pEx.className = s2.exOpenFrac > 0.05
-            ? 'px-1 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40'
-            : 'px-1 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700';
-
-        document.getElementById('badge-4t-angle').textContent = `${s4.ang.toFixed(0)}°`;
-        document.getElementById('badge-4t-stroke').textContent = s4.phase;
-
-        const vIn = document.getElementById('valve-4t-in');
-        const vEx = document.getElementById('valve-4t-ex');
-        vIn.textContent = s4.inOpenFrac > 0.05 ? 'IN: BUKA' : 'IN: TUTUP';
-        vIn.className = s4.inOpenFrac > 0.05
-            ? 'px-1 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/40'
-            : 'px-1 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700';
-
-        vEx.textContent = s4.exOpenFrac > 0.05 ? 'EX: BUKA' : 'EX: TUTUP';
-        vEx.className = s4.exOpenFrac > 0.05
-            ? 'px-1 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40'
-            : 'px-1 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700';
-
-        document.getElementById('cam-4t-rpm').textContent = `CAM ${s4.camAngleDeg.toFixed(0)}°`;
-
-        const angRound = Math.round(physicsEngine.masterAngleDeg);
-        document.getElementById('slider-crank-angle').value = angRound;
-        document.getElementById('lbl-crank-angle').textContent = `${angRound}°`;
-
-        if (!document.getElementById('panel-telemetry').classList.contains('hidden')) {
-            document.getElementById('tel-2t-cycle').textContent = s2.gasState.toUpperCase();
-            document.getElementById('tel-2t-rpm').textContent = `${physicsEngine.rpm} RPM`;
-            document.getElementById('tel-2t-ang').textContent = `${s2.ang.toFixed(1)}°`;
-            document.getElementById('tel-2t-pos').textContent = `${s2.dispFromTDC.toFixed(2)} mm`;
-            document.getElementById('tel-2t-vel').textContent = `${s2.vel.toFixed(2)} m/s`;
-            document.getElementById('tel-2t-acc').textContent = `${Math.round(s2.acc)} m/s²`;
-            document.getElementById('tel-2t-rod').textContent = `${s2.betaDeg.toFixed(1)}°`;
-            document.getElementById('tel-2t-trq').textContent = `${s2.torque.toFixed(1)} Nm`;
-            document.getElementById('tel-2t-pwr').textContent = `${s2.powerKw.toFixed(2)} kW`;
-            document.getElementById('tel-2t-p-in').textContent = `INT: ${s2.reedOpenFrac > 0.05 ? 'OPEN' : 'SHUT'}`;
-            document.getElementById('tel-2t-p-tr').textContent = `TR: ${s2.trOpenFrac > 0.05 ? 'OPEN' : 'SHUT'}`;
-            document.getElementById('tel-2t-p-ex').textContent = `EX: ${s2.exOpenFrac > 0.05 ? 'OPEN' : 'SHUT'}`;
-
-            document.getElementById('tel-4t-cycle').textContent = s4.gasState.toUpperCase();
-            document.getElementById('tel-4t-rpm').textContent = `${physicsEngine.rpm} / ${Math.round(s4.camRpm)}`;
-            document.getElementById('tel-4t-ang').textContent = `${s4.ang.toFixed(1)}°`;
-            document.getElementById('tel-4t-pos').textContent = `${s4.dispFromTDC.toFixed(2)} mm`;
-            document.getElementById('tel-4t-vel').textContent = `${s4.vel.toFixed(2)} m/s`;
-            document.getElementById('tel-4t-acc').textContent = `${Math.round(s4.acc)} m/s²`;
-            document.getElementById('tel-4t-rod').textContent = `${s4.betaDeg.toFixed(1)}°`;
-            document.getElementById('tel-4t-inl').textContent = `${s4.inValveLift.toFixed(2)} mm`;
-            document.getElementById('tel-4t-exl').textContent = `${s4.exValveLift.toFixed(2)} mm`;
-            document.getElementById('tel-4t-trq').textContent = `${s4.torque.toFixed(1)} Nm`;
-            document.getElementById('tel-4t-pwr').textContent = `${s4.powerKw.toFixed(2)} kW`;
+    function runExperiment(id) {
+        const exp = EXPERIMENTS_DATA.find(e => e.id === id);
+        if (exp && exp.action) {
+            exp.action();
+            recomputeChartsData(physics);
         }
     }
 
-    // Playback & Control Handlers
-    function togglePlay() {
-        physicsEngine.isPlaying = !physicsEngine.isPlaying;
-        const icon = document.getElementById('icon-play-pause');
-        const txt = document.getElementById('txt-play-pause');
-        const btn = document.getElementById('btn-play-pause');
-        if (physicsEngine.isPlaying) {
-            icon.className = 'fa-solid fa-pause';
-            txt.textContent = 'Pause';
-            btn.classList.replace('bg-sky-600', 'bg-emerald-600');
+    function setFaultMode(faultId) {
+        physics.faultMode = faultId;
+        physics.computeState();
+
+        document.querySelectorAll('.fault-card').forEach(el => {
+            const isMatch = el.dataset.fault === faultId;
+            const badge = el.querySelector('.fault-badge');
+            if (isMatch) {
+                el.classList.add('border-rose-500', 'bg-rose-950/30');
+                badge.classList.remove('hidden');
+            } else {
+                el.classList.remove('border-rose-500', 'bg-rose-950/30');
+                badge.classList.add('hidden');
+            }
+        });
+
+        const banner = document.getElementById('fault-alert-banner');
+        if (faultId === 'none') {
+            banner.classList.add('hidden');
         } else {
-            icon.className = 'fa-solid fa-play';
-            txt.textContent = 'Play';
-            btn.classList.replace('bg-emerald-600', 'bg-sky-600');
+            const fObj = FAULTS_DATA.find(x => x.id === faultId);
+            document.getElementById('fault-alert-title').textContent = fObj.title;
+            document.getElementById('fault-alert-desc').textContent = fObj.desc;
+            banner.classList.remove('hidden');
         }
     }
 
-    function singleStep() {
-        if (physicsEngine.isPlaying) togglePlay();
-        physicsEngine.setAngle(physicsEngine.masterAngleDeg + 5);
+    function openComponentInspector(partKey) {
+        const data = COMPONENT_DB[partKey];
+        if (!data) return;
+        activeInspectKey = partKey;
+
+        document.getElementById('insp-engine-tag').textContent = data.engine;
+        document.getElementById('insp-title').textContent = data.title;
+        document.getElementById('panel-inspector').classList.remove('hidden');
+        setInspectorTab(activeInspectTab);
     }
 
-    function toggleSlowMo() {
-        physicsEngine.slowMo = !physicsEngine.slowMo;
-        const btn = document.getElementById('btn-slowmo');
-        btn.classList.toggle('ring-2', physicsEngine.slowMo);
-        btn.classList.toggle('ring-amber-400', physicsEngine.slowMo);
+    function setInspectorTab(tab) {
+        activeInspectTab = tab;
+        document.querySelectorAll('.insp-tab-btn').forEach(btn => {
+            const active = btn.dataset.tab === tab;
+            btn.className = active
+                ? 'insp-tab-btn active py-2 text-sky-400 border-b-2 border-sky-400'
+                : 'insp-tab-btn py-2 text-slate-400 hover:text-slate-200';
+        });
+
+        if (!activeInspectKey) return;
+        const data = COMPONENT_DB[activeInspectKey];
+        const titles = {
+            ident: 'Identifikasi & Material Komponen',
+            work: 'Prinsip & Mekanisme Kerja',
+            comp: 'Perbandingan Teknis 2 Tak vs 4 Tak',
+            fact: 'Fakta Rekayasa & Diagnostik SMK'
+        };
+        document.getElementById('insp-content').innerHTML = `
+            <div class="font-bold text-sky-300 text-[11px] uppercase tracking-wider">${titles[tab]}</div>
+            <p class="text-slate-200">${data[tab]}</p>
+            <div class="pt-2 border-t border-slate-800 text-[10px] text-slate-400 flex items-center justify-between">
+                <span>Klik komponen 3D lain untuk inspeksi</span>
+                <span class="font-mono text-sky-400">CAD INSPECTOR</span>
+            </div>
+        `;
     }
 
-    function resetSimulation() {
-        // 1. Reset playback state & master crank angle
-        physicsEngine.slowMo = false;
-        const btnSlow = document.getElementById('btn-slowmo');
-        if (btnSlow) btnSlow.classList.remove('ring-2', 'ring-amber-400');
-
-        physicsEngine.rpm = 1200;
-        const sliderRpm = document.getElementById('slider-rpm');
-        const lblRpm = document.getElementById('lbl-rpm');
-        if (sliderRpm) sliderRpm.value = 1200;
-        if (lblRpm) lblRpm.textContent = '1200';
-
-        physicsEngine.simSpeed = 1.0;
-        const sliderSpeed = document.getElementById('slider-speed');
-        const lblSpeed = document.getElementById('lbl-speed');
-        if (sliderSpeed) sliderSpeed.value = 1.0;
-        if (lblSpeed) lblSpeed.textContent = '1.0x';
-
-        // 2. Reset all geometric & timing parameters of both 2-stroke and 4-stroke engines to default
-        resetEngineParams('2t');
-        resetEngineParams('4t');
-
-        // 3. Clear any active fault mode
-        setFaultMode('none');
-
-        // 4. Reset block opacity, display filter, and overlays to default
-        cadApp.blockOpacity = 1.0;
-        const sliderOp = document.getElementById('slider-opacity');
-        if (sliderOp) sliderOp.value = 1.0;
-
-        const selDisp = document.getElementById('sel-engine-display');
-        if (selDisp) selDisp.value = 'both';
-        cadApp.setEngineVisibility('both');
-
-        cadApp.showGas = true;
-        cadApp.showLabels = false;
-        cadApp.showAxes = true;
-        cadApp.showStrokeHud = false;
-        cadApp.cadLinesGroup.visible = true;
-        updateOverlayButtons();
-
-        // 5. Reset view mode to Normal & reset 3D camera
-        setViewMode('normal');
-        cadApp.resetCamera();
-
-        // 6. Reset crank angle to 0° and resume playback
-        physicsEngine.setAngle(0);
-        if (!physicsEngine.isPlaying) togglePlay();
-
-        refreshChartsData(physicsEngine);
-    }
-
-    function scrubCrankAngle(val) {
-        if (physicsEngine.isPlaying) togglePlay();
-        physicsEngine.setAngle(parseFloat(val));
-    }
-
-    function setEngineRpm(val) {
-        physicsEngine.rpm = parseInt(val, 10);
-        document.getElementById('lbl-rpm').textContent = val;
-        refreshChartsData(physicsEngine);
-    }
-
-    function setSimSpeed(val) {
-        physicsEngine.simSpeed = parseFloat(val);
-        document.getElementById('lbl-speed').textContent = `${parseFloat(val).toFixed(1)}x`;
-    }
-
-    function setBlockOpacity(val) {
-        cadApp.blockOpacity = parseFloat(val);
-        cadApp.applyViewMode(cadApp.viewMode);
-    }
-
-    function setEngineVisibility(val) {
-        cadApp.setEngineVisibility(val);
-        const h2 = document.getElementById('hud-2t-card');
-        const h4 = document.getElementById('hud-4t-card');
-        h2.style.display = (val === '4t') ? 'none' : 'block';
-        h4.style.display = (val === '2t') ? 'none' : 'block';
+    function closeInspector() {
+        document.getElementById('panel-inspector').classList.add('hidden');
+        activeInspectKey = null;
     }
 
     function setViewMode(mode) {
@@ -3905,132 +3806,281 @@
         cadApp.applyViewMode(mode);
     }
 
-    function toggleOverlay(type) {
-        if (type === 'gas') cadApp.showGas = !cadApp.showGas;
-        if (type === 'labels') {
-            cadApp.showLabels = !cadApp.showLabels;
-            if (!cadApp.showLabels) {
-                const layer = document.getElementById('cad-labels-layer');
-                if (layer) layer.innerHTML = '';
-            }
+    function togglePanel(which, forceState = null) {
+        const el = document.getElementById(which === 'telemetry' ? 'panel-telemetry' : 'panel-drawer');
+        const willShow = forceState !== null ? forceState : el.classList.contains('hidden');
+        el.classList.toggle('hidden', !willShow);
+        if (which === 'telemetry' && willShow && !chartPos) {
+            initTelemetryCharts(physics);
         }
-        if (type === 'axes') {
-            cadApp.showAxes = !cadApp.showAxes;
-            cadApp.cadLinesGroup.visible = cadApp.showAxes;
-        }
-        if (type === 'strokeHud') {
-            cadApp.showStrokeHud = !cadApp.showStrokeHud;
-        }
-        updateOverlayButtons();
-    }
-
-    function setOverlay(type, state) {
-        if (type === 'gas') cadApp.showGas = state;
-        if (type === 'labels') {
-            cadApp.showLabels = state;
-            if (!cadApp.showLabels) {
-                const layer = document.getElementById('cad-labels-layer');
-                if (layer) layer.innerHTML = '';
-            }
-        }
-        if (type === 'axes') {
-            cadApp.showAxes = state;
-            cadApp.cadLinesGroup.visible = state;
-        }
-        if (type === 'strokeHud') {
-            cadApp.showStrokeHud = state;
-        }
-        updateOverlayButtons();
-    }
-
-    // Panels & Drawers
-    function togglePanel(panelName, forceState = null) {
-        const el = document.getElementById(`panel-${panelName}`);
-        const shouldShow = forceState !== null ? forceState : el.classList.contains('hidden');
-        el.classList.toggle('hidden', !shouldShow);
-        if (panelName === 'telemetry' && shouldShow) refreshChartsData(physicsEngine);
     }
 
     function switchTelemetryTab(tab) {
-        document.getElementById('telemetry-numeric-body').classList.toggle('hidden', tab !== 'numeric');
-        document.getElementById('telemetry-charts-body').classList.toggle('hidden', tab !== 'charts');
-        document.getElementById('t-tab-numeric').className = tab === 'numeric'
-            ? 'py-2 text-sky-400 border-b-2 border-sky-400' : 'py-2 text-slate-400 hover:text-slate-200';
-        document.getElementById('t-tab-charts').className = tab === 'charts'
-            ? 'py-2 text-sky-400 border-b-2 border-sky-400' : 'py-2 text-slate-400 hover:text-slate-200';
-        if (tab === 'charts') refreshChartsData(physicsEngine);
+        const isNum = tab === 'numeric';
+        document.getElementById('telemetry-numeric-body').classList.toggle('hidden', !isNum);
+        document.getElementById('telemetry-charts-body').classList.toggle('hidden', isNum);
+
+        document.getElementById('t-tab-numeric').className = isNum
+            ? 'py-2 text-sky-400 border-b-2 border-sky-400'
+            : 'py-2 text-slate-400 hover:text-slate-200';
+        document.getElementById('t-tab-charts').className = !isNum
+            ? 'py-2 text-sky-400 border-b-2 border-sky-400'
+            : 'py-2 text-slate-400 hover:text-slate-200';
+
+        if (!isNum && !chartPos) initTelemetryCharts(physics);
     }
 
     function switchDrawerTab(tab) {
         ['params', 'experiments', 'faults', 'compare'].forEach(t => {
-            document.getElementById(`drawer-${t}`).classList.toggle('hidden', t !== tab);
-            document.getElementById(`d-tab-${t}`).className = t === tab
+            document.getElementById('drawer-' + t).classList.toggle('hidden', t !== tab);
+            document.getElementById('d-tab-' + t).className = (t === tab)
                 ? 'py-2.5 text-emerald-400 border-b-2 border-emerald-400'
                 : 'py-2.5 text-slate-400 hover:text-slate-200';
         });
     }
 
-    // Parameter Updates & Displacement Calculator (Coupled Swept Volume & Compression Ratio)
+    // Playback & Kinematics Controls
+    function togglePlay() {
+        physics.isPlaying = !physics.isPlaying;
+        const icon = document.getElementById('icon-play-pause');
+        const txt = document.getElementById('txt-play-pause');
+        const btn = document.getElementById('btn-play-pause');
+        if (physics.isPlaying) {
+            icon.className = 'fa-solid fa-pause';
+            txt.textContent = 'Pause';
+            btn.className = 'px-2.5 sm:px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm shrink-0 transition';
+        } else {
+            icon.className = 'fa-solid fa-play';
+            txt.textContent = 'Play';
+            btn.className = 'px-2.5 sm:px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm shrink-0 transition';
+        }
+    }
+
+    function singleStep() {
+        if (physics.isPlaying) togglePlay();
+        physics.setAngle(physics.masterAngleDeg + 5);
+    }
+
+    function toggleSlowMo() {
+        physics.slowMo = !physics.slowMo;
+        const btn = document.getElementById('btn-slowmo');
+        btn.classList.toggle('border-amber-500', physics.slowMo);
+        btn.classList.toggle('bg-amber-500/20', physics.slowMo);
+    }
+
+    function resetSimulation() {
+        // 1. Reset Simulation Playback, Angle, RPM, Speed & Block Opacity to Defaults
+        physics.setAngle(0);
+        physics.rpm = 1200;
+        physics.simSpeed = 1.0;
+        physics.slowMo = false;
+
+        const btnSlow = document.getElementById('btn-slowmo');
+        if (btnSlow) {
+            btnSlow.classList.remove('border-amber-500', 'bg-amber-500/20');
+        }
+
+        const sliderRpm = document.getElementById('slider-rpm');
+        const lblRpm = document.getElementById('lbl-rpm');
+        if (sliderRpm) sliderRpm.value = 1200;
+        if (lblRpm) lblRpm.textContent = '1200';
+
+        const sliderSpeed = document.getElementById('slider-speed');
+        const lblSpeed = document.getElementById('lbl-speed');
+        if (sliderSpeed) sliderSpeed.value = 1.0;
+        if (lblSpeed) lblSpeed.textContent = '1.0x';
+
+        const sliderOpacity = document.getElementById('slider-opacity');
+        if (sliderOpacity) sliderOpacity.value = 1.0;
+        cadApp.blockOpacity = 1.0;
+
+        if (!physics.isPlaying) togglePlay();
+
+        // 2. Reset All 2-Stroke & 4-Stroke Lab Geometry & Timing Parameters to Factory Defaults
+        resetEngineParams('2t');
+        resetEngineParams('4t');
+
+        // 3. Clear Any Active Fault Mode
+        setFaultMode('none');
+
+        // 4. Reset Engine Visibility Filter & View Mode to Default Side-by-Side Normal View
+        const selDisplay = document.getElementById('sel-engine-display');
+        if (selDisplay) selDisplay.value = 'both';
+        setEngineVisibility('both');
+        setViewMode('normal');
+        cadApp.resetCamera();
+    }
+
+    function scrubCrankAngle(val) {
+        if (physics.isPlaying) togglePlay();
+        physics.setAngle(parseFloat(val));
+    }
+
+    function setEngineRpm(val) {
+        physics.rpm = parseInt(val, 10);
+        document.getElementById('lbl-rpm').textContent = physics.rpm;
+        recomputeChartsData(physics);
+    }
+
+    function setSimSpeed(val) {
+        physics.simSpeed = parseFloat(val);
+        physics.slowMo = false;
+        document.getElementById('lbl-speed').textContent = physics.simSpeed.toFixed(1) + 'x';
+    }
+
+    function setBlockOpacity(val) {
+        cadApp.blockOpacity = parseFloat(val);
+        cadApp.applyViewMode(cadApp.viewMode);
+    }
+
+    function setEngineVisibility(val) {
+        cadApp.setEngineVisibility(val);
+        document.getElementById('hud-2t-card').classList.toggle('hidden', val === '4t');
+        document.getElementById('hud-4t-card').classList.toggle('hidden', val === '2t');
+    }
+
+    function setOverlay(type, forceVal = null) {
+        if (type === 'gas') cadApp.showGas = forceVal !== null ? forceVal : !cadApp.showGas;
+        if (type === 'labels') cadApp.showLabels = forceVal !== null ? forceVal : !cadApp.showLabels;
+        if (type === 'axes') {
+            cadApp.showAxes = forceVal !== null ? forceVal : !cadApp.showAxes;
+            cadApp.cadLinesGroup.visible = cadApp.showAxes;
+        }
+        if (type === 'strokeHud') {
+            cadApp.showStrokeHud = forceVal !== null ? forceVal : !cadApp.showStrokeHud;
+        }
+        updateOverlayButtons(cadApp);
+    }
+
+    function toggleOverlay(type) {
+        setOverlay(type);
+    }
+
+    function toggleCadTheme() {
+        const html = document.documentElement;
+        const isDark = !html.classList.contains('dark');
+        html.classList.toggle('dark', isDark);
+        document.getElementById('icon-sun').classList.toggle('hidden', !isDark);
+        document.getElementById('icon-moon').classList.toggle('hidden', isDark);
+        cadApp.setTheme(isDark);
+    }
+
+    function toggleCanvasFullscreen() {
+        const viewport = document.getElementById('cad-viewport');
+        const isNativeFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+        const isPureFs = document.body.classList.contains('canvas-pure-fullscreen');
+
+        if (!isNativeFs && !isPureFs) {
+            if (viewport.requestFullscreen) {
+                viewport.requestFullscreen().catch(() => {
+                    document.body.classList.add('canvas-pure-fullscreen');
+                    updateFullscreenBtnUI(true);
+                    cadApp.onResize();
+                });
+            } else if (viewport.webkitRequestFullscreen) {
+                viewport.webkitRequestFullscreen();
+            } else {
+                document.body.classList.add('canvas-pure-fullscreen');
+                updateFullscreenBtnUI(true);
+                cadApp.onResize();
+            }
+        } else {
+            if (isNativeFs) {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen().catch(() => {});
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                }
+            }
+            if (isPureFs) {
+                document.body.classList.remove('canvas-pure-fullscreen');
+                updateFullscreenBtnUI(false);
+                cadApp.onResize();
+            }
+        }
+    }
+
+    function updateFullscreenBtnUI(isFullscreen) {
+        const icon = document.getElementById('icon-canvas-fullscreen');
+        const txt = document.getElementById('txt-canvas-fullscreen');
+        if (icon) {
+            icon.className = isFullscreen ? 'fa-solid fa-compress text-amber-400' : 'fa-solid fa-expand text-sky-400';
+        }
+        if (txt) {
+            txt.textContent = isFullscreen ? 'Keluar Layar Penuh' : 'Layar Penuh';
+        }
+    }
+
+    ['fullscreenchange', 'webkitfullscreenchange'].forEach(evt => {
+        document.addEventListener(evt, () => {
+            const isFs = !!(document.fullscreenElement || document.webkitFullscreenElement || document.body.classList.contains('canvas-pure-fullscreen'));
+            updateFullscreenBtnUI(isFs);
+            setTimeout(() => cadApp.onResize(), 60);
+        });
+    });
+
     function updateEngineParam(eng, key, val) {
         const num = parseFloat(val);
-        const target = eng === '2t' ? physicsEngine.p2 : physicsEngine.p4;
-        target[key] = num;
-
-        if (key === 'bore' || key === 'stroke') {
-            // Bore/Stroke changes swept volume Vs; with fixed clearance volume Vc, Compression Ratio CR = (Vs + Vc) / Vc updates dynamically
-            const vsNew = (Math.PI / 4) * Math.pow(target.bore / 10, 2) * (target.stroke / 10);
-            const crNew = Math.max(4.5, Math.min(22.0, (vsNew + target.vc) / target.vc));
-            target.cr = Number(crNew.toFixed(1));
-            const crInput = document.getElementById(`inp-${eng}-cr`);
-            if (crInput) crInput.value = target.cr;
-        } else if (key === 'cr') {
-            // Adjusting Compression Ratio slider updates clearance volume Vc = Vs / (CR - 1)
-            const vsCur = (Math.PI / 4) * Math.pow(target.bore / 10, 2) * (target.stroke / 10);
-            target.vc = vsCur / Math.max(0.5, target.cr - 1.0);
-        }
-
         if (eng === '2t') {
-            document.getElementById('val-2t-bore').textContent = `${target.bore} mm`;
-            document.getElementById('val-2t-stroke').textContent = `${target.stroke} mm`;
-            document.getElementById('val-2t-rod').textContent = `${target.rod} mm`;
-            document.getElementById('val-2t-cr').textContent = `${target.cr.toFixed(1)} : 1`;
-            document.getElementById('val-2t-exdur').textContent = `${target.exDur}° CA`;
-            document.getElementById('val-2t-trdur').textContent = `${target.trDur}° CA`;
-
-            const cc = (Math.PI / 4) * Math.pow(target.bore / 10, 2) * (target.stroke / 10);
-            document.getElementById('calc-2t-cc').textContent = `${cc.toFixed(1)} cc`;
-            document.getElementById('calc-2t-vc').textContent = `${target.vc.toFixed(1)} cc`;
+            physics.p2[key] = num;
+            const swept2 = (Math.PI / 4) * Math.pow(physics.p2.bore / 10, 2) * (physics.p2.stroke / 10);
+            if (key === 'cr') {
+                // User manually adjusted Compression Ratio -> recompute clearance volume Vc
+                physics.p2.vc = swept2 / Math.max(1.5, num - 1.0);
+            } else if (key === 'bore' || key === 'stroke') {
+                // Bore or Stroke changed -> swept volume changed while clearance volume stays physically constant -> recompute Compression Ratio!
+                physics.p2.cr = Math.max(4.5, Math.min(18.0, (swept2 + physics.p2.vc) / physics.p2.vc));
+                const crSlider2 = document.getElementById('inp-2t-cr');
+                if (crSlider2) crSlider2.value = physics.p2.cr.toFixed(1);
+            }
+            document.getElementById('val-2t-bore').textContent = physics.p2.bore + ' mm';
+            document.getElementById('val-2t-stroke').textContent = physics.p2.stroke + ' mm';
+            document.getElementById('val-2t-rod').textContent = physics.p2.rod + ' mm';
+            document.getElementById('val-2t-cr').textContent = physics.p2.cr.toFixed(1) + ' : 1';
+            document.getElementById('val-2t-exdur').textContent = physics.p2.exDur + '° CA';
+            document.getElementById('val-2t-trdur').textContent = physics.p2.trDur + '° CA';
+            document.getElementById('calc-2t-cc').textContent = swept2.toFixed(1) + ' cc';
+            document.getElementById('calc-2t-vc').textContent = physics.p2.vc.toFixed(1) + ' cc';
         } else {
-            document.getElementById('val-4t-bore').textContent = `${target.bore} mm`;
-            document.getElementById('val-4t-stroke').textContent = `${target.stroke} mm`;
-            document.getElementById('val-4t-rod').textContent = `${target.rod} mm`;
-            document.getElementById('val-4t-cr').textContent = `${target.cr.toFixed(1)} : 1`;
-            document.getElementById('val-4t-lift').textContent = `${target.lift.toFixed(1)} mm`;
-            document.getElementById('val-4t-vdur').textContent = `${target.vDur}° / ${target.vDur}°`;
-            document.getElementById('val-4t-vtim').textContent = `${target.vTim > 0 ? '+' : ''}${target.vTim}° CA`;
-
-            const cc = (Math.PI / 4) * Math.pow(target.bore / 10, 2) * (target.stroke / 10);
-            document.getElementById('calc-4t-cc').textContent = `${cc.toFixed(1)} cc`;
-            document.getElementById('calc-4t-vc').textContent = `${target.vc.toFixed(1)} cc`;
+            physics.p4[key] = num;
+            const swept4 = (Math.PI / 4) * Math.pow(physics.p4.bore / 10, 2) * (physics.p4.stroke / 10);
+            if (key === 'cr') {
+                // User manually adjusted Compression Ratio -> recompute clearance volume Vc
+                physics.p4.vc = swept4 / Math.max(1.5, num - 1.0);
+            } else if (key === 'bore' || key === 'stroke') {
+                // Bore or Stroke changed -> swept volume changed while clearance volume stays physically constant -> recompute Compression Ratio!
+                physics.p4.cr = Math.max(5.5, Math.min(22.0, (swept4 + physics.p4.vc) / physics.p4.vc));
+                const crSlider4 = document.getElementById('inp-4t-cr');
+                if (crSlider4) crSlider4.value = physics.p4.cr.toFixed(1);
+            }
+            document.getElementById('val-4t-bore').textContent = physics.p4.bore + ' mm';
+            document.getElementById('val-4t-stroke').textContent = physics.p4.stroke + ' mm';
+            document.getElementById('val-4t-rod').textContent = physics.p4.rod + ' mm';
+            document.getElementById('val-4t-cr').textContent = physics.p4.cr.toFixed(1) + ' : 1';
+            document.getElementById('val-4t-lift').textContent = physics.p4.lift.toFixed(1) + ' mm';
+            document.getElementById('val-4t-vdur').textContent = `${physics.p4.vDur}° / ${physics.p4.vDur}°`;
+            document.getElementById('val-4t-vtim').textContent = (physics.p4.vTim >= 0 ? '+' : '') + physics.p4.vTim + '° CA';
+            document.getElementById('calc-4t-cc').textContent = swept4.toFixed(1) + ' cc';
+            document.getElementById('calc-4t-vc').textContent = physics.p4.vc.toFixed(1) + ' cc';
         }
-
-        physicsEngine.computeState();
-        refreshChartsData(physicsEngine);
+        physics.computeState();
+        recomputeChartsData(physics);
     }
 
     function resetEngineParams(eng) {
-        const sweptStd = (Math.PI / 4) * Math.pow(54 / 10, 2) * (54 / 10);
         if (eng === '2t') {
-            physicsEngine.p2 = { bore: 54, stroke: 54, rod: 105, cr: 7.5, vc: sweptStd / (7.5 - 1), exDur: 170, trDur: 124 };
+            const sweptInit2 = (Math.PI / 4) * Math.pow(54 / 10, 2) * (54 / 10);
+            physics.p2 = { bore: 54, stroke: 54, rod: 105, cr: 7.5, vc: sweptInit2 / 6.5, exDur: 170, trDur: 124 };
             document.getElementById('inp-2t-bore').value = 54;
             document.getElementById('inp-2t-stroke').value = 54;
             document.getElementById('inp-2t-rod').value = 105;
             document.getElementById('inp-2t-cr').value = 7.5;
             document.getElementById('inp-2t-exdur').value = 170;
             document.getElementById('inp-2t-trdur').value = 124;
-            updateEngineParam('2t', 'bore', 54);
+            updateEngineParam('2t', 'cr', 7.5);
         } else {
-            physicsEngine.p4 = { bore: 54, stroke: 54, rod: 105, cr: 10.5, vc: sweptStd / (10.5 - 1), lift: 8.5, vDur: 220, vTim: 0 };
+            const sweptInit4 = (Math.PI / 4) * Math.pow(54 / 10, 2) * (54 / 10);
+            physics.p4 = { bore: 54, stroke: 54, rod: 105, cr: 10.5, vc: sweptInit4 / 9.5, lift: 8.5, vDur: 220, vTim: 0 };
             document.getElementById('inp-4t-bore').value = 54;
             document.getElementById('inp-4t-stroke').value = 54;
             document.getElementById('inp-4t-rod').value = 105;
@@ -4038,117 +4088,98 @@
             document.getElementById('inp-4t-lift').value = 8.5;
             document.getElementById('inp-4t-vdur').value = 220;
             document.getElementById('inp-4t-vtim').value = 0;
-            updateEngineParam('4t', 'bore', 54);
+            updateEngineParam('4t', 'cr', 10.5);
         }
     }
 
-    // Component Inspector
-    function openComponentInspector(partKey) {
-        currentInspPart = COMPONENT_DB[partKey];
-        if (!currentInspPart) return;
-        document.getElementById('insp-engine-tag').textContent = currentInspPart.engine;
-        document.getElementById('insp-title').textContent = currentInspPart.title;
-        document.getElementById('panel-inspector').classList.remove('hidden');
-        setInspectorTab(currentInspTab);
-    }
+    function syncHudAndTelemetry() {
+        const s2 = physics.state2T;
+        const s4 = physics.state4T;
 
-    function closeInspector() {
-        document.getElementById('panel-inspector').classList.add('hidden');
-    }
+        document.getElementById('slider-crank-angle').value = Math.round(physics.masterAngleDeg);
+        document.getElementById('lbl-crank-angle').textContent = Math.round(physics.masterAngleDeg) + '°';
 
-    function setInspectorTab(tab) {
-        currentInspTab = tab;
-        document.querySelectorAll('.insp-tab-btn').forEach(btn => {
-            const active = btn.dataset.tab === tab;
-            btn.className = active
-                ? 'insp-tab-btn active py-2 text-sky-400 border-b-2 border-sky-400'
-                : 'insp-tab-btn py-2 text-slate-400 hover:text-slate-200';
-        });
-        if (!currentInspPart) return;
+        document.getElementById('badge-2t-angle').textContent = s2.ang.toFixed(0) + '°';
+        document.getElementById('badge-2t-stroke').textContent = s2.phase;
+        document.getElementById('hdr-2t-phase').textContent = s2.phase.split(': ')[1] || s2.phase;
 
-        const titles = {
-            ident: 'Identifikasi & Material Komponen',
-            work: 'Prinsip & Cara Kerja Mekanis',
-            comp: 'Perbandingan Teknis 2 Tak vs 4 Tak',
-            fact: 'Fakta Rekayasa Otomotif'
+        const setPill = (id, open, label) => {
+            const el = document.getElementById(id);
+            el.textContent = `${label}: ${open ? 'BUKA' : 'TUTUP'}`;
+            el.className = open
+                ? 'px-1 py-0.5 rounded bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 font-bold'
+                : 'px-1 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700';
         };
-        document.getElementById('insp-content').innerHTML = `
-            <div class="p-2.5 rounded-xl bg-slate-800/70 border border-slate-700">
-                <div class="text-[10px] font-mono uppercase text-sky-400 font-bold mb-1">${titles[tab]}</div>
-                <p class="text-slate-200">${currentInspPart[tab]}</p>
-            </div>
-            <div class="text-[10px] text-slate-400 flex items-center gap-1.5">
-                <i class="fa-solid fa-computer-mouse text-sky-400"></i>
-                Klik komponen 3D lain untuk menginspeksi, atau klik ganda untuk fokus kamera.
-            </div>
-        `;
-    }
+        setPill('port-2t-in', s2.reedOpenFrac > 0.08, 'INT');
+        setPill('port-2t-tr', s2.trOpenFrac > 0.08, 'TRANS');
+        setPill('port-2t-ex', s2.exOpenFrac > 0.08, 'EXH');
 
-    // Populate Drawer Lists
-    function populateDrawerLists() {
-        const expContainer = document.getElementById('experiments-list');
-        expContainer.innerHTML = EXPERIMENTS_DATA.map((exp, idx) => `
-            <div class="p-2.5 rounded-xl bg-slate-800/70 hover:bg-slate-800 border border-slate-700 transition">
-                <div class="font-bold text-slate-100 text-xs">${exp.title}</div>
-                <p class="text-[11px] text-slate-400 mt-1">${exp.desc}</p>
-                <button onclick="runExperiment(${idx})" class="mt-2 px-2.5 py-1 rounded-md bg-emerald-600/20 hover:bg-emerald-600/40 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold transition">
-                    <i class="fa-solid fa-play mr-1"></i>Jalankan Skenario CAD
-                </button>
-            </div>
-        `).join('');
+        document.getElementById('badge-4t-angle').textContent = s4.ang.toFixed(0) + '°';
+        document.getElementById('badge-4t-stroke').textContent = s4.phase;
+        document.getElementById('hdr-4t-phase').textContent = s4.phase;
+        setPill('valve-4t-in', s4.inOpenFrac > 0.08, 'IN');
+        setPill('valve-4t-ex', s4.exOpenFrac > 0.08, 'EX');
+        document.getElementById('cam-4t-rpm').textContent = `CAM ${s4.camAngleDeg.toFixed(0)}°`;
 
-        const faultContainer = document.getElementById('faults-list');
-        faultContainer.innerHTML = FAULTS_DATA.map(f => `
-            <div onclick="setFaultMode('${f.id}')" class="fault-card cursor-pointer p-2.5 rounded-xl bg-slate-800/70 hover:bg-slate-800 border ${f.id === 'none' ? 'border-emerald-500/50' : 'border-slate-700'} transition" data-fault="${f.id}">
-                <div class="font-bold text-xs ${f.id === 'none' ? 'text-emerald-400' : 'text-rose-300'}">${f.title}</div>
-                <p class="text-[11px] text-slate-400 mt-1">${f.desc}</p>
-            </div>
-        `).join('');
+        if (!document.getElementById('panel-telemetry').classList.contains('hidden')) {
+            document.getElementById('tel-2t-cycle').textContent = s2.gasState.toUpperCase();
+            document.getElementById('tel-2t-rpm').textContent = `${physics.rpm} RPM`;
+            document.getElementById('tel-2t-ang').textContent = `${s2.ang.toFixed(1)}°`;
+            document.getElementById('tel-2t-pos').textContent = `${s2.dispFromTDC.toFixed(2)} mm`;
+            document.getElementById('tel-2t-vel').textContent = `${s2.vel.toFixed(2)} m/s`;
+            document.getElementById('tel-2t-acc').textContent = `${Math.round(s2.acc)} m/s²`;
+            document.getElementById('tel-2t-rod').textContent = `${s2.betaDeg.toFixed(1)}°`;
+            document.getElementById('tel-2t-trq').textContent = `${s2.torque.toFixed(1)} Nm`;
+            document.getElementById('tel-2t-pwr').textContent = `${s2.powerKw.toFixed(2)} kW`;
 
-        const tbody = document.getElementById('comparison-table-body');
-        tbody.innerHTML = COMPARISON_ROWS.map(r => `
-            <tr class="hover:bg-slate-800/40">
-                <td class="p-2 font-semibold text-slate-200 align-top">${r.param}</td>
-                <td class="p-2 text-amber-200/90 align-top">${r.t2}</td>
-                <td class="p-2 text-sky-200/90 align-top">${r.t4}</td>
-            </tr>
-        `).join('');
-    }
+            document.getElementById('tel-2t-p-in').textContent = `INT: ${s2.reedOpenFrac > 0.08 ? 'OPEN' : 'SHUT'}`;
+            document.getElementById('tel-2t-p-tr').textContent = `TR: ${s2.trOpenFrac > 0.08 ? 'OPEN' : 'SHUT'}`;
+            document.getElementById('tel-2t-p-ex').textContent = `EX: ${s2.exOpenFrac > 0.08 ? 'OPEN' : 'SHUT'}`;
 
-    function runExperiment(idx) {
-        EXPERIMENTS_DATA[idx].action();
-        if (window.innerWidth < 640) togglePanel('drawer', false);
-    }
-
-    function setFaultMode(faultId) {
-        physicsEngine.faultMode = faultId;
-        physicsEngine.computeState();
-
-        const banner = document.getElementById('fault-alert-banner');
-        const fObj = FAULTS_DATA.find(x => x.id === faultId);
-        if (faultId === 'none' || !fObj) {
-            banner.classList.add('hidden');
-        } else {
-            document.getElementById('fault-alert-title').textContent = fObj.title;
-            document.getElementById('fault-alert-desc').textContent = fObj.desc;
-            banner.classList.remove('hidden');
+            document.getElementById('tel-4t-cycle').textContent = s4.gasState.toUpperCase();
+            document.getElementById('tel-4t-rpm').textContent = `${physics.rpm} / ${Math.round(s4.camRpm)}`;
+            document.getElementById('tel-4t-ang').textContent = `${s4.ang.toFixed(1)}°`;
+            document.getElementById('tel-4t-pos').textContent = `${s4.dispFromTDC.toFixed(2)} mm`;
+            document.getElementById('tel-4t-vel').textContent = `${s4.vel.toFixed(2)} m/s`;
+            document.getElementById('tel-4t-acc').textContent = `${Math.round(s4.acc)} m/s²`;
+            document.getElementById('tel-4t-rod').textContent = `${s4.betaDeg.toFixed(1)}°`;
+            document.getElementById('tel-4t-inl').textContent = `${s4.inValveLift.toFixed(2)} mm`;
+            document.getElementById('tel-4t-exl').textContent = `${s4.exValveLift.toFixed(2)} mm`;
+            document.getElementById('tel-4t-trq').textContent = `${s4.torque.toFixed(1)} Nm`;
+            document.getElementById('tel-4t-pwr').textContent = `${s4.powerKw.toFixed(2)} kW`;
         }
-
-        document.querySelectorAll('.fault-card').forEach(el => {
-            const active = el.dataset.fault === faultId;
-            el.classList.toggle('ring-2', active);
-            el.classList.toggle('ring-rose-500', active && faultId !== 'none');
-            el.classList.toggle('ring-emerald-500', active && faultId === 'none');
-        });
     }
 
-    function toggleCadTheme() {
-        const html = document.documentElement;
-        const isDark = html.classList.toggle('dark');
-        document.getElementById('icon-sun').classList.toggle('hidden', !isDark);
-        document.getElementById('icon-moon').classList.toggle('hidden', isDark);
-        cadApp.setTheme(isDark);
+    // Dynamic Viewport Height Synchronization (Fixes mobile browser address-bar clipping of bottom footer dock)
+    function syncViewportHeight() {
+        const h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+        document.documentElement.style.setProperty('--app-height', `${h}px`);
+        if (typeof cadApp !== 'undefined' && cadApp && cadApp.onResize) {
+            cadApp.onResize();
+        }
     }
+    window.addEventListener('resize', syncViewportHeight);
+    window.addEventListener('orientationchange', syncViewportHeight);
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', syncViewportHeight);
+    }
+
+    // Main Render & Physics Loop
+    populateDrawerLists();
+    updateOverlayButtons(cadApp);
+    syncViewportHeight();
+
+    let lastTime = performance.now();
+    function animate(now) {
+        requestAnimationFrame(animate);
+        const dt = Math.min(0.05, (now - lastTime) / 1000.0);
+        lastTime = now;
+
+        physics.step(dt);
+        cadApp.update();
+        syncHudAndTelemetry();
+    }
+    requestAnimationFrame(animate);
     </script>
 </body>
 </html>
