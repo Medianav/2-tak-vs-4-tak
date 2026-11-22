@@ -3447,62 +3447,80 @@
                     m.opacity = 0.30;
                     m.depthWrite = false;
                 });
-                this.controls.target.set(0, 5.8, 0);
-            } else if (mode === 'sidebyside') {
-                this.setEngineVisibility('both');
-                this.resetCamera();
             }
         }
 
         setEngineVisibility(val) {
             this.engineVisibility = val;
-            const sep = this.getSideBySideOffset();
-            if (val === 'both') {
-                this.meshes2T.root.visible = true;
-                this.meshes4T.root.visible = true;
-                this.meshes2T.root.position.x = -sep;
-                this.meshes4T.root.position.x = sep;
-                if (this.cadGuides2T) { this.cadGuides2T.grp.visible = this.showAxes; this.cadGuides2T.grp.position.x = -sep; }
-                if (this.cadGuides4T) { this.cadGuides4T.grp.visible = this.showAxes; this.cadGuides4T.grp.position.x = sep; }
-                document.getElementById('hud-2t-card').classList.remove('hidden');
-                document.getElementById('hud-4t-card').classList.remove('hidden');
-            } else if (val === '2t') {
-                this.meshes2T.root.visible = true;
-                this.meshes4T.root.visible = false;
-                this.meshes2T.root.position.x = 0;
-                if (this.cadGuides2T) { this.cadGuides2T.grp.visible = this.showAxes; this.cadGuides2T.grp.position.x = 0; }
-                if (this.cadGuides4T) { this.cadGuides4T.grp.visible = false; }
-                document.getElementById('hud-2t-card').classList.remove('hidden');
-                document.getElementById('hud-4t-card').classList.add('hidden');
-            } else if (val === '4t') {
-                this.meshes2T.root.visible = false;
-                this.meshes4T.root.visible = true;
-                this.meshes4T.root.position.x = 0;
-                if (this.cadGuides2T) { this.cadGuides2T.grp.visible = false; }
-                if (this.cadGuides4T) { this.cadGuides4T.grp.visible = this.showAxes; this.cadGuides4T.grp.position.x = 0; }
-                document.getElementById('hud-2t-card').classList.add('hidden');
-                document.getElementById('hud-4t-card').classList.remove('hidden');
+            const show2 = (val === 'both' || val === '2t');
+            const show4 = (val === 'both' || val === '4t');
+            const sideOffset = this.getSideBySideOffset();
+
+            this.meshes2T.root.visible = show2;
+            this.meshes4T.root.visible = show4;
+
+            if (this.cadGuides2T && this.cadGuides4T) {
+                this.cadGuides2T.grp.visible = show2 && this.showAxes;
+                this.cadGuides4T.grp.visible = show4 && this.showAxes;
             }
-            this.updateFloatingLabels();
+
+            const targetX2 = (val === '2t') ? 0 : -sideOffset;
+            const targetX4 = (val === '4t') ? 0 : sideOffset;
+
+            this.meshes2T.root.position.x = targetX2;
+            this.meshes4T.root.position.x = targetX4;
+
+            if (this.cadGuides2T) this.cadGuides2T.grp.position.x = targetX2;
+            if (this.cadGuides4T) this.cadGuides4T.grp.position.x = targetX4;
+
+            const card2 = document.getElementById('hud-2t-card');
+            const card4 = document.getElementById('hud-4t-card');
+            if (card2 && card4) {
+                card2.classList.toggle('hidden', !show2);
+                card4.classList.toggle('hidden', !show4);
+                if (val === 'both') {
+                    card2.className = card2.className.replace(/\bw-full\b/g, 'w-[48.5%]');
+                    card4.className = card4.className.replace(/\bw-full\b/g, 'w-[48.5%]');
+                } else {
+                    card2.className = card2.className.replace(/w-\[48\.5%\]/g, 'w-full');
+                    card4.className = card4.className.replace(/w-\[48\.5%\]/g, 'w-full');
+                }
+            }
+        }
+
+        setBlockOpacity(val) {
+            this.blockOpacity = parseFloat(val);
+            this.blockMaterials.forEach(m => {
+                m.transparent = this.blockOpacity < 0.99;
+                m.opacity = this.blockOpacity;
+                m.depthWrite = this.blockOpacity >= 0.99;
+            });
         }
 
         setTheme(isDark) {
             this.isDark = isDark;
-            if (isDark) {
-                this.scene.background.setHex(0x090d16);
-                this.scene.fog.color.setHex(0x090d16);
-                this.gridHelper.material.color.setHex(0x334155);
-            } else {
-                this.scene.background.setHex(0xe2e8f0);
-                this.scene.fog.color.setHex(0xe2e8f0);
-                this.gridHelper.material.color.setHex(0x94a3b8);
+            const bgHex = isDark ? 0x090d16 : 0xf1f5f9;
+            this.scene.background.setHex(bgHex);
+            this.scene.fog.color.setHex(bgHex);
+
+            if (this.gridHelper) {
+                this.scene.remove(this.gridHelper);
+                this.gridHelper.geometry.dispose();
+                this.gridHelper.material.dispose();
             }
-            this.updateFloatingLabels();
+            const gridCenterColor = isDark ? 0x334155 : 0x94a3b8;
+            const gridLineColor = isDark ? 0x1e293b : 0xcbd5e1;
+            this.gridHelper = new THREE.GridHelper(36, 36, gridCenterColor, gridLineColor);
+            this.gridHelper.position.y = -3.2;
+            this.gridHelper.material.transparent = true;
+            this.gridHelper.material.opacity = isDark ? 0.92 : 0.85;
+            this.gridHelper.renderOrder = -1;
+            this.scene.add(this.gridHelper);
         }
 
         resetCamera() {
             const w = this.container.clientWidth || window.innerWidth;
-            const h = this.container.clientHeight || (window.innerHeight - 140);
+            const h = this.container.clientHeight || window.innerHeight;
             const camZ = this.getOptimalCameraDistance(w, h);
             this.camera.position.set(0, 5.2, camZ);
             this.controls.target.set(0, 3.2, 0);
@@ -3510,239 +3528,414 @@
         }
 
         onResize() {
-            if (!this.container) return;
-            const w = this.container.clientWidth;
-            const h = this.container.clientHeight;
-            if (w <= 0 || h <= 0) return;
-
-            if (this.engineVisibility === 'both') {
-                const sep = this.getSideBySideOffset(w, h);
-                if (this.meshes2T.root) this.meshes2T.root.position.x = -sep;
-                if (this.meshes4T.root) this.meshes4T.root.position.x = sep;
-                if (this.cadGuides2T) this.cadGuides2T.grp.position.x = -sep;
-                if (this.cadGuides4T) this.cadGuides4T.grp.position.x = sep;
-            }
-
-            this.camera.aspect = w / h;
+            const w = this.container.clientWidth || window.innerWidth;
+            const h = this.container.clientHeight || (window.innerHeight - 140);
+            this.camera.aspect = w / Math.max(1, h);
             this.camera.updateProjectionMatrix();
             this.renderer.setSize(w, h);
+
+            if (this.meshes2T.root && this.meshes4T.root) {
+                this.setEngineVisibility(this.engineVisibility);
+            }
         }
     }
 
     /**
      * =========================================================================
-     * MODULE 4: REAL-TIME TELEMETRY CHARTS & UI CONTROLLER
+     * MODULE 4: REAL-TIME TELEMETRY CHARTS & HUD UPDATER
+     * =========================================================================
+     */
+    class TelemetryManager {
+        constructor(physics) {
+            this.physics = physics;
+            this.charts = {};
+            this.initCharts();
+        }
+
+        initCharts() {
+            const commonOpts = {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: false,
+                plugins: {
+                    legend: { labels: { color: '#94a3b8', font: { size: 9 }, boxWidth: 10 } }
+                },
+                scales: {
+                    x: { ticks: { color: '#64748b', font: { size: 8 }, maxTicksLimit: 7 }, grid: { color: 'rgba(51,65,85,0.3)' } },
+                    y: { ticks: { color: '#64748b', font: { size: 8 } }, grid: { color: 'rgba(51,65,85,0.3)' } }
+                }
+            };
+
+            const angles = Array.from({ length: 73 }, (_, i) => i * 10);
+
+            this.charts.pos = new Chart(document.getElementById('chart-piston-pos'), {
+                type: 'line',
+                data: {
+                    labels: angles,
+                    datasets: [
+                        { label: '2-Tak (mm)', data: [], borderColor: '#f59e0b', borderWidth: 1.5, pointRadius: 0 },
+                        { label: '4-Tak (mm)', data: [], borderColor: '#38bdf8', borderWidth: 1.5, pointRadius: 0 },
+                        { label: 'Posisi Aktif', data: [], borderColor: '#f43f5e', backgroundColor: '#f43f5e', pointRadius: 4, showLine: false }
+                    ]
+                },
+                options: commonOpts
+            });
+
+            this.charts.vel = new Chart(document.getElementById('chart-piston-vel'), {
+                type: 'line',
+                data: {
+                    labels: angles,
+                    datasets: [
+                        { label: 'Vel 2T (m/s)', data: [], borderColor: '#f59e0b', borderWidth: 1.5, pointRadius: 0 },
+                        { label: 'Vel 4T (m/s)', data: [], borderColor: '#10b981', borderWidth: 1.5, pointRadius: 0 }
+                    ]
+                },
+                options: commonOpts
+            });
+
+            this.charts.valve = new Chart(document.getElementById('chart-valve-lift'), {
+                type: 'line',
+                data: {
+                    labels: angles,
+                    datasets: [
+                        { label: '4T Intake Lift', data: [], borderColor: '#38bdf8', borderWidth: 1.5, pointRadius: 0 },
+                        { label: '4T Exhaust Lift', data: [], borderColor: '#f43f5e', borderWidth: 1.5, pointRadius: 0 },
+                        { label: '2T Transfer Open', data: [], borderColor: '#10b981', borderWidth: 1.2, borderDash: [3, 3], pointRadius: 0 }
+                    ]
+                },
+                options: commonOpts
+            });
+
+            this.charts.power = new Chart(document.getElementById('chart-power-freq'), {
+                type: 'bar',
+                data: {
+                    labels: ['0-180°', '180-360°', '360-540°', '540-720°'],
+                    datasets: [
+                        { label: '2-Tak Usaha (2x / 720°)', data: [1, 0, 1, 0], backgroundColor: 'rgba(245, 158, 11, 0.75)' },
+                        { label: '4-Tak Usaha (1x / 720°)', data: [0, 0, 1, 0], backgroundColor: 'rgba(56, 189, 248, 0.75)' }
+                    ]
+                },
+                options: {
+                    ...commonOpts,
+                    scales: {
+                        x: { ticks: { color: '#94a3b8', font: { size: 9 } }, grid: { display: false } },
+                        y: { min: 0, max: 1.2, ticks: { stepSize: 1, color: '#64748b', font: { size: 8 } }, grid: { color: 'rgba(51,65,85,0.3)' } }
+                    }
+                }
+            });
+
+            this.recomputeCurves();
+        }
+
+        recomputeCurves() {
+            const angles = Array.from({ length: 73 }, (_, i) => i * 10);
+            const pos2 = [], pos4 = [], vel2 = [], vel4 = [], inL = [], exL = [], tr2 = [];
+
+            const halfDur = this.physics.p4.vDur / 2.0;
+            const inCenter = (110 - this.physics.p4.vTim + 720) % 720;
+            const exCenter = (610 - this.physics.p4.vTim + 720) % 720;
+            const trOpen = 180 - this.physics.p2.trDur / 2;
+            const trClose = 180 + this.physics.p2.trDur / 2;
+
+            angles.forEach(deg => {
+                const sc2 = this.physics.calcSliderCrank(deg % 360, this.physics.p2.stroke, this.physics.p2.rod, this.physics.rpm);
+                const sc4 = this.physics.calcSliderCrank(deg % 360, this.physics.p4.stroke, this.physics.p4.rod, this.physics.rpm);
+                pos2.push(sc2.dispFromTDC.toFixed(2));
+                pos4.push(sc4.dispFromTDC.toFixed(2));
+                vel2.push(sc2.vel.toFixed(2));
+                vel4.push(sc4.vel.toFixed(2));
+
+                let dIn = Math.abs(deg - inCenter); if (dIn > 360) dIn = 720 - dIn;
+                inL.push(dIn <= halfDur ? (this.physics.p4.lift * Math.pow(Math.cos((dIn / halfDur) * Math.PI / 2), 1.6)).toFixed(2) : 0);
+
+                let dEx = Math.abs(deg - exCenter); if (dEx > 360) dEx = 720 - dEx;
+                exL.push(dEx <= halfDur ? (this.physics.p4.lift * Math.pow(Math.cos((dEx / halfDur) * Math.PI / 2), 1.6)).toFixed(2) : 0);
+
+                const a2 = deg % 360;
+                tr2.push((a2 >= trOpen && a2 <= trClose) ? (this.physics.p4.lift * 0.7 * Math.sin(((a2 - trOpen) / this.physics.p2.trDur) * Math.PI)).toFixed(2) : 0);
+            });
+
+            this.charts.pos.data.datasets[0].data = pos2;
+            this.charts.pos.data.datasets[1].data = pos4;
+            this.charts.vel.data.datasets[0].data = vel2;
+            this.charts.vel.data.datasets[1].data = vel4;
+            this.charts.valve.data.datasets[0].data = inL;
+            this.charts.valve.data.datasets[1].data = exL;
+            this.charts.valve.data.datasets[2].data = tr2;
+
+            this.charts.pos.update('none');
+            this.charts.vel.update('none');
+            this.charts.valve.update('none');
+        }
+
+        updateChartTheme(isDark) {
+            const tickColor = isDark ? '#94a3b8' : '#334155';
+            const subTickColor = isDark ? '#64748b' : '#475569';
+            const gridColor = isDark ? 'rgba(51,65,85,0.3)' : 'rgba(203,213,225,0.7)';
+
+            Object.values(this.charts).forEach(chart => {
+                if (!chart) return;
+                if (chart.options.plugins?.legend?.labels) {
+                    chart.options.plugins.legend.labels.color = tickColor;
+                }
+                if (chart.options.scales?.x) {
+                    chart.options.scales.x.ticks.color = subTickColor;
+                    if (chart.options.scales.x.grid) chart.options.scales.x.grid.color = gridColor;
+                }
+                if (chart.options.scales?.y) {
+                    chart.options.scales.y.ticks.color = subTickColor;
+                    if (chart.options.scales.y.grid) chart.options.scales.y.grid.color = gridColor;
+                }
+                chart.update('none');
+            });
+        }
+
+        updateHUD() {
+            const s2 = this.physics.state2T;
+            const s4 = this.physics.state4T;
+
+            // Header badges
+            document.getElementById('hdr-2t-phase').textContent = s2.phase.split(': ')[1] || s2.phase;
+            document.getElementById('hdr-4t-phase').textContent = s4.phase;
+
+            // Viewport HUD Cards
+            document.getElementById('badge-2t-angle').textContent = `${s2.ang.toFixed(0)}° / 360°`;
+            document.getElementById('badge-2t-stroke').textContent = s2.phase;
+            document.getElementById('badge-4t-angle').textContent = `${s4.ang.toFixed(0)}° / 720°`;
+            document.getElementById('badge-4t-stroke').textContent = s4.phase;
+
+            // 2-Stroke Port Badges
+            const setPortBadge = (id, label, isOpen, colorClass) => {
+                const el = document.getElementById(id);
+                el.textContent = `${label}: ${isOpen ? 'BUKA' : 'TUTUP'}`;
+                el.className = isOpen
+                    ? `px-1 py-0.5 rounded font-bold ${colorClass}`
+                    : 'px-1 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700';
+            };
+            setPortBadge('port-2t-in', 'INT', s2.reedOpenFrac > 0.1, 'bg-emerald-500/15 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/40');
+            setPortBadge('port-2t-tr', 'TRANS', s2.trOpenFrac > 0.08, 'bg-cyan-500/15 dark:bg-cyan-500/20 text-cyan-700 dark:text-cyan-300 border border-cyan-500/40');
+            setPortBadge('port-2t-ex', 'EXH', s2.exOpenFrac > 0.08, 'bg-rose-500/15 dark:bg-rose-500/20 text-rose-700 dark:text-rose-300 border border-rose-500/40');
+
+            // 4-Stroke Valve Badges
+            setPortBadge('valve-4t-in', 'IN', s4.inOpenFrac > 0.06, 'bg-sky-500/15 dark:bg-sky-500/20 text-sky-700 dark:text-sky-300 border border-sky-500/40');
+            setPortBadge('valve-4t-ex', 'EX', s4.exOpenFrac > 0.06, 'bg-rose-500/15 dark:bg-rose-500/20 text-rose-700 dark:text-rose-300 border border-rose-500/40');
+            document.getElementById('cam-4t-rpm').textContent = `CAM ${s4.camAngleDeg.toFixed(0)}°`;
+
+            // Bottom slider sync
+            document.getElementById('slider-crank-angle').value = Math.round(this.physics.masterAngleDeg);
+            document.getElementById('lbl-crank-angle').textContent = `${Math.round(this.physics.masterAngleDeg)}°`;
+
+            // Telemetry Numeric Panel (only update if visible)
+            if (!document.getElementById('panel-telemetry').classList.contains('hidden')) {
+                document.getElementById('tel-2t-cycle').textContent = s2.gasState.toUpperCase();
+                document.getElementById('tel-2t-rpm').textContent = `${this.physics.rpm} RPM`;
+                document.getElementById('tel-2t-ang').textContent = `${s2.ang.toFixed(1)}°`;
+                document.getElementById('tel-2t-pos').textContent = `${s2.dispFromTDC.toFixed(2)} mm`;
+                document.getElementById('tel-2t-vel').textContent = `${s2.vel.toFixed(2)} m/s`;
+                document.getElementById('tel-2t-acc').textContent = `${Math.round(s2.acc)} m/s²`;
+                document.getElementById('tel-2t-rod').textContent = `${s2.betaDeg.toFixed(1)}°`;
+                document.getElementById('tel-2t-trq').textContent = `${s2.torque.toFixed(1)} Nm`;
+                document.getElementById('tel-2t-pwr').textContent = `${s2.powerKw.toFixed(2)} kW`;
+
+                document.getElementById('tel-2t-p-in').textContent = `INT: ${s2.reedOpenFrac > 0.1 ? 'OPEN' : 'SHUT'}`;
+                document.getElementById('tel-2t-p-tr').textContent = `TR: ${s2.trOpenFrac > 0.08 ? 'OPEN' : 'SHUT'}`;
+                document.getElementById('tel-2t-p-ex').textContent = `EX: ${s2.exOpenFrac > 0.08 ? 'OPEN' : 'SHUT'}`;
+
+                document.getElementById('tel-4t-cycle').textContent = s4.gasState.toUpperCase();
+                document.getElementById('tel-4t-rpm').textContent = `${this.physics.rpm} / ${Math.round(s4.camRpm)}`;
+                document.getElementById('tel-4t-ang').textContent = `${s4.ang.toFixed(1)}°`;
+                document.getElementById('tel-4t-pos').textContent = `${s4.dispFromTDC.toFixed(2)} mm`;
+                document.getElementById('tel-4t-vel').textContent = `${s4.vel.toFixed(2)} m/s`;
+                document.getElementById('tel-4t-acc').textContent = `${Math.round(s4.acc)} m/s²`;
+                document.getElementById('tel-4t-rod').textContent = `${s4.betaDeg.toFixed(1)}°`;
+                document.getElementById('tel-4t-inl').textContent = `${s4.inValveLift.toFixed(2)} mm`;
+                document.getElementById('tel-4t-exl').textContent = `${s4.exValveLift.toFixed(2)} mm`;
+                document.getElementById('tel-4t-trq').textContent = `${s4.torque.toFixed(1)} Nm`;
+                document.getElementById('tel-4t-pwr').textContent = `${s4.powerKw.toFixed(2)} kW`;
+
+                // Update live active marker on Position Chart
+                if (!document.getElementById('telemetry-charts-body').classList.contains('hidden')) {
+                    const markerArr = new Array(73).fill(null);
+                    const idx = Math.round(s4.ang / 10) % 73;
+                    markerArr[idx] = s4.dispFromTDC.toFixed(2);
+                    this.charts.pos.data.datasets[2].data = markerArr;
+                    this.charts.pos.update('none');
+                }
+            }
+        }
+    }
+
+    /**
+     * =========================================================================
+     * MODULE 5: UI CONTROLLERS, DRAWER POPULATION & MAIN ANIMATION LOOP
      * =========================================================================
      */
     const physics = new EnginePhysicsEngine();
-    let cadApp = null;
-    let charts = {};
-    let currentInspPart = null;
-    let currentInspTab = 'ident';
-    let lastUiUpdate = 0;
+    const cadApp = new EngineCadVisualizer(document.getElementById('cad-viewport'), physics);
+    const telemetry = new TelemetryManager(physics);
 
-    function initCharts() {
-        const angles = [];
-        for (let a = 0; a <= 720; a += 15) angles.push(a);
+    let currentInspectorPart = null;
+    let currentInspectorTab = 'ident';
 
-        const commonOpts = {
-            responsive: true,
-            maintainAspectRatio: false,
-            animation: false,
-            plugins: {
-                legend: { labels: { color: '#94a3b8', font: { size: 9, family: 'JetBrains Mono' }, boxWidth: 10 } }
-            },
-            scales: {
-                x: { ticks: { color: '#64748b', font: { size: 8 }, maxTicksLimit: 9 }, grid: { color: 'rgba(100,116,139,0.15)' } },
-                y: { ticks: { color: '#64748b', font: { size: 8 } }, grid: { color: 'rgba(100,116,139,0.15)' } }
-            }
-        };
+    function populateStaticDrawers() {
+        const expContainer = document.getElementById('experiments-list');
+        expContainer.innerHTML = EXPERIMENTS_DATA.map(exp => `
+            <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-300 dark:border-slate-700 hover:border-emerald-500/60 transition flex flex-col gap-1.5">
+                <div class="font-bold text-slate-800 dark:text-slate-100 text-[11px]">${exp.title}</div>
+                <p class="text-[10px] text-slate-600 dark:text-slate-400 leading-snug">${exp.desc}</p>
+                <button onclick="runExperiment(${exp.id})" class="self-start mt-0.5 px-2.5 py-1 rounded-md bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-bold">
+                    <i class="fa-solid fa-play mr-1"></i>Jalankan Eksperimen
+                </button>
+            </div>
+        `).join('');
 
-        charts.pos = new Chart(document.getElementById('chart-piston-pos'), {
-            type: 'line',
-            data: {
-                labels: angles,
-                datasets: [
-                    { label: '2-Tak (mm)', data: [], borderColor: '#f59e0b', borderWidth: 1.8, pointRadius: 0, tension: 0.3 },
-                    { label: '4-Tak (mm)', data: [], borderColor: '#38bdf8', borderWidth: 1.8, borderDash: [4, 3], pointRadius: 0, tension: 0.3 }
-                ]
-            },
-            options: commonOpts
-        });
+        const faultContainer = document.getElementById('faults-list');
+        faultContainer.innerHTML = FAULTS_DATA.map(f => `
+            <button onclick="setFaultMode('${f.id}')" id="fault-btn-${f.id}" class="fault-item-btn w-full text-left p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/70 border ${f.id === 'none' ? 'border-emerald-500' : 'border-slate-300 dark:border-slate-700'} hover:border-rose-500/60 transition">
+                <div class="font-bold text-[11px] ${f.id === 'none' ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-800 dark:text-slate-100'}">${f.title}</div>
+                <div class="text-[10px] text-slate-600 dark:text-slate-400 mt-0.5 leading-snug">${f.desc}</div>
+            </button>
+        `).join('');
 
-        charts.vel = new Chart(document.getElementById('chart-piston-vel'), {
-            type: 'line',
-            data: {
-                labels: angles,
-                datasets: [
-                    { label: 'Kecepatan (m/s)', data: [], borderColor: '#10b981', borderWidth: 1.8, pointRadius: 0, tension: 0.3 },
-                    { label: 'Percepatan (x100 m/s²)', data: [], borderColor: '#a855f7', borderWidth: 1.4, pointRadius: 0, tension: 0.3 }
-                ]
-            },
-            options: commonOpts
-        });
-
-        charts.valve = new Chart(document.getElementById('chart-valve-lift'), {
-            type: 'line',
-            data: {
-                labels: angles,
-                datasets: [
-                    { label: '4T Intake Lift (mm)', data: [], borderColor: '#38bdf8', borderWidth: 1.8, pointRadius: 0, tension: 0.25 },
-                    { label: '4T Exhaust Lift (mm)', data: [], borderColor: '#f43f5e', borderWidth: 1.8, pointRadius: 0, tension: 0.25 },
-                    { label: '2T Transfer Open (x8)', data: [], borderColor: '#10b981', borderWidth: 1.4, borderDash: [3, 3], pointRadius: 0 }
-                ]
-            },
-            options: commonOpts
-        });
-
-        charts.power = new Chart(document.getElementById('chart-power-freq'), {
-            type: 'bar',
-            data: {
-                labels: ['0-180°', '180-360°', '360-540°', '540-720°'],
-                datasets: [
-                    { label: '2-Tak (2x Usaha / 720°)', data: [1, 0, 1, 0], backgroundColor: 'rgba(245, 158, 11, 0.75)' },
-                    { label: '4-Tak (1x Usaha / 720°)', data: [0, 0, 1, 0], backgroundColor: 'rgba(56, 189, 248, 0.75)' }
-                ]
-            },
-            options: {
-                ...commonOpts,
-                scales: {
-                    x: { ticks: { color: '#94a3b8', font: { size: 9 } }, grid: { display: false } },
-                    y: { min: 0, max: 1.2, ticks: { stepSize: 1, color: '#64748b', font: { size: 8 } }, grid: { color: 'rgba(100,116,139,0.15)' } }
-                }
-            }
-        });
-
-        recomputeChartCurves();
+        const tbody = document.getElementById('comparison-table-body');
+        tbody.innerHTML = COMPARISON_ROWS.map(r => `
+            <tr class="hover:bg-slate-100/80 dark:hover:bg-slate-800/40">
+                <td class="p-2 font-semibold text-slate-800 dark:text-slate-200">${r.param}</td>
+                <td class="p-2 text-amber-800 dark:text-amber-200/90">${r.t2}</td>
+                <td class="p-2 text-sky-800 dark:text-sky-200/90">${r.t4}</td>
+            </tr>
+        `).join('');
     }
 
-    function recomputeChartCurves() {
-        if (!charts.pos) return;
-        const angles = charts.pos.data.labels;
-        const pos2 = [], pos4 = [], vel4 = [], acc4 = [], inL = [], exL = [], tr2 = [];
-
-        const halfDur = physics.p4.vDur / 2.0;
-        const effTim = physics.p4.vTim + physics.physicsFaultOffset();
-        const inC = (110 - effTim + 720) % 720;
-        const exC = (610 - effTim + 720) % 720;
-        const trOpen = 180 - physics.p2.trDur / 2;
-        const trClose = 180 + physics.p2.trDur / 2;
-
-        angles.forEach(a => {
-            const sc2 = physics.calcSliderCrank(a % 360, physics.p2.stroke, physics.p2.rod, physics.rpm);
-            const sc4 = physics.calcSliderCrank(a % 360, physics.p4.stroke, physics.p4.rod, physics.rpm);
-            pos2.push(+sc2.dispFromTDC.toFixed(1));
-            pos4.push(+sc4.dispFromTDC.toFixed(1));
-            vel4.push(+sc4.vel.toFixed(2));
-            acc4.push(+(sc4.acc / 100).toFixed(2));
-
-            let dIn = Math.abs(a - inC); if (dIn > 360) dIn = 720 - dIn;
-            inL.push(dIn <= halfDur ? +(physics.p4.lift * Math.pow(Math.cos((dIn / halfDur) * Math.PI / 2), 1.6)).toFixed(2) : 0);
-
-            let dEx = Math.abs(a - exC); if (dEx > 360) dEx = 720 - dEx;
-            exL.push(dEx <= halfDur ? +(physics.p4.lift * Math.pow(Math.cos((dEx / halfDur) * Math.PI / 2), 1.6)).toFixed(2) : 0);
-
-            const a2 = a % 360;
-            tr2.push((a2 >= trOpen && a2 <= trClose) ? +(8 * Math.sin(((a2 - trOpen) / physics.p2.trDur) * Math.PI)).toFixed(2) : 0);
-        });
-
-        charts.pos.data.datasets[0].data = pos2;
-        charts.pos.data.datasets[1].data = pos4;
-        charts.pos.update();
-
-        charts.vel.data.datasets[0].data = vel4;
-        charts.vel.data.datasets[1].data = acc4;
-        charts.vel.update();
-
-        charts.valve.data.datasets[0].data = inL;
-        charts.valve.data.datasets[1].data = exL;
-        charts.valve.data.datasets[2].data = tr2;
-        charts.valve.update();
-    }
-
-    function updateTelemetryHUD(now) {
-        if (now - lastUiUpdate < 55) return;
-        lastUiUpdate = now;
-
-        const s2 = physics.state2T;
-        const s4 = physics.state4T;
-
-        document.getElementById('slider-crank-angle').value = Math.round(physics.masterAngleDeg);
-        document.getElementById('lbl-crank-angle').textContent = `${Math.round(physics.masterAngleDeg)}°`;
-
-        document.getElementById('badge-2t-angle').textContent = `${s2.ang.toFixed(0)}°`;
-        document.getElementById('badge-2t-stroke').textContent = s2.phase;
-        document.getElementById('hdr-2t-phase').textContent = s2.phase.replace('LANGKAH ', '');
-
-        const pIn = document.getElementById('port-2t-in');
-        const pTr = document.getElementById('port-2t-tr');
-        const pEx = document.getElementById('port-2t-ex');
-        pIn.textContent = s2.reedOpenFrac > 0.08 ? 'INT: BUKA' : 'INT: TUTUP';
-        pIn.className = s2.reedOpenFrac > 0.08 ? 'px-1 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'px-1 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700';
-
-        pTr.textContent = s2.trOpenFrac > 0.08 ? 'TRANS: BUKA' : 'TRANS: TUTUP';
-        pTr.className = s2.trOpenFrac > 0.08 ? 'px-1 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30' : 'px-1 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700';
-
-        pEx.textContent = s2.exOpenFrac > 0.08 ? 'EXH: BUKA' : 'EXH: TUTUP';
-        pEx.className = s2.exOpenFrac > 0.08 ? 'px-1 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30' : 'px-1 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700';
-
-        document.getElementById('badge-4t-angle').textContent = `${s4.ang.toFixed(0)}°`;
-        document.getElementById('badge-4t-stroke').textContent = s4.phase;
-        document.getElementById('hdr-4t-phase').textContent = s4.phase;
-
-        const vIn = document.getElementById('valve-4t-in');
-        const vEx = document.getElementById('valve-4t-ex');
-        vIn.textContent = s4.inValveLift > 0.3 ? `IN: ${s4.inValveLift.toFixed(1)}mm` : 'IN: TUTUP';
-        vIn.className = s4.inValveLift > 0.3 ? 'px-1 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30' : 'px-1 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700';
-
-        vEx.textContent = s4.exValveLift > 0.3 ? `EX: ${s4.exValveLift.toFixed(1)}mm` : 'EX: TUTUP';
-        vEx.className = s4.exValveLift > 0.3 ? 'px-1 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30' : 'px-1 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700';
-
-        if (!document.getElementById('panel-telemetry').classList.contains('hidden')) {
-            document.getElementById('tel-2t-rpm').textContent = `${physics.rpm} RPM`;
-            document.getElementById('tel-2t-ang').textContent = `${s2.ang.toFixed(1)}°`;
-            document.getElementById('tel-2t-pos').textContent = `${s2.dispFromTDC.toFixed(2)} mm`;
-            document.getElementById('tel-2t-vel').textContent = `${s2.vel.toFixed(2)} m/s`;
-            document.getElementById('tel-2t-acc').textContent = `${Math.round(s2.acc)} m/s²`;
-            document.getElementById('tel-2t-rod').textContent = `${s2.betaDeg.toFixed(1)}°`;
-            document.getElementById('tel-2t-trq').textContent = `${s2.torque.toFixed(1)} Nm`;
-            document.getElementById('tel-2t-pwr').textContent = `${s2.powerKw.toFixed(2)} kW`;
-
-            document.getElementById('tel-2t-p-in').textContent = `INT: ${s2.reedOpenFrac > 0.08 ? 'OPEN' : 'SHUT'}`;
-            document.getElementById('tel-2t-p-tr').textContent = `TR: ${s2.trOpenFrac > 0.08 ? 'OPEN' : 'SHUT'}`;
-            document.getElementById('tel-2t-p-ex').textContent = `EX: ${s2.exOpenFrac > 0.08 ? 'OPEN' : 'SHUT'}`;
-
-            document.getElementById('tel-4t-rpm').textContent = `${physics.rpm} / ${Math.round(s4.camRpm)}`;
-            document.getElementById('tel-4t-ang').textContent = `${s4.ang.toFixed(1)}°`;
-            document.getElementById('tel-4t-pos').textContent = `${s4.dispFromTDC.toFixed(2)} mm`;
-            document.getElementById('tel-4t-vel').textContent = `${s4.vel.toFixed(2)} m/s`;
-            document.getElementById('tel-4t-acc').textContent = `${Math.round(s4.acc)} m/s²`;
-            document.getElementById('tel-4t-rod').textContent = `${s4.betaDeg.toFixed(1)}°`;
-            document.getElementById('tel-4t-inl').textContent = `${s4.inValveLift.toFixed(2)} mm`;
-            document.getElementById('tel-4t-exl').textContent = `${s4.exValveLift.toFixed(2)} mm`;
-            document.getElementById('tel-4t-trq').textContent = `${s4.torque.toFixed(1)} Nm`;
-            document.getElementById('tel-4t-pwr').textContent = `${s4.powerKw.toFixed(2)} kW`;
+    function runExperiment(id) {
+        const exp = EXPERIMENTS_DATA.find(e => e.id === id);
+        if (exp && exp.action) {
+            setFaultMode('none');
+            exp.action();
+            telemetry.recomputeCurves();
+            if (window.innerWidth < 768) togglePanel('drawer', false);
         }
     }
 
-    /**
-     * =========================================================================
-     * UI EVENT HANDLERS & CONTROLS
-     * =========================================================================
-     */
+    function setFaultMode(faultId) {
+        physics.faultMode = faultId;
+        physics.computeState();
+
+        document.querySelectorAll('.fault-item-btn').forEach(btn => {
+            btn.classList.remove('border-rose-500', 'border-emerald-500', 'bg-rose-50', 'dark:bg-rose-950/30');
+            btn.classList.add('border-slate-300', 'dark:border-slate-700');
+        });
+        const activeBtn = document.getElementById(`fault-btn-${faultId}`);
+        if (activeBtn) {
+            activeBtn.classList.remove('border-slate-300', 'dark:border-slate-700');
+            activeBtn.classList.add(faultId === 'none' ? 'border-emerald-500' : 'border-rose-500');
+            if (faultId !== 'none') activeBtn.classList.add('bg-rose-50', 'dark:bg-rose-950/30');
+        }
+
+        const banner = document.getElementById('fault-alert-banner');
+        if (faultId === 'none') {
+            banner.classList.add('hidden');
+        } else {
+            const fObj = FAULTS_DATA.find(x => x.id === faultId);
+            document.getElementById('fault-alert-title').textContent = fObj.title;
+            document.getElementById('fault-alert-desc').textContent = fObj.desc;
+            banner.classList.remove('hidden');
+        }
+    }
+
+    function updateEngineParam(eng, param, val) {
+        const num = parseFloat(val);
+        if (eng === '2t') {
+            physics.p2[param] = num;
+            if (param === 'bore' || param === 'stroke') {
+                const swept = (Math.PI / 4) * Math.pow(physics.p2.bore / 10, 2) * (physics.p2.stroke / 10);
+                const newCr = Math.min(20.0, Math.max(3.5, 1 + swept / physics.p2.vc));
+                physics.p2.cr = parseFloat(newCr.toFixed(1));
+                const crSlider = document.getElementById('inp-2t-cr');
+                if (crSlider) crSlider.value = physics.p2.cr;
+            } else if (param === 'cr') {
+                const swept = (Math.PI / 4) * Math.pow(physics.p2.bore / 10, 2) * (physics.p2.stroke / 10);
+                physics.p2.vc = swept / (num - 1);
+            }
+            document.getElementById('val-2t-bore').textContent = `${physics.p2.bore} mm`;
+            document.getElementById('val-2t-stroke').textContent = `${physics.p2.stroke} mm`;
+            document.getElementById('val-2t-rod').textContent = `${physics.p2.rod} mm`;
+            document.getElementById('val-2t-cr').textContent = `${physics.p2.cr.toFixed(1)} : 1`;
+            document.getElementById('val-2t-exdur').textContent = `${physics.p2.exDur}° CA`;
+            document.getElementById('val-2t-trdur').textContent = `${physics.p2.trDur}° CA`;
+
+            const cc = (Math.PI / 4) * Math.pow(physics.p2.bore / 10, 2) * (physics.p2.stroke / 10);
+            const vc = cc / (physics.p2.cr - 1);
+            document.getElementById('calc-2t-cc').textContent = `${cc.toFixed(1)} cc`;
+            document.getElementById('calc-2t-vc').textContent = `${vc.toFixed(1)} cc`;
+        } else {
+            physics.p4[param] = num;
+            if (param === 'bore' || param === 'stroke') {
+                const swept = (Math.PI / 4) * Math.pow(physics.p4.bore / 10, 2) * (physics.p4.stroke / 10);
+                const newCr = Math.min(26.0, Math.max(4.5, 1 + swept / physics.p4.vc));
+                physics.p4.cr = parseFloat(newCr.toFixed(1));
+                const crSlider = document.getElementById('inp-4t-cr');
+                if (crSlider) crSlider.value = physics.p4.cr;
+            } else if (param === 'cr') {
+                const swept = (Math.PI / 4) * Math.pow(physics.p4.bore / 10, 2) * (physics.p4.stroke / 10);
+                physics.p4.vc = swept / (num - 1);
+            }
+            document.getElementById('val-4t-bore').textContent = `${physics.p4.bore} mm`;
+            document.getElementById('val-4t-stroke').textContent = `${physics.p4.stroke} mm`;
+            document.getElementById('val-4t-rod').textContent = `${physics.p4.rod} mm`;
+            document.getElementById('val-4t-cr').textContent = `${physics.p4.cr.toFixed(1)} : 1`;
+            document.getElementById('val-4t-lift').textContent = `${physics.p4.lift.toFixed(1)} mm`;
+            document.getElementById('val-4t-vdur').textContent = `${physics.p4.vDur}° / ${physics.p4.vDur}°`;
+            document.getElementById('val-4t-vtim').textContent = `${physics.p4.vTim}° CA`;
+
+            const cc = (Math.PI / 4) * Math.pow(physics.p4.bore / 10, 2) * (physics.p4.stroke / 10);
+            const vc = cc / (physics.p4.cr - 1);
+            document.getElementById('calc-4t-cc').textContent = `${cc.toFixed(1)} cc`;
+            document.getElementById('calc-4t-vc').textContent = `${vc.toFixed(1)} cc`;
+        }
+        physics.computeState();
+        telemetry.recomputeCurves();
+    }
+
+    function resetEngineParams(eng) {
+        if (eng === '2t') {
+            const sweptInit2 = (Math.PI / 4) * Math.pow(54 / 10, 2) * (54 / 10);
+            physics.p2 = { bore: 54, stroke: 54, rod: 105, cr: 7.5, vc: sweptInit2 / (7.5 - 1), exDur: 170, trDur: 124 };
+            document.getElementById('inp-2t-bore').value = 54;
+            document.getElementById('inp-2t-stroke').value = 54;
+            document.getElementById('inp-2t-rod').value = 105;
+            document.getElementById('inp-2t-cr').value = 7.5;
+            document.getElementById('inp-2t-exdur').value = 170;
+            document.getElementById('inp-2t-trdur').value = 124;
+            updateEngineParam('2t', 'bore', 54);
+        } else {
+            const sweptInit4 = (Math.PI / 4) * Math.pow(54 / 10, 2) * (54 / 10);
+            physics.p4 = { bore: 54, stroke: 54, rod: 105, cr: 10.5, vc: sweptInit4 / (10.5 - 1), lift: 8.5, vDur: 220, vTim: 0 };
+            document.getElementById('inp-4t-bore').value = 54;
+            document.getElementById('inp-4t-stroke').value = 54;
+            document.getElementById('inp-4t-rod').value = 105;
+            document.getElementById('inp-4t-cr').value = 10.5;
+            document.getElementById('inp-4t-lift').value = 8.5;
+            document.getElementById('inp-4t-vdur').value = 220;
+            document.getElementById('inp-4t-vtim').value = 0;
+            updateEngineParam('4t', 'bore', 54);
+        }
+    }
+
+    // Playback & Transport Controls
     function togglePlay() {
         physics.isPlaying = !physics.isPlaying;
+        const btn = document.getElementById('btn-play-pause');
         const icon = document.getElementById('icon-play-pause');
         const txt = document.getElementById('txt-play-pause');
-        const btn = document.getElementById('btn-play-pause');
         if (physics.isPlaying) {
-            icon.className = 'fa-solid fa-pause';
+            btn.className = 'px-1.5 sm:px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] sm:text-xs font-bold flex items-center justify-center gap-1 sm:gap-1.5 shadow-sm min-w-0 transition';
+            icon.className = 'fa-solid fa-pause shrink-0';
             txt.textContent = 'Pause';
-            btn.classList.replace('bg-sky-600', 'bg-emerald-600');
         } else {
-            icon.className = 'fa-solid fa-play';
+            btn.className = 'px-1.5 sm:px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-[11px] sm:text-xs font-bold flex items-center justify-center gap-1 sm:gap-1.5 shadow-sm min-w-0 transition';
+            icon.className = 'fa-solid fa-play shrink-0';
             txt.textContent = 'Play';
-            btn.classList.replace('bg-emerald-600', 'bg-sky-600');
         }
     }
 
@@ -3754,50 +3947,54 @@
     function toggleSlowMo() {
         physics.slowMo = !physics.slowMo;
         const btn = document.getElementById('btn-slowmo');
-        btn.classList.toggle('border-amber-500', physics.slowMo);
-        btn.classList.toggle('bg-amber-500/20', physics.slowMo);
-        btn.classList.toggle('text-amber-300', physics.slowMo);
+        if (physics.slowMo) {
+            btn.classList.add('bg-amber-500/20', 'border-amber-500', 'text-amber-700', 'dark:bg-amber-500/20', 'dark:border-amber-500', 'dark:text-amber-300');
+            btn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-200', 'border-slate-300', 'dark:border-slate-700');
+            document.getElementById('lbl-speed').textContent = '0.2x';
+        } else {
+            btn.classList.remove('bg-amber-500/20', 'border-amber-500', 'text-amber-700', 'dark:bg-amber-500/20', 'dark:border-amber-500', 'dark:text-amber-300');
+            btn.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-200', 'border-slate-300', 'dark:border-slate-700');
+            document.getElementById('lbl-speed').textContent = `${physics.simSpeed.toFixed(1)}x`;
+        }
     }
 
     function resetSimulation() {
-        physics.rpm = 1200;
-        physics.simSpeed = 1.0;
-        physics.slowMo = false;
-        physics.isPlaying = true;
-        physics.setAngle(0);
-        setFaultMode('none');
-
-        const playBtn = document.getElementById('btn-play-pause');
-        if (playBtn) {
-            document.getElementById('icon-play-pause').className = 'fa-solid fa-pause';
-            document.getElementById('txt-play-pause').textContent = 'Pause';
-            playBtn.classList.replace('bg-sky-600', 'bg-emerald-600');
-        }
-        const slowBtn = document.getElementById('btn-slowmo');
-        if (slowBtn) {
-            slowBtn.classList.remove('border-amber-500', 'bg-amber-500/20', 'text-amber-300');
-        }
-
-        document.getElementById('slider-rpm').value = 1200;
-        document.getElementById('lbl-rpm').textContent = '1200';
-        document.getElementById('slider-speed').value = 1.0;
-        document.getElementById('lbl-speed').textContent = '1.0x';
-        document.getElementById('slider-opacity').value = 1.0;
-        setBlockOpacity(1.0);
-
+        // 1. Reset Engine Geometry & Timing Parameters (2-Tak & 4-Tak) to factory defaults
         resetEngineParams('2t');
         resetEngineParams('4t');
 
-        if (cadApp) {
-            setViewMode('normal');
-            setEngineVisibility('both');
-            document.getElementById('sel-engine-display').value = 'both';
-            setOverlay('gas', true);
-            setOverlay('labels', false);
-            setOverlay('axes', true);
-            setOverlay('strokeHud', false);
-            cadApp.resetCamera();
-        }
+        // 2. Clear any active Fault / Troubleshooting Mode
+        setFaultMode('none');
+
+        // 3. Reset Crank Angle, RPM, Simulation Speed & Slow-Motion
+        physics.setAngle(0);
+        setEngineRpm(1200);
+        document.getElementById('slider-rpm').value = 1200;
+
+        if (physics.slowMo) toggleSlowMo();
+        setSimSpeed(1.0);
+        document.getElementById('slider-speed').value = 1.0;
+
+        // 4. Reset Visualization Mode, Engine Visibility, Opacity & CAD Overlays
+        setViewMode('normal');
+        setEngineVisibility('both');
+        document.getElementById('sel-engine-display').value = 'both';
+
+        setBlockOpacity(1.0);
+        document.getElementById('slider-opacity').value = 1.0;
+
+        cadApp.showGas = true;
+        cadApp.showLabels = false;
+        cadApp.showAxes = true;
+        cadApp.showStrokeHud = false;
+        cadApp.cadLinesGroup.visible = true;
+        document.getElementById('hud-stroke-indicators').classList.add('hidden');
+        document.getElementById('cad-labels-layer').innerHTML = '';
+        updateOverlayButtons(cadApp);
+
+        // 5. Close Component Inspector & Reset Camera View
+        closeInspector();
+        cadApp.resetCamera();
     }
 
     function scrubCrankAngle(val) {
@@ -3808,425 +4005,244 @@
     function setEngineRpm(val) {
         physics.rpm = parseInt(val, 10);
         document.getElementById('lbl-rpm').textContent = physics.rpm;
-        recomputeChartCurves();
+        physics.computeState();
+        telemetry.recomputeCurves();
     }
 
     function setSimSpeed(val) {
         physics.simSpeed = parseFloat(val);
-        physics.slowMo = false;
-        document.getElementById('btn-slowmo').classList.remove('border-amber-500', 'bg-amber-500/20', 'text-amber-300');
+        if (physics.slowMo) toggleSlowMo();
         document.getElementById('lbl-speed').textContent = `${physics.simSpeed.toFixed(1)}x`;
     }
 
     function setBlockOpacity(val) {
-        const op = parseFloat(val);
-        if (cadApp) {
-            cadApp.blockOpacity = op;
-            cadApp.applyViewMode(cadApp.viewMode);
-        }
-    }
-
-    function setViewMode(mode) {
-        document.querySelectorAll('.mode-btn').forEach(b => {
-            const active = b.dataset.mode === mode;
-            b.className = active
-                ? 'mode-btn active px-2.5 py-1 rounded-md text-[11px] font-semibold bg-sky-600 text-white shadow-sm shrink-0 transition'
-                : 'mode-btn px-2.5 py-1 rounded-md text-[11px] font-medium bg-slate-200/90 hover:bg-slate-300 text-slate-700 dark:bg-slate-800/90 dark:hover:bg-slate-700 dark:text-slate-300 shrink-0 transition';
-        });
-        if (cadApp) cadApp.applyViewMode(mode);
+        cadApp.setBlockOpacity(val);
     }
 
     function setEngineVisibility(val) {
-        document.getElementById('sel-engine-display').value = val;
-        if (cadApp) cadApp.setEngineVisibility(val);
+        cadApp.setEngineVisibility(val);
+    }
+
+    function setViewMode(mode) {
+        cadApp.applyViewMode(mode);
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            if (btn.dataset.mode === mode) {
+                btn.className = 'mode-btn active px-2.5 py-1 rounded-md text-[11px] font-semibold bg-sky-600 text-white shadow-sm shrink-0 transition';
+            } else {
+                btn.className = 'mode-btn px-2.5 py-1 rounded-md text-[11px] font-medium bg-slate-200/90 hover:bg-slate-300 text-slate-700 dark:bg-slate-800/90 dark:hover:bg-slate-700 dark:text-slate-300 shrink-0 transition';
+            }
+        });
     }
 
     function toggleOverlay(type) {
-        if (!cadApp) return;
         if (type === 'gas') cadApp.showGas = !cadApp.showGas;
         if (type === 'labels') cadApp.showLabels = !cadApp.showLabels;
         if (type === 'axes') {
             cadApp.showAxes = !cadApp.showAxes;
+            cadApp.cadLinesGroup.visible = cadApp.showAxes;
             cadApp.setEngineVisibility(cadApp.engineVisibility);
         }
         if (type === 'strokeHud') {
             cadApp.showStrokeHud = !cadApp.showStrokeHud;
-            const hudEl = document.getElementById('hud-stroke-indicators');
-            if (hudEl) hudEl.classList.toggle('hidden', !cadApp.showStrokeHud);
+            document.getElementById('hud-stroke-indicators').classList.toggle('hidden', !cadApp.showStrokeHud);
         }
         updateOverlayButtons(cadApp);
     }
 
     function setOverlay(type, state) {
-        if (!cadApp) return;
-        if (type === 'gas') cadApp.showGas = state;
-        if (type === 'labels') cadApp.showLabels = state;
         if (type === 'axes') {
             cadApp.showAxes = state;
+            cadApp.cadLinesGroup.visible = state;
             cadApp.setEngineVisibility(cadApp.engineVisibility);
         }
         if (type === 'strokeHud') {
             cadApp.showStrokeHud = state;
-            const hudEl = document.getElementById('hud-stroke-indicators');
-            if (hudEl) hudEl.classList.toggle('hidden', !state);
+            document.getElementById('hud-stroke-indicators').classList.toggle('hidden', !state);
         }
         updateOverlayButtons(cadApp);
     }
 
     function updateOverlayButtons(app) {
-        const styleBtn = (id, active) => {
+        const setBtnStyle = (id, active) => {
             const el = document.getElementById(id);
             if (!el) return;
             el.className = active
                 ? 'px-1.5 sm:px-2 py-1 sm:py-1.5 rounded-md text-[10px] sm:text-xs font-semibold bg-sky-500/20 text-sky-600 dark:text-sky-300 border border-sky-500/40 flex items-center justify-center gap-1 min-w-0 transition'
                 : 'px-1.5 sm:px-2 py-1 sm:py-1.5 rounded-md text-[10px] sm:text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700 flex items-center justify-center gap-1 min-w-0 transition';
         };
-        styleBtn('btn-ov-gas', app.showGas);
-        styleBtn('btn-ov-labels', app.showLabels);
-        styleBtn('btn-ov-axes', app.showAxes);
-        styleBtn('btn-ov-strokeHud', app.showStrokeHud);
+        setBtnStyle('btn-ov-gas', app.showGas);
+        setBtnStyle('btn-ov-labels', app.showLabels);
+        setBtnStyle('btn-ov-axes', app.showAxes);
+        setBtnStyle('btn-ov-strokeHud', app.showStrokeHud);
     }
 
-    function togglePanel(panelName, forceOpen = null) {
+    // Panel & Drawer Toggles
+    function togglePanel(panelName, forceState = null) {
         const el = document.getElementById(`panel-${panelName}`);
-        const isHidden = el.classList.contains('hidden');
-        const shouldOpen = forceOpen !== null ? forceOpen : isHidden;
-
-        if (shouldOpen) {
-            el.classList.remove('hidden');
-            if (panelName === 'drawer') {
-                document.getElementById('panel-inspector').classList.add('hidden');
-            }
-        } else {
-            el.classList.add('hidden');
-        }
+        const shouldShow = forceState !== null ? forceState : el.classList.contains('hidden');
+        el.classList.toggle('hidden', !shouldShow);
     }
 
     function switchTelemetryTab(tab) {
-        const isNum = tab === 'numeric';
-        document.getElementById('telemetry-numeric-body').classList.toggle('hidden', !isNum);
-        document.getElementById('telemetry-charts-body').classList.toggle('hidden', isNum);
+        const numBody = document.getElementById('telemetry-numeric-body');
+        const chartBody = document.getElementById('telemetry-charts-body');
+        const btnNum = document.getElementById('t-tab-numeric');
+        const btnChart = document.getElementById('t-tab-charts');
 
-        document.getElementById('t-tab-numeric').className = isNum
-            ? 'py-2 text-sky-600 dark:text-sky-400 border-b-2 border-sky-600 dark:border-sky-400'
-            : 'py-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200';
-        document.getElementById('t-tab-charts').className = !isNum
-            ? 'py-2 text-sky-600 dark:text-sky-400 border-b-2 border-sky-600 dark:border-sky-400'
-            : 'py-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200';
+        if (tab === 'numeric') {
+            numBody.classList.remove('hidden');
+            chartBody.classList.add('hidden');
+            btnNum.className = 'py-2 text-sky-600 dark:text-sky-400 border-b-2 border-sky-600 dark:border-sky-400';
+            btnChart.className = 'py-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200';
+        } else {
+            numBody.classList.add('hidden');
+            chartBody.classList.remove('hidden');
+            btnChart.className = 'py-2 text-sky-600 dark:text-sky-400 border-b-2 border-sky-600 dark:border-sky-400';
+            btnNum.className = 'py-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200';
+            telemetry.recomputeCurves();
+        }
     }
 
     function switchDrawerTab(tab) {
         ['params', 'experiments', 'faults', 'compare'].forEach(t => {
-            const active = t === tab;
-            document.getElementById(`drawer-${t}`).classList.toggle('hidden', !active);
-            document.getElementById(`d-tab-${t}`).className = active
+            document.getElementById(`drawer-${t}`).classList.toggle('hidden', t !== tab);
+            const btn = document.getElementById(`d-tab-${t}`);
+            btn.className = (t === tab)
                 ? 'py-2.5 text-emerald-600 dark:text-emerald-400 border-b-2 border-emerald-600 dark:border-emerald-400'
                 : 'py-2.5 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200';
         });
     }
 
-    function updateEngineParam(eng, param, val) {
-        const num = parseFloat(val);
-        if (eng === '2t') {
-            physics.p2[param] = num;
-            if (param === 'bore' || param === 'stroke') {
-                const sweptCc = (Math.PI / 4) * Math.pow(physics.p2.bore / 10, 2) * (physics.p2.stroke / 10);
-                const newCr = (sweptCc + physics.p2.vc) / physics.p2.vc;
-                physics.p2.cr = Math.max(4.5, Math.min(16.0, Number(newCr.toFixed(1))));
-                const crInp = document.getElementById('inp-2t-cr');
-                if (crInp) crInp.value = physics.p2.cr;
-            } else if (param === 'cr') {
-                const sweptCc = (Math.PI / 4) * Math.pow(physics.p2.bore / 10, 2) * (physics.p2.stroke / 10);
-                physics.p2.vc = sweptCc / Math.max(0.5, physics.p2.cr - 1);
-            }
-
-            if (param === 'bore') document.getElementById('val-2t-bore').textContent = `${num} mm`;
-            if (param === 'stroke') document.getElementById('val-2t-stroke').textContent = `${num} mm`;
-            if (param === 'rod') document.getElementById('val-2t-rod').textContent = `${num} mm`;
-            document.getElementById('val-2t-cr').textContent = `${physics.p2.cr.toFixed(1)} : 1`;
-            if (param === 'exDur') document.getElementById('val-2t-exdur').textContent = `${num}° CA`;
-            if (param === 'trDur') document.getElementById('val-2t-trdur').textContent = `${num}° CA`;
-
-            const cc = (Math.PI / 4) * Math.pow(physics.p2.bore / 10, 2) * (physics.p2.stroke / 10);
-            const vc = cc / Math.max(0.5, physics.p2.cr - 1);
-            document.getElementById('calc-2t-cc').textContent = `${cc.toFixed(1)} cc`;
-            document.getElementById('calc-2t-vc').textContent = `${vc.toFixed(1)} cc`;
-        } else {
-            physics.p4[param] = num;
-            if (param === 'bore' || param === 'stroke') {
-                const sweptCc = (Math.PI / 4) * Math.pow(physics.p4.bore / 10, 2) * (physics.p4.stroke / 10);
-                const newCr = (sweptCc + physics.p4.vc) / physics.p4.vc;
-                physics.p4.cr = Math.max(6.0, Math.min(22.0, Number(newCr.toFixed(1))));
-                const crInp = document.getElementById('inp-4t-cr');
-                if (crInp) crInp.value = physics.p4.cr;
-            } else if (param === 'cr') {
-                const sweptCc = (Math.PI / 4) * Math.pow(physics.p4.bore / 10, 2) * (physics.p4.stroke / 10);
-                physics.p4.vc = sweptCc / Math.max(0.5, physics.p4.cr - 1);
-            }
-
-            if (param === 'bore') document.getElementById('val-4t-bore').textContent = `${num} mm`;
-            if (param === 'stroke') document.getElementById('val-4t-stroke').textContent = `${num} mm`;
-            if (param === 'rod') document.getElementById('val-4t-rod').textContent = `${num} mm`;
-            document.getElementById('val-4t-cr').textContent = `${physics.p4.cr.toFixed(1)} : 1`;
-            if (param === 'lift') document.getElementById('val-4t-lift').textContent = `${num} mm`;
-            if (param === 'vDur') document.getElementById('val-4t-vdur').textContent = `${num}° / ${num}°`;
-            if (param === 'vTim') document.getElementById('val-4t-vtim').textContent = `${num > 0 ? '+' : ''}${num}° CA`;
-
-            const cc = (Math.PI / 4) * Math.pow(physics.p4.bore / 10, 2) * (physics.p4.stroke / 10);
-            const vc = cc / Math.max(0.5, physics.p4.cr - 1);
-            document.getElementById('calc-4t-cc').textContent = `${cc.toFixed(1)} cc`;
-            document.getElementById('calc-4t-vc').textContent = `${vc.toFixed(1)} cc`;
-        }
-        physics.computeState();
-        recomputeChartCurves();
-    }
-
-    function resetEngineParams(eng) {
-        if (eng === '2t') {
-            const sweptInit2 = (Math.PI / 4) * Math.pow(54 / 10, 2) * (54 / 10);
-            physics.p2 = { bore: 54, stroke: 54, rod: 105, cr: 7.5, vc: sweptInit2 / 6.5, exDur: 170, trDur: 124 };
-            document.getElementById('inp-2t-bore').value = 54;
-            document.getElementById('inp-2t-stroke').value = 54;
-            document.getElementById('inp-2t-rod').value = 105;
-            document.getElementById('inp-2t-cr').value = 7.5;
-            document.getElementById('inp-2t-exdur').value = 170;
-            document.getElementById('inp-2t-trdur').value = 124;
-            ['bore', 'stroke', 'rod', 'cr', 'exDur', 'trDur'].forEach(k => updateEngineParam('2t', k, physics.p2[k]));
-        } else {
-            const sweptInit4 = (Math.PI / 4) * Math.pow(54 / 10, 2) * (54 / 10);
-            physics.p4 = { bore: 54, stroke: 54, rod: 105, cr: 10.5, vc: sweptInit4 / 9.5, lift: 8.5, vDur: 220, vTim: 0 };
-            document.getElementById('inp-4t-bore').value = 54;
-            document.getElementById('inp-4t-stroke').value = 54;
-            document.getElementById('inp-4t-rod').value = 105;
-            document.getElementById('inp-4t-cr').value = 10.5;
-            document.getElementById('inp-4t-lift').value = 8.5;
-            document.getElementById('inp-4t-vdur').value = 220;
-            document.getElementById('inp-4t-vtim').value = 0;
-            ['bore', 'stroke', 'rod', 'cr', 'lift', 'vDur', 'vTim'].forEach(k => updateEngineParam('4t', k, physics.p4[k]));
-        }
-    }
-
+    // Component Inspector Controls
     function openComponentInspector(partKey) {
-        const data = COMPONENT_DB[partKey];
-        if (!data) return;
-        currentInspPart = partKey;
-
-        document.getElementById('panel-drawer').classList.add('hidden');
+        const info = COMPONENT_DB[partKey];
+        if (!info) return;
+        currentInspectorPart = partKey;
+        document.getElementById('insp-engine-tag').textContent = info.engine;
+        document.getElementById('insp-title').textContent = info.title;
         document.getElementById('panel-inspector').classList.remove('hidden');
-        document.getElementById('insp-engine-tag').textContent = data.engine;
-        document.getElementById('insp-title').textContent = data.title;
-        setInspectorTab(currentInspTab);
-    }
-
-    function setInspectorTab(tab) {
-        currentInspTab = tab;
-        document.querySelectorAll('.insp-tab-btn').forEach(b => {
-            const active = b.dataset.tab === tab;
-            b.className = active
-                ? 'insp-tab-btn active py-2 text-sky-600 dark:text-sky-400 border-b-2 border-sky-600 dark:border-sky-400'
-                : 'insp-tab-btn py-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200';
-        });
-
-        if (!currentInspPart) return;
-        const data = COMPONENT_DB[currentInspPart];
-        const titles = {
-            ident: 'Identifikasi & Material Komponen',
-            work: 'Prinsip & Cara Kerja Mekanis',
-            comp: 'Perbedaan Struktural 2 Tak vs 4 Tak',
-            fact: 'Fakta Teknis & Karakteristik Rekayasa'
-        };
-
-        document.getElementById('insp-content').innerHTML = `
-            <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80">
-                <div class="text-[10px] font-mono uppercase tracking-wider text-sky-600 dark:text-sky-400 font-bold mb-1">${titles[tab]}</div>
-                <p class="text-slate-800 dark:text-slate-200">${data[tab]}</p>
-            </div>
-            <div class="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1.5 pt-1">
-                <i class="fa-solid fa-computer-mouse text-sky-600 dark:text-sky-400"></i>
-                <span>Klik komponen lain di kanvas 3D untuk inspeksi, atau double-click untuk memusatkan kamera.</span>
-            </div>
-        `;
+        setInspectorTab(currentInspectorTab);
     }
 
     function closeInspector() {
         document.getElementById('panel-inspector').classList.add('hidden');
-        currentInspPart = null;
+        currentInspectorPart = null;
     }
 
-    function setFaultMode(faultId) {
-        physics.faultMode = faultId;
-        physics.computeState();
-        recomputeChartCurves();
-
-        const fObj = FAULTS_DATA.find(f => f.id === faultId) || FAULTS_DATA[0];
-        const banner = document.getElementById('fault-alert-banner');
-
-        if (faultId === 'none') {
-            banner.classList.add('hidden');
-        } else {
-            banner.classList.remove('hidden');
-            document.getElementById('fault-alert-title').textContent = fObj.title;
-            document.getElementById('fault-alert-desc').textContent = fObj.desc;
-        }
-
-        document.querySelectorAll('.fault-card-btn').forEach(btn => {
-            const active = btn.dataset.fault === faultId;
-            btn.className = active
-                ? 'fault-card-btn w-full text-left p-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/60 border border-rose-500 text-rose-900 dark:text-rose-100 transition'
-                : 'fault-card-btn w-full text-left p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 dark:bg-slate-800/60 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-300 transition';
+    function setInspectorTab(tab) {
+        currentInspectorTab = tab;
+        document.querySelectorAll('.insp-tab-btn').forEach(btn => {
+            if (btn.dataset.tab === tab) {
+                btn.className = 'insp-tab-btn active py-2 text-sky-600 dark:text-sky-400 border-b-2 border-sky-600 dark:border-sky-400';
+            } else {
+                btn.className = 'insp-tab-btn py-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200';
+            }
         });
+
+        if (!currentInspectorPart) return;
+        const info = COMPONENT_DB[currentInspectorPart];
+        const titles = {
+            ident: 'Identifikasi & Material Komponen',
+            work: 'Prinsip & Cara Kerja Mekanis',
+            comp: 'Perbandingan Teknis: 2 Tak vs 4 Tak',
+            fact: 'Fakta Rekayasa & Catatan Praktik Bengkel'
+        };
+        document.getElementById('insp-content').innerHTML = `
+            <div class="font-bold text-sky-700 dark:text-sky-300 text-[11px] uppercase tracking-wide">${titles[tab]}</div>
+            <p class="text-slate-700 dark:text-slate-200 text-xs leading-relaxed">${info[tab]}</p>
+        `;
     }
 
-    function populateDrawerLists() {
-        const expContainer = document.getElementById('experiments-list');
-        expContainer.innerHTML = EXPERIMENTS_DATA.map(exp => `
-            <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 hover:border-emerald-500/50 transition space-y-1.5">
-                <div class="font-bold text-emerald-700 dark:text-emerald-300 text-[11px]">${exp.title}</div>
-                <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-snug">${exp.desc}</p>
-                <button onclick="runExperiment(${exp.id})" class="px-2.5 py-1 rounded-md bg-emerald-600/15 hover:bg-emerald-600/25 dark:bg-emerald-600/20 dark:hover:bg-emerald-600/40 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 text-[10px] font-bold transition">
-                    <i class="fa-solid fa-play mr-1"></i>Jalankan Skenario CAD
-                </button>
-            </div>
-        `).join('');
-
-        const faultContainer = document.getElementById('faults-list');
-        faultContainer.innerHTML = FAULTS_DATA.map(f => `
-            <button onclick="setFaultMode('${f.id}')" data-fault="${f.id}" class="fault-card-btn w-full text-left p-2.5 rounded-xl ${f.id === 'none' ? 'bg-rose-50 dark:bg-rose-950/60 border border-rose-500 text-rose-900 dark:text-rose-100' : 'bg-slate-50 hover:bg-slate-100 dark:bg-slate-800/60 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-300'} transition">
-                <div class="font-bold text-[11px]">${f.title}</div>
-                <div class="text-[10px] text-slate-600 dark:text-slate-400 mt-0.5 leading-snug">${f.desc}</div>
-            </button>
-        `).join('');
-
-        const cmpBody = document.getElementById('comparison-table-body');
-        cmpBody.innerHTML = COMPARISON_ROWS.map(r => `
-            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40">
-                <td class="p-2 font-semibold text-slate-800 dark:text-slate-200 align-top">${r.param}</td>
-                <td class="p-2 text-amber-800 dark:text-amber-200/90 align-top">${r.t2}</td>
-                <td class="p-2 text-sky-800 dark:text-sky-200/90 align-top">${r.t4}</td>
-            </tr>
-        `).join('');
-    }
-
-    function runExperiment(id) {
-        const exp = EXPERIMENTS_DATA.find(e => e.id === id);
-        if (exp && exp.action) {
-            setFaultMode('none');
-            exp.action();
-            if (window.innerWidth < 640) togglePanel('drawer', false);
-        }
-    }
-
-    /**
-     * =========================================================================
-     * THEME & FULLSCREEN CONTROLS
-     * =========================================================================
-     */
+    // Theme Toggle (Dark / Light Mode)
     function toggleCadTheme() {
         const html = document.documentElement;
         const isDark = html.classList.toggle('dark');
         document.getElementById('icon-sun').classList.toggle('hidden', !isDark);
         document.getElementById('icon-moon').classList.toggle('hidden', isDark);
-        if (cadApp) cadApp.setTheme(isDark);
+        cadApp.setTheme(isDark);
+        telemetry.updateChartTheme(isDark);
     }
 
-    function updateCanvasFullscreenUI(active) {
+    // Canvas Pure Fullscreen Toggle (Hides header/ribbon/footer OR enters native fullscreen on canvas)
+    function updateCanvasFullscreenUI(isFull) {
         const icon = document.getElementById('icon-canvas-fullscreen');
         const txt = document.getElementById('txt-canvas-fullscreen');
-        if (!icon || !txt) return;
-        icon.className = active ? 'fa-solid fa-compress text-sky-600 dark:text-sky-400' : 'fa-solid fa-expand text-sky-600 dark:text-sky-400';
-        txt.textContent = active ? 'Keluar' : 'Layar Penuh';
-        setTimeout(() => {
-            syncMobileViewportHeight();
-            if (cadApp) cadApp.onResize();
-        }, 60);
+        if (icon && txt) {
+            icon.className = isFull ? 'fa-solid fa-compress text-amber-500 dark:text-amber-400' : 'fa-solid fa-expand text-sky-600 dark:text-sky-400';
+            txt.textContent = isFull ? 'Keluar' : 'Layar Penuh';
+        }
+        setTimeout(() => cadApp.onResize(), 60);
     }
 
-    async function toggleCanvasFullscreen() {
-        const viewportEl = document.getElementById('cad-viewport');
-        const fsElement = document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+    function toggleCanvasFullscreen() {
+        const viewport = document.getElementById('cad-viewport');
+        const isNativeFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+        const isPureCssFs = document.body.classList.contains('canvas-pure-fullscreen');
 
-        if (!fsElement && !document.body.classList.contains('canvas-pure-fullscreen')) {
-            try {
-                if (viewportEl && viewportEl.requestFullscreen) {
-                    await viewportEl.requestFullscreen();
-                } else if (viewportEl && viewportEl.webkitRequestFullscreen) {
-                    await viewportEl.webkitRequestFullscreen();
-                } else if (document.documentElement.requestFullscreen) {
-                    await document.documentElement.requestFullscreen();
-                } else {
+        if (!isNativeFs && !isPureCssFs) {
+            if (viewport.requestFullscreen) {
+                viewport.requestFullscreen().then(() => {
+                    updateCanvasFullscreenUI(true);
+                }).catch(() => {
                     document.body.classList.add('canvas-pure-fullscreen');
                     updateCanvasFullscreenUI(true);
-                }
-            } catch (e) {
+                });
+            } else if (viewport.webkitRequestFullscreen) {
+                viewport.webkitRequestFullscreen();
+                updateCanvasFullscreenUI(true);
+            } else {
                 document.body.classList.add('canvas-pure-fullscreen');
                 updateCanvasFullscreenUI(true);
             }
         } else {
-            document.body.classList.remove('canvas-pure-fullscreen');
-            try {
-                if (document.exitFullscreen && fsElement) {
-                    await document.exitFullscreen();
-                } else if (document.webkitExitFullscreen && fsElement) {
-                    await document.webkitExitFullscreen();
-                } else {
-                    updateCanvasFullscreenUI(false);
+            if (isNativeFs) {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen().catch(() => {});
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
                 }
-            } catch (e) {
-                updateCanvasFullscreenUI(false);
             }
+            document.body.classList.remove('canvas-pure-fullscreen');
+            updateCanvasFullscreenUI(false);
         }
     }
 
-    ['fullscreenchange', 'webkitfullscreenchange', 'msfullscreenchange'].forEach(evt => {
+    ['fullscreenchange', 'webkitfullscreenchange'].forEach(evt => {
         document.addEventListener(evt, () => {
-            const fsElement = document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
-            if (!fsElement) document.body.classList.remove('canvas-pure-fullscreen');
-            updateCanvasFullscreenUI(Boolean(fsElement));
+            const isFs = !!(document.fullscreenElement || document.webkitFullscreenElement) || document.body.classList.contains('canvas-pure-fullscreen');
+            updateCanvasFullscreenUI(isFs);
         });
     });
 
-    /**
-     * =========================================================================
-     * MOBILE & DESKTOP VIEWPORT HEIGHT SYNCHRONIZATION
-     * =========================================================================
-     */
-    function syncMobileViewportHeight() {
+    // Dynamic Mobile Viewport Height Fix (Prevents footer clipping by mobile browser URL bar)
+    function syncViewportHeight() {
         const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
         document.documentElement.style.setProperty('--app-height', `${vh}px`);
-        if (cadApp) cadApp.onResize();
-    }
-
-    window.addEventListener('resize', syncMobileViewportHeight);
-    window.addEventListener('orientationchange', () => setTimeout(syncMobileViewportHeight, 120));
-    if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', syncMobileViewportHeight);
-    }
-
-    /**
-     * =========================================================================
-     * MAIN APPLICATION INITIALIZATION & RENDER LOOP
-     * =========================================================================
-     */
-    window.addEventListener('DOMContentLoaded', () => {
-        syncMobileViewportHeight();
-        populateDrawerLists();
-        initCharts();
-
-        const viewport = document.getElementById('cad-viewport');
-        cadApp = new EngineCadVisualizer(viewport, physics);
-
-        let lastTime = performance.now();
-        function animate(now) {
-            requestAnimationFrame(animate);
-            const dt = Math.min(0.05, (now - lastTime) / 1000.0);
-            lastTime = now;
-
-            physics.step(dt);
-            cadApp.update();
-            updateTelemetryHUD(now);
+        if (typeof cadApp !== 'undefined' && cadApp && cadApp.onResize) {
+            cadApp.onResize();
         }
+    }
+    window.addEventListener('resize', syncViewportHeight);
+    window.addEventListener('orientationchange', () => setTimeout(syncViewportHeight, 120));
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', syncViewportHeight);
+    }
+    syncViewportHeight();
+
+    // Initialize Drawers & Start 60FPS Render Loop
+    populateStaticDrawers();
+
+    let lastTime = performance.now();
+    function animate(now) {
         requestAnimationFrame(animate);
-    });
+        const dt = Math.min(0.05, (now - lastTime) / 1000.0);
+        lastTime = now;
+
+        physics.step(dt);
+        cadApp.update();
+        telemetry.updateHUD();
+    }
+    requestAnimationFrame(animate);
     </script>
 </body>
 </html>
