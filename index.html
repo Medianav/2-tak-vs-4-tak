@@ -156,27 +156,27 @@
             </div>
         </div>
 
-        <!-- Right Action Controls -->
+        <!-- Right Action Controls (Uniform 32x32px button height/sizing on mobile) -->
         <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <!-- Toggle Telemetry HUD -->
             <button onclick="togglePanel('telemetry')" id="btn-toggle-telemetry" title="Panel Telemetri Fisika & Grafik"
-                class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-sky-600 dark:text-sky-400 border border-slate-300 dark:border-slate-700 flex items-center gap-1.5 transition">
-                <i class="fa-solid fa-chart-line"></i>
+                class="w-8 h-8 sm:w-auto sm:px-2.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-sky-600 dark:text-sky-400 border border-slate-300 dark:border-slate-700 flex items-center justify-center gap-1.5 transition shrink-0">
+                <i class="fa-solid fa-chart-line text-xs"></i>
                 <span class="hidden sm:inline">Telemetri</span>
             </button>
 
             <!-- Toggle Engineering Drawer (Params, Experiments, Comparison) -->
             <button onclick="togglePanel('drawer')" id="btn-toggle-drawer" title="Parameter, Eksperimen & Tabel Perbandingan"
-                class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-emerald-600 dark:text-emerald-400 border border-slate-300 dark:border-slate-700 flex items-center gap-1.5 transition">
-                <i class="fa-solid fa-sliders"></i>
+                class="w-8 h-8 sm:w-auto sm:px-2.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-emerald-600 dark:text-emerald-400 border border-slate-300 dark:border-slate-700 flex items-center justify-center gap-1.5 transition shrink-0">
+                <i class="fa-solid fa-sliders text-xs"></i>
                 <span class="hidden sm:inline">Lab & Analisis</span>
             </button>
 
             <!-- Dark / Light Theme Toggle -->
             <button onclick="toggleCadTheme()" id="btn-theme" title="Ubah Tema Gelap / Terang"
-                class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 flex items-center justify-center transition">
+                class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 flex items-center justify-center transition shrink-0">
                 <svg id="icon-sun" class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                    <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
                 </svg>
                 <svg id="icon-moon" class="w-4 h-4 text-indigo-600 hidden" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
@@ -185,7 +185,7 @@
 
             <!-- Reset Camera -->
             <button onclick="cadApp.resetCamera()" title="Reset Sudut Kamera CAD"
-                class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 flex items-center justify-center transition">
+                class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 flex items-center justify-center transition shrink-0">
                 <i class="fa-solid fa-video text-xs"></i>
             </button>
         </div>
@@ -235,56 +235,56 @@
         <div id="cad-viewport" class="relative flex-1 h-full w-full bg-slate-100 dark:bg-[#090d16]">
             <!-- Three.js Canvas Injected Here -->
 
-            <!-- CANVAS FULLSCREEN BUTTON (BOTTOM-RIGHT OVERLAY) -->
+            <!-- CANVAS FULLSCREEN BUTTON (BOTTOM-RIGHT OVERLAY - LIGHT & DARK ADAPTIVE) -->
             <button onclick="toggleCanvasFullscreen()" id="btn-canvas-fullscreen" title="Layar Penuh Kanvas 3D"
-                class="absolute bottom-3 right-3 z-20 px-2.5 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-800 text-slate-100 border border-slate-700/80 backdrop-blur-md shadow-lg text-xs font-semibold flex items-center gap-1.5 transition">
-                <i id="icon-canvas-fullscreen" class="fa-solid fa-expand text-sky-400"></i>
+                class="absolute bottom-3 right-3 z-20 px-2.5 py-1.5 rounded-lg bg-white/90 hover:bg-slate-100 dark:bg-slate-900/85 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-100 border border-slate-300 dark:border-slate-700/80 backdrop-blur-md shadow-lg text-xs font-semibold flex items-center gap-1.5 transition">
+                <i id="icon-canvas-fullscreen" class="fa-solid fa-expand text-sky-600 dark:text-sky-400"></i>
                 <span id="txt-canvas-fullscreen">Layar Penuh</span>
             </button>
 
-            <!-- TOP ENGINE PHASE & CRANK ANGLE BANNERS OVER 3D VIEWPORT (HIDDEN BY DEFAULT) -->
+            <!-- TOP ENGINE PHASE & CRANK ANGLE BANNERS OVER 3D VIEWPORT (LIGHT & DARK ADAPTIVE) -->
             <div id="hud-stroke-indicators" class="hidden absolute top-2 sm:top-3 left-2 sm:left-3 right-2 sm:right-3 pointer-events-none flex flex-wrap justify-between items-start gap-1.5 sm:gap-2 z-10">
                 <!-- 2-Stroke Live Cycle Card -->
-                <div id="hud-2t-card" class="pointer-events-auto bg-slate-900/85 backdrop-blur-md border border-slate-700/80 rounded-xl p-2 sm:p-2.5 shadow-lg w-[48.5%] sm:w-auto sm:min-w-[245px]">
+                <div id="hud-2t-card" class="pointer-events-auto bg-white/90 dark:bg-slate-900/85 backdrop-blur-md border border-slate-300 dark:border-slate-700/80 rounded-xl p-2 sm:p-2.5 shadow-lg w-[48.5%] sm:w-auto sm:min-w-[245px]">
                     <div class="flex items-center justify-between gap-1 sm:gap-2 mb-1">
-                        <span class="text-[10px] sm:text-[11px] font-bold text-amber-400 tracking-wide flex items-center gap-1 truncate">
+                        <span class="text-[10px] sm:text-[11px] font-bold text-amber-600 dark:text-amber-400 tracking-wide flex items-center gap-1 truncate">
                             <i class="fa-solid fa-motorcycle"></i> 2 TAK (360°)
                         </span>
-                        <span id="badge-2t-angle" class="font-mono text-[10px] sm:text-[11px] font-bold px-1.5 py-0.5 rounded bg-slate-800 text-slate-200 shrink-0">0°</span>
+                        <span id="badge-2t-angle" class="font-mono text-[10px] sm:text-[11px] font-bold px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-transparent shrink-0">0°</span>
                     </div>
-                    <div id="badge-2t-stroke" class="text-[10px] sm:text-xs font-bold px-1.5 sm:px-2 py-1 rounded-md bg-blue-500/20 text-blue-300 border border-blue-500/30 text-center truncate">
+                    <div id="badge-2t-stroke" class="text-[10px] sm:text-xs font-bold px-1.5 sm:px-2 py-1 rounded-md bg-blue-500/15 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 border border-blue-500/30 text-center truncate">
                         LANGKAH NAIK: KOMPRESI & HISAP CRANKCASE
                     </div>
                     <div class="grid grid-cols-3 gap-1 mt-1.5 text-[9px] sm:text-[10px] font-mono text-center">
-                        <div id="port-2t-in" class="px-0.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 truncate">INT: BUKA</div>
-                        <div id="port-2t-tr" class="px-0.5 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700 truncate">TRANS: TUTUP</div>
-                        <div id="port-2t-ex" class="px-0.5 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700 truncate">EXH: TUTUP</div>
+                        <div id="port-2t-in" class="px-0.5 py-0.5 rounded bg-emerald-500/15 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 truncate">INT: BUKA</div>
+                        <div id="port-2t-tr" class="px-0.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700 truncate">TRANS: TUTUP</div>
+                        <div id="port-2t-ex" class="px-0.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700 truncate">EXH: TUTUP</div>
                     </div>
                 </div>
 
                 <!-- Gas Flow Color Legend (Compact Pill) -->
-                <div class="hidden lg:flex items-center gap-3 bg-slate-900/85 backdrop-blur-md border border-slate-700/80 rounded-full px-3.5 py-1.5 text-[10px] text-slate-200 font-medium shadow-md">
-                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>Campuran Segar</span>
-                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>Kompresi/Pembakaran</span>
+                <div class="hidden lg:flex items-center gap-3 bg-white/90 dark:bg-slate-900/85 backdrop-blur-md border border-slate-300 dark:border-slate-700/80 rounded-full px-3.5 py-1.5 text-[10px] text-slate-700 dark:text-slate-200 font-medium shadow-md">
+                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-sky-500 dark:bg-sky-400"></span>Campuran Segar</span>
+                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 dark:bg-amber-400"></span>Kompresi/Pembakaran</span>
                     <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>Ekspansi Tenaga</span>
-                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span>Gas Buang</span>
+                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-slate-500 dark:bg-slate-400"></span>Gas Buang</span>
                 </div>
 
                 <!-- 4-Stroke Live Cycle Card -->
-                <div id="hud-4t-card" class="pointer-events-auto bg-slate-900/85 backdrop-blur-md border border-slate-700/80 rounded-xl p-2 sm:p-2.5 shadow-lg w-[48.5%] sm:w-auto sm:min-w-[245px]">
+                <div id="hud-4t-card" class="pointer-events-auto bg-white/90 dark:bg-slate-900/85 backdrop-blur-md border border-slate-300 dark:border-slate-700/80 rounded-xl p-2 sm:p-2.5 shadow-lg w-[48.5%] sm:w-auto sm:min-w-[245px]">
                     <div class="flex items-center justify-between gap-1 sm:gap-2 mb-1">
-                        <span class="text-[10px] sm:text-[11px] font-bold text-sky-400 tracking-wide flex items-center gap-1 truncate">
+                        <span class="text-[10px] sm:text-[11px] font-bold text-sky-600 dark:text-sky-400 tracking-wide flex items-center gap-1 truncate">
                             <i class="fa-solid fa-car-side"></i> 4 TAK (720°)
                         </span>
-                        <span id="badge-4t-angle" class="font-mono text-[10px] sm:text-[11px] font-bold px-1.5 py-0.5 rounded bg-slate-800 text-slate-200 shrink-0">0°</span>
+                        <span id="badge-4t-angle" class="font-mono text-[10px] sm:text-[11px] font-bold px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-transparent shrink-0">0°</span>
                     </div>
-                    <div id="badge-4t-stroke" class="text-[10px] sm:text-xs font-bold px-1.5 sm:px-2 py-1 rounded-md bg-sky-500/20 text-sky-300 border border-sky-500/30 text-center truncate">
+                    <div id="badge-4t-stroke" class="text-[10px] sm:text-xs font-bold px-1.5 sm:px-2 py-1 rounded-md bg-sky-500/15 dark:bg-sky-500/20 text-sky-700 dark:text-sky-300 border border-sky-500/30 text-center truncate">
                         1. LANGKAH HISAP (INTAKE)
                     </div>
                     <div class="grid grid-cols-3 gap-1 mt-1.5 text-[9px] sm:text-[10px] font-mono text-center">
-                        <div id="valve-4t-in" class="px-0.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30 truncate">IN: BUKA</div>
-                        <div id="valve-4t-ex" class="px-0.5 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700 truncate">EX: TUTUP</div>
-                        <div id="cam-4t-rpm" class="px-0.5 py-0.5 rounded bg-slate-800 text-amber-300 border border-slate-700 truncate">CAM 1:2</div>
+                        <div id="valve-4t-in" class="px-0.5 py-0.5 rounded bg-sky-500/15 dark:bg-sky-500/20 text-sky-700 dark:text-sky-300 border border-sky-500/30 truncate">IN: BUKA</div>
+                        <div id="valve-4t-ex" class="px-0.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700 truncate">EX: TUTUP</div>
+                        <div id="cam-4t-rpm" class="px-0.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-amber-600 dark:text-amber-300 border border-slate-300 dark:border-slate-700 truncate">CAM 1:2</div>
                     </div>
                 </div>
             </div>
@@ -293,128 +293,128 @@
             <div id="cad-labels-layer" class="absolute inset-0 pointer-events-none overflow-hidden z-10"></div>
 
             <!-- ACTIVE FAULT WARNING BANNER -->
-            <div id="fault-alert-banner" class="hidden absolute bottom-12 left-1/2 -translate-x-1/2 z-20 bg-rose-950/90 border border-rose-500 text-rose-200 px-3 sm:px-4 py-2 rounded-xl shadow-xl backdrop-blur-md flex items-center gap-2.5 text-xs w-[92vw] sm:w-auto max-w-md">
-                <i class="fa-solid fa-triangle-exclamation text-rose-400 text-base animate-bounce shrink-0"></i>
+            <div id="fault-alert-banner" class="hidden absolute bottom-12 left-1/2 -translate-x-1/2 z-20 bg-rose-50/95 dark:bg-rose-950/90 border border-rose-400 dark:border-rose-500 text-rose-800 dark:text-rose-200 px-3 sm:px-4 py-2 rounded-xl shadow-xl backdrop-blur-md flex items-center gap-2.5 text-xs w-[92vw] sm:w-auto max-w-md">
+                <i class="fa-solid fa-triangle-exclamation text-rose-500 dark:text-rose-400 text-base animate-bounce shrink-0"></i>
                 <div class="min-w-0 flex-1">
-                    <div class="font-bold text-rose-300 truncate" id="fault-alert-title">Mode Gangguan Aktif</div>
-                    <div class="text-[11px] text-rose-200/90 line-clamp-2" id="fault-alert-desc">Deskripsi dampak gangguan mekanis.</div>
+                    <div class="font-bold text-rose-700 dark:text-rose-300 truncate" id="fault-alert-title">Mode Gangguan Aktif</div>
+                    <div class="text-[11px] text-rose-600 dark:text-rose-200/90 line-clamp-2" id="fault-alert-desc">Deskripsi dampak gangguan mekanis.</div>
                 </div>
-                <button onclick="setFaultMode('none')" class="ml-1 px-2 py-1 rounded bg-rose-800 hover:bg-rose-700 text-[10px] font-bold shrink-0">Pulihkan</button>
+                <button onclick="setFaultMode('none')" class="ml-1 px-2 py-1 rounded bg-rose-600 hover:bg-rose-500 dark:bg-rose-800 dark:hover:bg-rose-700 text-white text-[10px] font-bold shrink-0">Pulihkan</button>
             </div>
 
             <!-- =================================================================
-                 FLOATING LEFT PANEL: REAL-TIME PHYSICS TELEMETRY & CHARTS
+                 FLOATING LEFT PANEL: REAL-TIME PHYSICS TELEMETRY & CHARTS (LIGHT & DARK)
             ================================================================== -->
-            <aside id="panel-telemetry" class="hidden absolute top-2 sm:top-28 left-2 right-2 sm:right-auto sm:left-3 bottom-2 sm:bottom-20 sm:w-[360px] bg-slate-900/95 backdrop-blur-xl border border-slate-700/90 rounded-2xl shadow-2xl z-20 flex flex-col overflow-hidden text-slate-100">
-                <div class="px-3.5 py-2.5 border-b border-slate-800 flex items-center justify-between bg-slate-900">
+            <aside id="panel-telemetry" class="hidden absolute top-2 sm:top-28 left-2 right-2 sm:right-auto sm:left-3 bottom-2 sm:bottom-20 sm:w-[360px] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-300 dark:border-slate-700/90 rounded-2xl shadow-2xl z-20 flex flex-col overflow-hidden text-slate-900 dark:text-slate-100">
+                <div class="px-3.5 py-2.5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-900">
                     <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-wave-square text-sky-400 text-xs"></i>
-                        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-200">Telemetri Kinematika & Fisika</h2>
+                        <i class="fa-solid fa-wave-square text-sky-600 dark:text-sky-400 text-xs"></i>
+                        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">Telemetri Kinematika & Fisika</h2>
                     </div>
-                    <button onclick="togglePanel('telemetry')" class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-xmark"></i></button>
+                    <button onclick="togglePanel('telemetry')" class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white p-1"><i class="fa-solid fa-xmark"></i></button>
                 </div>
 
                 <!-- Telemetry Sub-tabs -->
-                <div class="grid grid-cols-2 border-b border-slate-800 text-[11px] font-semibold bg-slate-950/50">
-                    <button onclick="switchTelemetryTab('numeric')" id="t-tab-numeric" class="py-2 text-sky-400 border-b-2 border-sky-400">Data Numerik Real-Time</button>
-                    <button onclick="switchTelemetryTab('charts')" id="t-tab-charts" class="py-2 text-slate-400 hover:text-slate-200">Grafik Kinematika</button>
+                <div class="grid grid-cols-2 border-b border-slate-200 dark:border-slate-800 text-[11px] font-semibold bg-slate-100/80 dark:bg-slate-950/50">
+                    <button onclick="switchTelemetryTab('numeric')" id="t-tab-numeric" class="py-2 text-sky-600 dark:text-sky-400 border-b-2 border-sky-600 dark:border-sky-400">Data Numerik Real-Time</button>
+                    <button onclick="switchTelemetryTab('charts')" id="t-tab-charts" class="py-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200">Grafik Kinematika</button>
                 </div>
 
                 <!-- Tab 1: Numeric Telemetry -->
                 <div id="telemetry-numeric-body" class="p-3 overflow-y-auto cad-scroll space-y-3 flex-1 text-xs">
                     <!-- 2-Stroke Telemetry Block -->
-                    <div class="rounded-xl bg-slate-800/60 border border-amber-500/30 p-2.5">
+                    <div class="rounded-xl bg-amber-50/70 dark:bg-slate-800/60 border border-amber-400/50 dark:border-amber-500/30 p-2.5">
                         <div class="flex items-center justify-between mb-2">
-                            <span class="font-bold text-amber-400 text-[11px] uppercase"><i class="fa-solid fa-bolt mr-1"></i>Mesin 2 Tak (2-Stroke)</span>
-                            <span id="tel-2t-cycle" class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300">Kompresi</span>
+                            <span class="font-bold text-amber-600 dark:text-amber-400 text-[11px] uppercase"><i class="fa-solid fa-bolt mr-1"></i>Mesin 2 Tak (2-Stroke)</span>
+                            <span id="tel-2t-cycle" class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-500/15 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300">Kompresi</span>
                         </div>
                         <div class="grid grid-cols-2 gap-1.5 font-mono text-[11px]">
-                            <div class="bg-slate-900/80 p-1.5 rounded-lg">
-                                <div class="text-[9px] text-slate-400">Engine RPM</div>
-                                <div id="tel-2t-rpm" class="font-bold text-slate-100">1200 RPM</div>
+                            <div class="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-transparent p-1.5 rounded-lg">
+                                <div class="text-[9px] text-slate-500 dark:text-slate-400">Engine RPM</div>
+                                <div id="tel-2t-rpm" class="font-bold text-slate-900 dark:text-slate-100">1200 RPM</div>
                             </div>
-                            <div class="bg-slate-900/80 p-1.5 rounded-lg">
-                                <div class="text-[9px] text-slate-400">Crank Angle (0-360°)</div>
-                                <div id="tel-2t-ang" class="font-bold text-amber-300">0.0°</div>
+                            <div class="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-transparent p-1.5 rounded-lg">
+                                <div class="text-[9px] text-slate-500 dark:text-slate-400">Crank Angle (0-360°)</div>
+                                <div id="tel-2t-ang" class="font-bold text-amber-600 dark:text-amber-300">0.0°</div>
                             </div>
-                            <div class="bg-slate-900/80 p-1.5 rounded-lg">
-                                <div class="text-[9px] text-slate-400">Posisi Piston (dari TDC)</div>
-                                <div id="tel-2t-pos" class="font-bold text-slate-100">0.00 mm</div>
+                            <div class="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-transparent p-1.5 rounded-lg">
+                                <div class="text-[9px] text-slate-500 dark:text-slate-400">Posisi Piston (dari TDC)</div>
+                                <div id="tel-2t-pos" class="font-bold text-slate-900 dark:text-slate-100">0.00 mm</div>
                             </div>
-                            <div class="bg-slate-900/80 p-1.5 rounded-lg">
-                                <div class="text-[9px] text-slate-400">Kecepatan Piston</div>
-                                <div id="tel-2t-vel" class="font-bold text-sky-300">0.00 m/s</div>
+                            <div class="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-transparent p-1.5 rounded-lg">
+                                <div class="text-[9px] text-slate-500 dark:text-slate-400">Kecepatan Piston</div>
+                                <div id="tel-2t-vel" class="font-bold text-sky-600 dark:text-sky-300">0.00 m/s</div>
                             </div>
-                            <div class="bg-slate-900/80 p-1.5 rounded-lg">
-                                <div class="text-[9px] text-slate-400">Percepatan Piston</div>
-                                <div id="tel-2t-acc" class="font-bold text-purple-300">0 m/s²</div>
+                            <div class="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-transparent p-1.5 rounded-lg">
+                                <div class="text-[9px] text-slate-500 dark:text-slate-400">Percepatan Piston</div>
+                                <div id="tel-2t-acc" class="font-bold text-purple-600 dark:text-purple-300">0 m/s²</div>
                             </div>
-                            <div class="bg-slate-900/80 p-1.5 rounded-lg">
-                                <div class="text-[9px] text-slate-400">Sudut Con-Rod (β)</div>
-                                <div id="tel-2t-rod" class="font-bold text-slate-100">0.0°</div>
+                            <div class="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-transparent p-1.5 rounded-lg">
+                                <div class="text-[9px] text-slate-500 dark:text-slate-400">Sudut Con-Rod (β)</div>
+                                <div id="tel-2t-rod" class="font-bold text-slate-900 dark:text-slate-100">0.0°</div>
                             </div>
-                            <div class="bg-slate-900/80 p-1.5 rounded-lg">
-                                <div class="text-[9px] text-slate-400">Torsi Instan</div>
-                                <div id="tel-2t-trq" class="font-bold text-emerald-400">0.0 Nm</div>
+                            <div class="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-transparent p-1.5 rounded-lg">
+                                <div class="text-[9px] text-slate-500 dark:text-slate-400">Torsi Instan</div>
+                                <div id="tel-2t-trq" class="font-bold text-emerald-600 dark:text-emerald-400">0.0 Nm</div>
                             </div>
-                            <div class="bg-slate-900/80 p-1.5 rounded-lg">
-                                <div class="text-[9px] text-slate-400">Daya Output Est.</div>
-                                <div id="tel-2t-pwr" class="font-bold text-emerald-400">0.00 kW</div>
+                            <div class="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-transparent p-1.5 rounded-lg">
+                                <div class="text-[9px] text-slate-500 dark:text-slate-400">Daya Output Est.</div>
+                                <div id="tel-2t-pwr" class="font-bold text-emerald-600 dark:text-emerald-400">0.00 kW</div>
                             </div>
                         </div>
-                        <div class="mt-2 pt-1.5 border-t border-slate-700/70 flex justify-between text-[10px] font-mono">
-                            <span id="tel-2t-p-in" class="text-emerald-400">INT: OPEN</span>
-                            <span id="tel-2t-p-tr" class="text-slate-400">TR: SHUT</span>
-                            <span id="tel-2t-p-ex" class="text-slate-400">EX: SHUT</span>
+                        <div class="mt-2 pt-1.5 border-t border-amber-300/60 dark:border-slate-700/70 flex justify-between text-[10px] font-mono">
+                            <span id="tel-2t-p-in" class="text-emerald-600 dark:text-emerald-400 font-semibold">INT: OPEN</span>
+                            <span id="tel-2t-p-tr" class="text-slate-500 dark:text-slate-400">TR: SHUT</span>
+                            <span id="tel-2t-p-ex" class="text-slate-500 dark:text-slate-400">EX: SHUT</span>
                         </div>
                     </div>
 
                     <!-- 4-Stroke Telemetry Block -->
-                    <div class="rounded-xl bg-slate-800/60 border border-sky-500/30 p-2.5">
+                    <div class="rounded-xl bg-sky-50/70 dark:bg-slate-800/60 border border-sky-400/50 dark:border-sky-500/30 p-2.5">
                         <div class="flex items-center justify-between mb-2">
-                            <span class="font-bold text-sky-400 text-[11px] uppercase"><i class="fa-solid fa-gear mr-1"></i>Mesin 4 Tak (4-Stroke)</span>
-                            <span id="tel-4t-cycle" class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300">Hisap</span>
+                            <span class="font-bold text-sky-600 dark:text-sky-400 text-[11px] uppercase"><i class="fa-solid fa-gear mr-1"></i>Mesin 4 Tak (4-Stroke)</span>
+                            <span id="tel-4t-cycle" class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-500/15 dark:bg-sky-500/20 text-sky-700 dark:text-sky-300">Hisap</span>
                         </div>
                         <div class="grid grid-cols-2 gap-1.5 font-mono text-[11px]">
-                            <div class="bg-slate-900/80 p-1.5 rounded-lg">
-                                <div class="text-[9px] text-slate-400">Crank / Cam RPM</div>
-                                <div id="tel-4t-rpm" class="font-bold text-slate-100">1200 / 600</div>
+                            <div class="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-transparent p-1.5 rounded-lg">
+                                <div class="text-[9px] text-slate-500 dark:text-slate-400">Crank / Cam RPM</div>
+                                <div id="tel-4t-rpm" class="font-bold text-slate-900 dark:text-slate-100">1200 / 600</div>
                             </div>
-                            <div class="bg-slate-900/80 p-1.5 rounded-lg">
-                                <div class="text-[9px] text-slate-400">Crank Angle (0-720°)</div>
-                                <div id="tel-4t-ang" class="font-bold text-sky-300">0.0°</div>
+                            <div class="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-transparent p-1.5 rounded-lg">
+                                <div class="text-[9px] text-slate-500 dark:text-slate-400">Crank Angle (0-720°)</div>
+                                <div id="tel-4t-ang" class="font-bold text-sky-600 dark:text-sky-300">0.0°</div>
                             </div>
-                            <div class="bg-slate-900/80 p-1.5 rounded-lg">
-                                <div class="text-[9px] text-slate-400">Posisi Piston (dari TDC)</div>
-                                <div id="tel-4t-pos" class="font-bold text-slate-100">0.00 mm</div>
+                            <div class="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-transparent p-1.5 rounded-lg">
+                                <div class="text-[9px] text-slate-500 dark:text-slate-400">Posisi Piston (dari TDC)</div>
+                                <div id="tel-4t-pos" class="font-bold text-slate-900 dark:text-slate-100">0.00 mm</div>
                             </div>
-                            <div class="bg-slate-900/80 p-1.5 rounded-lg">
-                                <div class="text-[9px] text-slate-400">Kecepatan Piston</div>
-                                <div id="tel-4t-vel" class="font-bold text-sky-300">0.00 m/s</div>
+                            <div class="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-transparent p-1.5 rounded-lg">
+                                <div class="text-[9px] text-slate-500 dark:text-slate-400">Kecepatan Piston</div>
+                                <div id="tel-4t-vel" class="font-bold text-sky-600 dark:text-sky-300">0.00 m/s</div>
                             </div>
-                            <div class="bg-slate-900/80 p-1.5 rounded-lg">
-                                <div class="text-[9px] text-slate-400">Percepatan Piston</div>
-                                <div id="tel-4t-acc" class="font-bold text-purple-300">0 m/s²</div>
+                            <div class="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-transparent p-1.5 rounded-lg">
+                                <div class="text-[9px] text-slate-500 dark:text-slate-400">Percepatan Piston</div>
+                                <div id="tel-4t-acc" class="font-bold text-purple-600 dark:text-purple-300">0 m/s²</div>
                             </div>
-                            <div class="bg-slate-900/80 p-1.5 rounded-lg">
-                                <div class="text-[9px] text-slate-400">Sudut Con-Rod (β)</div>
-                                <div id="tel-4t-rod" class="font-bold text-slate-100">0.0°</div>
+                            <div class="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-transparent p-1.5 rounded-lg">
+                                <div class="text-[9px] text-slate-500 dark:text-slate-400">Sudut Con-Rod (β)</div>
+                                <div id="tel-4t-rod" class="font-bold text-slate-900 dark:text-slate-100">0.0°</div>
                             </div>
-                            <div class="bg-slate-900/80 p-1.5 rounded-lg">
-                                <div class="text-[9px] text-slate-400">Intake Valve Lift</div>
-                                <div id="tel-4t-inl" class="font-bold text-cyan-300">0.00 mm</div>
+                            <div class="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-transparent p-1.5 rounded-lg">
+                                <div class="text-[9px] text-slate-500 dark:text-slate-400">Intake Valve Lift</div>
+                                <div id="tel-4t-inl" class="font-bold text-cyan-600 dark:text-cyan-300">0.00 mm</div>
                             </div>
-                            <div class="bg-slate-900/80 p-1.5 rounded-lg">
-                                <div class="text-[9px] text-slate-400">Exhaust Valve Lift</div>
-                                <div id="tel-4t-exl" class="font-bold text-rose-300">0.00 mm</div>
+                            <div class="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-transparent p-1.5 rounded-lg">
+                                <div class="text-[9px] text-slate-500 dark:text-slate-400">Exhaust Valve Lift</div>
+                                <div id="tel-4t-exl" class="font-bold text-rose-600 dark:text-rose-300">0.00 mm</div>
                             </div>
-                            <div class="bg-slate-900/80 p-1.5 rounded-lg">
-                                <div class="text-[9px] text-slate-400">Torsi Instan</div>
-                                <div id="tel-4t-trq" class="font-bold text-emerald-400">0.0 Nm</div>
+                            <div class="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-transparent p-1.5 rounded-lg">
+                                <div class="text-[9px] text-slate-500 dark:text-slate-400">Torsi Instan</div>
+                                <div id="tel-4t-trq" class="font-bold text-emerald-600 dark:text-emerald-400">0.0 Nm</div>
                             </div>
-                            <div class="bg-slate-900/80 p-1.5 rounded-lg">
-                                <div class="text-[9px] text-slate-400">Daya Output Est.</div>
-                                <div id="tel-4t-pwr" class="font-bold text-emerald-400">0.00 kW</div>
+                            <div class="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-transparent p-1.5 rounded-lg">
+                                <div class="text-[9px] text-slate-500 dark:text-slate-400">Daya Output Est.</div>
+                                <div id="tel-4t-pwr" class="font-bold text-emerald-600 dark:text-emerald-400">0.00 kW</div>
                             </div>
                         </div>
                     </div>
@@ -422,68 +422,68 @@
 
                 <!-- Tab 2: Real-time Kinematics Charts -->
                 <div id="telemetry-charts-body" class="hidden p-3 overflow-y-auto cad-scroll space-y-3 flex-1">
-                    <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-2">
-                        <div class="text-[10px] font-bold text-slate-300 mb-1">1. Posisi Piston (mm) vs Sudut Crankshaft (0–720°)</div>
+                    <div class="bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl p-2">
+                        <div class="text-[10px] font-bold text-slate-700 dark:text-slate-300 mb-1">1. Posisi Piston (mm) vs Sudut Crankshaft (0–720°)</div>
                         <div class="h-32"><canvas id="chart-piston-pos"></canvas></div>
                     </div>
-                    <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-2">
-                        <div class="text-[10px] font-bold text-slate-300 mb-1">2. Kecepatan (m/s) & Percepatan Piston</div>
+                    <div class="bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl p-2">
+                        <div class="text-[10px] font-bold text-slate-700 dark:text-slate-300 mb-1">2. Kecepatan (m/s) & Percepatan Piston</div>
                         <div class="h-32"><canvas id="chart-piston-vel"></canvas></div>
                     </div>
-                    <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-2">
-                        <div class="text-[10px] font-bold text-slate-300 mb-1">3. Valve Lift 4-Tak (mm) & Port Timing 2-Tak</div>
+                    <div class="bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl p-2">
+                        <div class="text-[10px] font-bold text-slate-700 dark:text-slate-300 mb-1">3. Valve Lift 4-Tak (mm) & Port Timing 2-Tak</div>
                         <div class="h-32"><canvas id="chart-valve-lift"></canvas></div>
                     </div>
-                    <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-2">
-                        <div class="text-[10px] font-bold text-slate-300 mb-1">4. Frekuensi Langkah Usaha (Power Stroke / 720°)</div>
+                    <div class="bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl p-2">
+                        <div class="text-[10px] font-bold text-slate-700 dark:text-slate-300 mb-1">4. Frekuensi Langkah Usaha (Power Stroke / 720°)</div>
                         <div class="h-28"><canvas id="chart-power-freq"></canvas></div>
                     </div>
                 </div>
             </aside>
 
             <!-- =================================================================
-                 FLOATING RIGHT PANEL: COMPONENT INSPECTOR (ON 3D CLICK)
+                 FLOATING RIGHT PANEL: COMPONENT INSPECTOR (ON 3D CLICK - LIGHT & DARK)
             ================================================================== -->
-            <aside id="panel-inspector" class="hidden absolute bottom-2 sm:bottom-auto sm:top-28 left-2 right-2 sm:left-auto sm:right-3 sm:w-[350px] max-h-[55vh] sm:max-h-[68vh] bg-slate-900/95 backdrop-blur-xl border border-sky-500/40 rounded-2xl shadow-2xl z-20 flex flex-col overflow-hidden text-slate-100">
-                <div class="px-3.5 py-2.5 bg-gradient-to-r from-sky-950 to-slate-900 border-b border-slate-800 flex items-center justify-between">
+            <aside id="panel-inspector" class="hidden absolute bottom-2 sm:bottom-auto sm:top-28 left-2 right-2 sm:left-auto sm:right-3 sm:w-[350px] max-h-[55vh] sm:max-h-[68vh] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-sky-400/60 dark:border-sky-500/40 rounded-2xl shadow-2xl z-20 flex flex-col overflow-hidden text-slate-900 dark:text-slate-100">
+                <div class="px-3.5 py-2.5 bg-gradient-to-r from-sky-100 to-slate-50 dark:from-sky-950 dark:to-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
                     <div>
-                        <span id="insp-engine-tag" class="text-[9px] font-mono uppercase font-bold px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300">KOMPONEN CAD</span>
-                        <h3 id="insp-title" class="text-sm font-bold text-white mt-0.5">Nama Komponen</h3>
+                        <span id="insp-engine-tag" class="text-[9px] font-mono uppercase font-bold px-1.5 py-0.5 rounded bg-sky-500/15 dark:bg-sky-500/20 text-sky-700 dark:text-sky-300">KOMPONEN CAD</span>
+                        <h3 id="insp-title" class="text-sm font-bold text-slate-900 dark:text-white mt-0.5">Nama Komponen</h3>
                     </div>
-                    <button onclick="closeInspector()" class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-xmark"></i></button>
+                    <button onclick="closeInspector()" class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white p-1"><i class="fa-solid fa-xmark"></i></button>
                 </div>
 
                 <!-- Inspector Action Tabs -->
-                <div class="grid grid-cols-4 border-b border-slate-800 text-[10px] font-semibold bg-slate-950/60">
-                    <button onclick="setInspectorTab('ident')" class="insp-tab-btn active py-2 text-sky-400 border-b-2 border-sky-400" data-tab="ident">Identifikasi</button>
-                    <button onclick="setInspectorTab('work')" class="insp-tab-btn py-2 text-slate-400 hover:text-slate-200" data-tab="work">Cara Kerja</button>
-                    <button onclick="setInspectorTab('comp')" class="insp-tab-btn py-2 text-slate-400 hover:text-slate-200" data-tab="comp">2T vs 4T</button>
-                    <button onclick="setInspectorTab('fact')" class="insp-tab-btn py-2 text-slate-400 hover:text-slate-200" data-tab="fact">Fakta Teknis</button>
+                <div class="grid grid-cols-4 border-b border-slate-200 dark:border-slate-800 text-[10px] font-semibold bg-slate-100/80 dark:bg-slate-950/60">
+                    <button onclick="setInspectorTab('ident')" class="insp-tab-btn active py-2 text-sky-600 dark:text-sky-400 border-b-2 border-sky-600 dark:border-sky-400" data-tab="ident">Identifikasi</button>
+                    <button onclick="setInspectorTab('work')" class="insp-tab-btn py-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200" data-tab="work">Cara Kerja</button>
+                    <button onclick="setInspectorTab('comp')" class="insp-tab-btn py-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200" data-tab="comp">2T vs 4T</button>
+                    <button onclick="setInspectorTab('fact')" class="insp-tab-btn py-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200" data-tab="fact">Fakta Teknis</button>
                 </div>
 
-                <div id="insp-content" class="p-3.5 overflow-y-auto cad-scroll text-xs space-y-2.5 text-slate-300 leading-relaxed">
+                <div id="insp-content" class="p-3.5 overflow-y-auto cad-scroll text-xs space-y-2.5 text-slate-700 dark:text-slate-300 leading-relaxed">
                     <!-- Dynamic content populated by JS -->
                 </div>
             </aside>
 
             <!-- =================================================================
-                 SLIDE-OVER ENGINEERING DRAWER: PARAMS, EXPERIMENTS, FAULTS, TABLE
+                 SLIDE-OVER ENGINEERING DRAWER: PARAMS, EXPERIMENTS, FAULTS, TABLE (LIGHT & DARK)
             ================================================================== -->
-            <aside id="panel-drawer" class="hidden absolute top-0 right-0 bottom-0 w-full sm:w-[420px] bg-slate-900/96 backdrop-blur-xl border-l border-slate-700 shadow-2xl z-30 flex flex-col text-slate-100">
-                <div class="px-4 py-3 border-b border-slate-800 flex items-center justify-between bg-slate-950/60">
+            <aside id="panel-drawer" class="hidden absolute top-0 right-0 bottom-0 w-full sm:w-[420px] bg-white/95 dark:bg-slate-900/96 backdrop-blur-xl border-l border-slate-300 dark:border-slate-700 shadow-2xl z-30 flex flex-col text-slate-900 dark:text-slate-100">
+                <div class="px-4 py-3 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-950/60">
                     <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-flask-vial text-emerald-400"></i>
-                        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-100">Laboratorium Parameter & Analisis</h2>
+                        <i class="fa-solid fa-flask-vial text-emerald-600 dark:text-emerald-400"></i>
+                        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-100">Laboratorium Parameter & Analisis</h2>
                     </div>
-                    <button onclick="togglePanel('drawer')" class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-xmark"></i></button>
+                    <button onclick="togglePanel('drawer')" class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white p-1"><i class="fa-solid fa-xmark"></i></button>
                 </div>
 
                 <!-- Drawer Navigation Tabs -->
-                <div class="grid grid-cols-4 border-b border-slate-800 text-[11px] font-semibold bg-slate-900">
-                    <button onclick="switchDrawerTab('params')" id="d-tab-params" class="py-2.5 text-emerald-400 border-b-2 border-emerald-400">Parameter</button>
-                    <button onclick="switchDrawerTab('experiments')" id="d-tab-experiments" class="py-2.5 text-slate-400 hover:text-slate-200">10 Eksperimen</button>
-                    <button onclick="switchDrawerTab('faults')" id="d-tab-faults" class="py-2.5 text-slate-400 hover:text-slate-200">Gangguan</button>
-                    <button onclick="switchDrawerTab('compare')" id="d-tab-compare" class="py-2.5 text-slate-400 hover:text-slate-200">Tabel 2T/4T</button>
+                <div class="grid grid-cols-4 border-b border-slate-200 dark:border-slate-800 text-[11px] font-semibold bg-slate-100/80 dark:bg-slate-900">
+                    <button onclick="switchDrawerTab('params')" id="d-tab-params" class="py-2.5 text-emerald-600 dark:text-emerald-400 border-b-2 border-emerald-600 dark:border-emerald-400">Parameter</button>
+                    <button onclick="switchDrawerTab('experiments')" id="d-tab-experiments" class="py-2.5 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200">10 Eksperimen</button>
+                    <button onclick="switchDrawerTab('faults')" id="d-tab-faults" class="py-2.5 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200">Gangguan</button>
+                    <button onclick="switchDrawerTab('compare')" id="d-tab-compare" class="py-2.5 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200">Tabel 2T/4T</button>
                 </div>
 
                 <!-- Drawer Content Container -->
@@ -491,117 +491,117 @@
                     
                     <!-- TAB A: ENGINE PARAMETERS -->
                     <div id="drawer-params" class="space-y-4">
-                        <div class="p-2.5 rounded-xl bg-sky-950/40 border border-sky-500/30 text-[11px] text-sky-200">
-                            <i class="fa-solid fa-circle-info mr-1 text-sky-400"></i>
-                            Perubahan Bore dan Stroke secara fisik mengubah volume langkah (<i>swept volume</i>) dan langsung menghitung ulang rasio kompresi pada volume ruang bakar konstan. <span class="text-slate-400 italic">(Catatan: Nilai awal merupakan spesifikasi edukasi; desain aktual bervariasi tiap pabrikan).</span>
+                        <div class="p-2.5 rounded-xl bg-sky-50 dark:bg-sky-950/40 border border-sky-300 dark:border-sky-500/30 text-[11px] text-sky-900 dark:text-sky-200">
+                            <i class="fa-solid fa-circle-info mr-1 text-sky-600 dark:text-sky-400"></i>
+                            Perubahan Bore dan Stroke secara fisik mengubah volume langkah (<i>swept volume</i>) dan langsung menghitung ulang rasio kompresi pada volume ruang bakar konstan. <span class="text-slate-500 dark:text-slate-400 italic">(Catatan: Nilai awal merupakan spesifikasi edukasi; desain aktual bervariasi tiap pabrikan).</span>
                         </div>
 
                         <!-- 2-Stroke Geometry & Port Timing -->
-                        <div class="p-3 rounded-xl bg-slate-800/60 border border-amber-500/30 space-y-2.5">
+                        <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-amber-400/50 dark:border-amber-500/30 space-y-2.5">
                             <div class="flex items-center justify-between">
-                                <h3 class="font-bold text-amber-400 uppercase text-[11px]">Spesifikasi Mesin 2 Tak</h3>
-                                <button onclick="resetEngineParams('2t')" class="text-[10px] text-slate-400 hover:text-white underline">Default</button>
+                                <h3 class="font-bold text-amber-600 dark:text-amber-400 uppercase text-[11px]">Spesifikasi Mesin 2 Tak</h3>
+                                <button onclick="resetEngineParams('2t')" class="text-[10px] text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white underline">Default</button>
                             </div>
                             
                             <div>
-                                <div class="flex justify-between text-[11px] mb-1"><span>Bore (Diameter Silinder)</span><span id="val-2t-bore" class="font-mono text-amber-300">54 mm</span></div>
+                                <div class="flex justify-between text-[11px] mb-1"><span>Bore (Diameter Silinder)</span><span id="val-2t-bore" class="font-mono font-semibold text-amber-600 dark:text-amber-300">54 mm</span></div>
                                 <input type="range" id="inp-2t-bore" min="45" max="72" value="54" class="w-full cad-slider" oninput="updateEngineParam('2t', 'bore', this.value)">
                             </div>
                             <div>
-                                <div class="flex justify-between text-[11px] mb-1"><span>Stroke (Langkah Piston)</span><span id="val-2t-stroke" class="font-mono text-amber-300">54 mm</span></div>
+                                <div class="flex justify-between text-[11px] mb-1"><span>Stroke (Langkah Piston)</span><span id="val-2t-stroke" class="font-mono font-semibold text-amber-600 dark:text-amber-300">54 mm</span></div>
                                 <input type="range" id="inp-2t-stroke" min="42" max="75" value="54" class="w-full cad-slider" oninput="updateEngineParam('2t', 'stroke', this.value)">
                             </div>
                             <div>
-                                <div class="flex justify-between text-[11px] mb-1"><span>Panjang Connecting Rod</span><span id="val-2t-rod" class="font-mono text-amber-300">105 mm</span></div>
+                                <div class="flex justify-between text-[11px] mb-1"><span>Panjang Connecting Rod</span><span id="val-2t-rod" class="font-mono font-semibold text-amber-600 dark:text-amber-300">105 mm</span></div>
                                 <input type="range" id="inp-2t-rod" min="80" max="145" value="105" class="w-full cad-slider" oninput="updateEngineParam('2t', 'rod', this.value)">
                             </div>
                             <div>
-                                <div class="flex justify-between text-[11px] mb-1"><span>Compression Ratio (Geometris)</span><span id="val-2t-cr" class="font-mono text-amber-300">7.5 : 1</span></div>
+                                <div class="flex justify-between text-[11px] mb-1"><span>Compression Ratio (Geometris)</span><span id="val-2t-cr" class="font-mono font-semibold text-amber-600 dark:text-amber-300">7.5 : 1</span></div>
                                 <input type="range" id="inp-2t-cr" min="4.5" max="16.0" step="0.1" value="7.5" class="w-full cad-slider" oninput="updateEngineParam('2t', 'cr', this.value)">
                             </div>
                             <div>
-                                <div class="flex justify-between text-[11px] mb-1"><span>Exhaust Port Duration</span><span id="val-2t-exdur" class="font-mono text-amber-300">170° CA</span></div>
+                                <div class="flex justify-between text-[11px] mb-1"><span>Exhaust Port Duration</span><span id="val-2t-exdur" class="font-mono font-semibold text-amber-600 dark:text-amber-300">170° CA</span></div>
                                 <input type="range" id="inp-2t-exdur" min="140" max="200" step="2" value="170" class="w-full cad-slider" oninput="updateEngineParam('2t', 'exDur', this.value)">
                             </div>
                             <div>
-                                <div class="flex justify-between text-[11px] mb-1"><span>Transfer Port Duration</span><span id="val-2t-trdur" class="font-mono text-amber-300">124° CA</span></div>
+                                <div class="flex justify-between text-[11px] mb-1"><span>Transfer Port Duration</span><span id="val-2t-trdur" class="font-mono font-semibold text-amber-600 dark:text-amber-300">124° CA</span></div>
                                 <input type="range" id="inp-2t-trdur" min="100" max="150" step="2" value="124" class="w-full cad-slider" oninput="updateEngineParam('2t', 'trDur', this.value)">
                             </div>
-                            <div class="pt-1 border-t border-slate-700/70 flex justify-between font-mono text-[10px] text-slate-300">
-                                <span>Kapasitas: <b id="calc-2t-cc" class="text-amber-300">123.7 cc</b></span>
-                                <span>V_bakar: <b id="calc-2t-vc" class="text-amber-300">19.0 cc</b></span>
+                            <div class="pt-1 border-t border-slate-200 dark:border-slate-700/70 flex justify-between font-mono text-[10px] text-slate-600 dark:text-slate-300">
+                                <span>Kapasitas: <b id="calc-2t-cc" class="text-amber-600 dark:text-amber-300">123.7 cc</b></span>
+                                <span>V_bakar: <b id="calc-2t-vc" class="text-amber-600 dark:text-amber-300">19.0 cc</b></span>
                             </div>
                         </div>
 
                         <!-- 4-Stroke Geometry & Valve Timing -->
-                        <div class="p-3 rounded-xl bg-slate-800/60 border border-sky-500/30 space-y-2.5">
+                        <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-sky-400/50 dark:border-sky-500/30 space-y-2.5">
                             <div class="flex items-center justify-between">
-                                <h3 class="font-bold text-sky-400 uppercase text-[11px]">Spesifikasi Mesin 4 Tak</h3>
-                                <button onclick="resetEngineParams('4t')" class="text-[10px] text-slate-400 hover:text-white underline">Default</button>
+                                <h3 class="font-bold text-sky-600 dark:text-sky-400 uppercase text-[11px]">Spesifikasi Mesin 4 Tak</h3>
+                                <button onclick="resetEngineParams('4t')" class="text-[10px] text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white underline">Default</button>
                             </div>
                             
                             <div>
-                                <div class="flex justify-between text-[11px] mb-1"><span>Bore (Diameter Silinder)</span><span id="val-4t-bore" class="font-mono text-sky-300">54 mm</span></div>
+                                <div class="flex justify-between text-[11px] mb-1"><span>Bore (Diameter Silinder)</span><span id="val-4t-bore" class="font-mono font-semibold text-sky-600 dark:text-sky-300">54 mm</span></div>
                                 <input type="range" id="inp-4t-bore" min="45" max="72" value="54" class="w-full cad-slider" oninput="updateEngineParam('4t', 'bore', this.value)">
                             </div>
                             <div>
-                                <div class="flex justify-between text-[11px] mb-1"><span>Stroke (Langkah Piston)</span><span id="val-4t-stroke" class="font-mono text-sky-300">54 mm</span></div>
+                                <div class="flex justify-between text-[11px] mb-1"><span>Stroke (Langkah Piston)</span><span id="val-4t-stroke" class="font-mono font-semibold text-sky-600 dark:text-sky-300">54 mm</span></div>
                                 <input type="range" id="inp-4t-stroke" min="42" max="75" value="54" class="w-full cad-slider" oninput="updateEngineParam('4t', 'stroke', this.value)">
                             </div>
                             <div>
-                                <div class="flex justify-between text-[11px] mb-1"><span>Panjang Connecting Rod</span><span id="val-4t-rod" class="font-mono text-sky-300">105 mm</span></div>
+                                <div class="flex justify-between text-[11px] mb-1"><span>Panjang Connecting Rod</span><span id="val-4t-rod" class="font-mono font-semibold text-sky-600 dark:text-sky-300">105 mm</span></div>
                                 <input type="range" id="inp-4t-rod" min="80" max="145" value="105" class="w-full cad-slider" oninput="updateEngineParam('4t', 'rod', this.value)">
                             </div>
                             <div>
-                                <div class="flex justify-between text-[11px] mb-1"><span>Compression Ratio</span><span id="val-4t-cr" class="font-mono text-sky-300">10.5 : 1</span></div>
+                                <div class="flex justify-between text-[11px] mb-1"><span>Compression Ratio</span><span id="val-4t-cr" class="font-mono font-semibold text-sky-600 dark:text-sky-300">10.5 : 1</span></div>
                                 <input type="range" id="inp-4t-cr" min="6.0" max="22.0" step="0.1" value="10.5" class="w-full cad-slider" oninput="updateEngineParam('4t', 'cr', this.value)">
                             </div>
                             <div>
-                                <div class="flex justify-between text-[11px] mb-1"><span>Max Valve Lift</span><span id="val-4t-lift" class="font-mono text-sky-300">8.5 mm</span></div>
+                                <div class="flex justify-between text-[11px] mb-1"><span>Max Valve Lift</span><span id="val-4t-lift" class="font-mono font-semibold text-sky-600 dark:text-sky-300">8.5 mm</span></div>
                                 <input type="range" id="inp-4t-lift" min="4.0" max="12.0" step="0.5" value="8.5" class="w-full cad-slider" oninput="updateEngineParam('4t', 'lift', this.value)">
                             </div>
                             <div>
-                                <div class="flex justify-between text-[11px] mb-1"><span>Intake / Exhaust Duration</span><span id="val-4t-vdur" class="font-mono text-sky-300">220° / 220°</span></div>
+                                <div class="flex justify-between text-[11px] mb-1"><span>Intake / Exhaust Duration</span><span id="val-4t-vdur" class="font-mono font-semibold text-sky-600 dark:text-sky-300">220° / 220°</span></div>
                                 <input type="range" id="inp-4t-vdur" min="180" max="270" step="5" value="220" class="w-full cad-slider" oninput="updateEngineParam('4t', 'vDur', this.value)">
                             </div>
                             <div>
-                                <div class="flex justify-between text-[11px] mb-1"><span>Cam Timing Advance/Retard</span><span id="val-4t-vtim" class="font-mono text-sky-300">0° CA</span></div>
+                                <div class="flex justify-between text-[11px] mb-1"><span>Cam Timing Advance/Retard</span><span id="val-4t-vtim" class="font-mono font-semibold text-sky-600 dark:text-sky-300">0° CA</span></div>
                                 <input type="range" id="inp-4t-vtim" min="-25" max="25" step="5" value="0" class="w-full cad-slider" oninput="updateEngineParam('4t', 'vTim', this.value)">
                             </div>
-                            <div class="pt-1 border-t border-slate-700/70 flex justify-between font-mono text-[10px] text-slate-300">
-                                <span>Kapasitas: <b id="calc-4t-cc" class="text-sky-300">123.7 cc</b></span>
-                                <span>V_bakar: <b id="calc-4t-vc" class="text-sky-300">13.0 cc</b></span>
+                            <div class="pt-1 border-t border-slate-200 dark:border-slate-700/70 flex justify-between font-mono text-[10px] text-slate-600 dark:text-slate-300">
+                                <span>Kapasitas: <b id="calc-4t-cc" class="text-sky-600 dark:text-sky-300">123.7 cc</b></span>
+                                <span>V_bakar: <b id="calc-4t-vc" class="text-sky-600 dark:text-sky-300">13.0 cc</b></span>
                             </div>
                         </div>
                     </div>
 
                     <!-- TAB B: 10 INTERACTIVE EXPERIMENTS -->
                     <div id="drawer-experiments" class="hidden space-y-2.5">
-                        <p class="text-[11px] text-slate-400">Pilih skenario eksperimen di bawah untuk mengatur konfigurasi CAD, sudut pandang, dan parameter fisika secara otomatis:</p>
+                        <p class="text-[11px] text-slate-600 dark:text-slate-400">Pilih skenario eksperimen di bawah untuk mengatur konfigurasi CAD, sudut pandang, dan parameter fisika secara otomatis:</p>
                         <div id="experiments-list" class="space-y-2"></div>
                     </div>
 
                     <!-- TAB C: FAULT / TROUBLESHOOTING SIMULATION -->
                     <div id="drawer-faults" class="hidden space-y-2.5">
-                        <p class="text-[11px] text-slate-400">Simulasikan gangguan mekanis untuk mengamati efeknya terhadap aliran gas, bukaan katup/port, dan performa pembakaran:</p>
+                        <p class="text-[11px] text-slate-600 dark:text-slate-400">Simulasikan gangguan mekanis untuk mengamati efeknya terhadap aliran gas, bukaan katup/port, dan performa pembakaran:</p>
                         <div id="faults-list" class="space-y-2"></div>
                     </div>
 
                     <!-- TAB D: TECHNICAL COMPARISON TABLE -->
                     <div id="drawer-compare" class="hidden space-y-3">
-                        <div class="p-2.5 rounded-xl bg-amber-950/30 border border-amber-500/30 text-[11px] text-amber-200">
+                        <div class="p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-300 dark:border-amber-500/30 text-[11px] text-amber-900 dark:text-amber-200">
                             <strong>Catatan Prinsip Rekayasa:</strong> Karakteristik efisiensi, emisi, dan tenaga bergantung pada desain spesifik (misal: 2-tak injeksi langsung modern vs karburator konvensional, atau 4-tak DOHC performa tinggi).
                         </div>
-                        <div class="overflow-x-auto rounded-xl border border-slate-700">
+                        <div class="overflow-x-auto rounded-xl border border-slate-300 dark:border-slate-700">
                             <table class="w-full text-left border-collapse text-[11px]">
                                 <thead>
-                                    <tr class="bg-slate-800 text-slate-200 border-b border-slate-700">
+                                    <tr class="bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border-b border-slate-300 dark:border-slate-700">
                                         <th class="p-2 font-bold">Parameter Teknis</th>
-                                        <th class="p-2 font-bold text-amber-400">Mesin 2 Tak</th>
-                                        <th class="p-2 font-bold text-sky-400">Mesin 4 Tak</th>
+                                        <th class="p-2 font-bold text-amber-600 dark:text-amber-400">Mesin 2 Tak</th>
+                                        <th class="p-2 font-bold text-sky-600 dark:text-sky-400">Mesin 4 Tak</th>
                                     </tr>
                                 </thead>
-                                <tbody id="comparison-table-body" class="divide-y divide-slate-800 bg-slate-900/70">
+                                <tbody id="comparison-table-body" class="divide-y divide-slate-200 dark:divide-slate-800 bg-white dark:bg-slate-900/70">
                                     <!-- Populated by JS -->
                                 </tbody>
                             </table>
@@ -825,7 +825,7 @@
         '4t_crankshaft': {
             engine: 'MESIN 4 TAK',
             title: 'Crankshaft & Flywheel (4-Stroke)',
-            ident: 'Poros engkol dengan counterweight penyeimbang dan roda gila (flywheel) bermassa inersia cukup besar di ujung poros.',
+            ident: 'Poros engkol dengan counterweight penyeimbang yang terhubung hanya pada sisi luar bandul (tanpa tembus ke rongga dalam crankpin) dan roda gila (flywheel) bermassa inersia di ujung poros.',
             work: 'Mengubah gerak bolak-balik piston menjadi rotasi dan menyimpan energi kinetik putar pada flywheel untuk melewati 3 langkah non-usaha (hisap, kompresi, buang).',
             comp: 'Flywheel mesin 4 tak umumnya lebih berat dibanding 2 tak karena jeda antar langkah usaha mencapai 720° engkol (dibanding 360° pada 2 tak).',
             fact: 'Memiliki sprocket/gear penggerak timing chain di sisi luar depan dengan jumlah gigi setengah dari gigi camshaft.'
@@ -1165,7 +1165,6 @@
             const width = w || this.container.clientWidth || window.innerWidth;
             const height = h || this.container.clientHeight || window.innerHeight;
             const aspect = width / Math.max(1, height);
-            // Pada layar smartphone portrait (sempit), beri jarak aman dari tepi kiri & kanan layar agar proporsional
             if (aspect < 0.72) return 3.65;
             if (aspect < 0.95) return 4.25;
             return 5.5;
@@ -1173,10 +1172,10 @@
 
         getOptimalCameraDistance(w, h) {
             const aspect = (w && h) ? (w / h) : (window.innerWidth / window.innerHeight);
-            if (aspect < 0.65) return 36.5; // Tall portrait smartphone zoom out proporsional dengan margin kiri-kanan lega
-            if (aspect < 0.90) return 31.5; // Compact portrait mobile/tablet
-            if (aspect < 1.25) return 26.5; // Square / tablet landscape
-            return 23.5;                    // Standard widescreen desktop
+            if (aspect < 0.65) return 36.5;
+            if (aspect < 0.90) return 31.5;
+            if (aspect < 1.25) return 26.5;
+            return 23.5;
         }
 
         initScene() {
@@ -1302,10 +1301,6 @@
             return new THREE.Mesh(geo, material);
         }
 
-        /**
-         * Creates a true 3D solid vaulted combustion chamber dome block (closed cross-section)
-         * so that both rear (-Z) and front (+Z) cutaway views show dense, solid metal casting above the dome.
-         */
         createCurvedClearanceWallMesh(bottomInnerR, topInnerR, outerR, height, phiStart, phiLength, material) {
             const steps = 18;
             const pts = [];
@@ -1325,7 +1320,6 @@
             const latheMesh = new THREE.Mesh(geo, material);
             group.add(latheMesh);
 
-            // Solid cross-section cut faces at phiStart and phiStart + phiLength so cutaway is completely solid (not hollow)
             const cutShape = new THREE.Shape();
             cutShape.moveTo(bottomInnerR, 0);
             for (let i = 0; i <= steps; i++) {
@@ -1416,7 +1410,6 @@
         createSparkPlug(partKey, boreR = 1.35) {
             const group = new THREE.Group();
 
-            // Top HV Terminal Stud (Ujung atas busi tempat listrik bertegangan tinggi masuk)
             const terminalTip = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.075, 0.22, 16), this.mats.forgedSteel);
             terminalTip.position.y = 0.84;
             group.add(terminalTip);
@@ -1440,7 +1433,6 @@
             groundStrap.position.set(0, -0.87, 0.06);
             group.add(groundStrap);
 
-            // High-Voltage Electric Discharge Arcs crawling down from Top Terminal (y = +0.94) to Center Electrode (y = -0.86)
             const hvBoltMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.0 });
             const hvBoltCoreMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.0 });
             const hvBolts = [];
@@ -1462,12 +1454,10 @@
                 hvBolts.push(boltMesh);
             }
 
-            // Glowing High-Voltage Electric Pulse Bead sliding from Top Terminal to Bottom Electrode
             const pulseBead = new THREE.Mesh(new THREE.SphereGeometry(0.095, 12, 12), hvBoltCoreMat);
             pulseBead.position.set(0, 0.94, 0);
             group.add(pulseBead);
 
-            // Spark Ignition Flash, Branching Plasma Arcs & Radial Detonation Wave inside Combustion Chamber
             const sparkGroup = new THREE.Group();
             sparkGroup.position.y = -0.89;
 
@@ -1479,7 +1469,6 @@
             const sparkCore = new THREE.Mesh(new THREE.SphereGeometry(0.16, 12, 12), sparkCoreMat);
             sparkGroup.add(sparkCore);
 
-            // Radial Plasma Lightning Branches from Electrode Tip
             const arcMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.0 });
             for (let b = 0; b < 8; b++) {
                 const ang = (b * Math.PI) / 4;
@@ -1494,7 +1483,6 @@
             }
             group.add(sparkGroup);
 
-            // Radial Detonation Flame Front & Shockwave Rings expanding outward inside Combustion Chamber
             const detonationGroup = new THREE.Group();
             detonationGroup.position.y = -0.94;
 
@@ -1604,7 +1592,6 @@
             ccRearCap.position.z = -ccDepth / 2;
             ccGroup.add(ccRearCap);
 
-            // Front & Outer Unibody Cover
             const unibodyGroup2T = new THREE.Group();
             const ccOuterBarrel = new THREE.Mesh(
                 new THREE.CylinderGeometry(ccRadius, ccRadius, ccDepth, 36, 1, true),
@@ -1712,7 +1699,7 @@
             root.add(this.meshes2T.piston);
             this.registerInspectable(this.meshes2T.piston.children[0], '2t_piston', 'Piston 2-Tak (Pin Ring)', new THREE.Vector3(0, 0.4, 0), true);
 
-            // 4. Cylinder Block with Thick Right Wall housing the Internal Transfer Port & Hollow Outer Fins
+            // 4. Cylinder Block
             const cylGroup = new THREE.Group();
             cylGroup.position.y = 4.35;
             const cylSleeve = new THREE.Mesh(
@@ -1757,7 +1744,7 @@
             this.meshes2T.cylBlock = cylGroup;
             this.registerInspectable(cylSleeve, '2t_cylinder_block', 'Cylinder Block & Fins (2T)', new THREE.Vector3(1.8, 0.6, 0));
 
-            // 5. Intake Port Aligned with Cylinder Wall Gap + Reed Valve (Katup Buluh)
+            // 5. Intake Port & Reed Valve
             const intakeCurve = new THREE.CatmullRomCurve3([
                 new THREE.Vector3(-2.85, 3.22, 0),
                 new THREE.Vector3(-2.05, 3.30, 0),
@@ -1771,7 +1758,6 @@
             this.meshes2T.intake = intakePortMesh;
             this.registerInspectable(intakePortMesh, '2t_reed_valve', 'Intake Manifold & Reed Valve (2T)', new THREE.Vector3(-1.1, 0.55, 0));
 
-            // Reed Valve Assembly
             const reedAssembly = new THREE.Group();
             reedAssembly.position.set(-2.02, 3.30, 0);
             reedAssembly.rotation.z = 0.08;
@@ -1840,7 +1826,7 @@
             this.meshes2T.topReedPivot = topReedPivot;
             this.meshes2T.botReedPivot = botReedPivot;
 
-            // 6. Exhaust Port — Aligned Precisely with Upper-Left Cylinder Wall Gap (Y = 4.62)
+            // 6. Exhaust Port
             const exCurve = new THREE.CatmullRomCurve3([
                 new THREE.Vector3(-boreR, 4.62, 0),
                 new THREE.Vector3(-2.15, 4.62, 0),
@@ -1854,7 +1840,7 @@
             this.meshes2T.exhaustPort = exPortMesh;
             this.registerInspectable(exPortMesh, '2t_exhaust', 'Exhaust Port (Saluran Buang 2T)', new THREE.Vector3(-0.9, 0.35, 0));
 
-            // 7. Internal Transfer Port (Saluran Bilas) Inside Right Cylinder Block Wall
+            // 7. Internal Transfer Port
             const trCurve = new THREE.CatmullRomCurve3([
                 new THREE.Vector3(1.52, 1.42, 0),
                 new THREE.Vector3(boreR + 0.36, 2.08, 0),
@@ -1898,7 +1884,7 @@
             this.meshes2T.transferPort = trPortMesh;
             this.registerInspectable(trPortMesh, '2t_transfer_port', 'Transfer Port (Saluran Bilas Blok)', new THREE.Vector3(0.75, 0.2, 0.3));
 
-            // 8. Cylinder Head with Solid Vaulted Clearance Volume Casting Above TDC (Dense & Solid in Cutaway Mode)
+            // 8. Cylinder Head
             const headGroup = new THREE.Group();
             headGroup.position.y = 6.72;
 
@@ -1908,14 +1894,12 @@
             const domeTopR = 0.14;
             const domeRecessH = 0.38;
 
-            // Rear Vaulted Clearance Dome Solid Casting & Solid Upper Crown
             const headRearWall = this.createCurvedClearanceWallMesh(domeBottomR, domeTopR, hBottomR, domeRecessH, Math.PI * 0.5, Math.PI, this.headMat2T);
             headRearWall.position.y = -0.45;
             const headRearRoof = this.createCurvedClearanceWallMesh(domeTopR, domeTopR, hOuterR, 0.96 - domeRecessH, Math.PI * 0.5, Math.PI, this.headMat2T);
             headRearRoof.position.y = -0.45 + domeRecessH;
             headGroup.add(headRearWall, headRearRoof);
 
-            // Front Cover of Cylinder Head
             const headFrontCoverGroup = new THREE.Group();
             const headFrontWall = this.createCurvedClearanceWallMesh(domeBottomR, domeTopR, hBottomR, domeRecessH, -Math.PI * 0.5, Math.PI, this.headMat2T);
             headFrontWall.position.y = -0.45;
@@ -1950,7 +1934,6 @@
             this.meshes2T.head = headGroup;
             this.registerInspectable(headRearRoof, '2t_cylinder_head', 'Cylinder Head & Clearance Dome (2T)', new THREE.Vector3(1.5, 0.4, 0), true);
 
-            // Rigid Domed Clearance Volume Roof
             const domePts2 = [
                 new THREE.Vector2(0, 0),
                 new THREE.Vector2(boreR * 0.96, 0),
@@ -1965,7 +1948,6 @@
             root.add(chamberDomeMesh2);
             this.meshes2T.chamberDome = chamberDomeMesh2;
 
-            // Dynamic Swept Cylinder Gas Volume below TDC
             const sweptGasGeo2 = new THREE.CylinderGeometry(boreR * 0.96, boreR * 0.96, 1.0, 28);
             sweptGasGeo2.translate(0, 0.5, 0);
             const chamberMesh = new THREE.Mesh(sweptGasGeo2, this.mats.chamberGas2T);
@@ -2073,7 +2055,7 @@
             this.registerInspectable(oilPanRear, '4t_oil_sump', 'Oil Sump & Pelumasan (4T)', new THREE.Vector3(1.8, -2.1, 0));
             this.registerInspectable(upperCcFrontCover, '4t_crankshaft', 'Unibody Crankcase & Cylinder Cover (4T)');
 
-            // 2. Crankshaft with Counterweights, Flywheel & Dedicated Outer Timing Drive Sprocket
+            // 2. Crankshaft with Counterweights, Flywheel & Split Main Shafts (ONLY on outer sides of webs, NEVER piercing inside)
             const crankGroup = new THREE.Group();
             const webL = this.createCrankWebMesh(false, 1.08);
             webL.position.x = -0.46;
@@ -2093,16 +2075,23 @@
             cwRimR.position.x = 0.46;
             crankGroup.add(cwRimL, cwRimR);
 
+            // Crankpin sits exclusively between the inner faces of webL (x = -0.31) and webR (x = +0.31)
             const crankPin = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 0.62, 20), this.mats.bronze);
             crankPin.rotation.z = Math.PI / 2;
             crankPin.position.set(0, 1.08, 0);
             crankGroup.add(crankPin);
             this.meshes4T.crankPin = crankPin;
 
-            const mainShaft = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 3.85, 20), this.mats.forgedSteel);
-            mainShaft.rotation.z = Math.PI / 2;
-            mainShaft.position.x = -0.05;
-            crankGroup.add(mainShaft);
+            // Split Main Journal Shafts: strictly attached to the OUTER faces of the counterweights (no center shaft piercing inside)
+            const shaftFront = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 1.38, 20), this.mats.forgedSteel);
+            shaftFront.rotation.z = Math.PI / 2;
+            shaftFront.position.x = -1.30; // Spans from x = -1.99 (outer timing sprocket) to x = -0.61 (outer face of webL)
+            crankGroup.add(shaftFront);
+
+            const shaftRear = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 1.48, 20), this.mats.forgedSteel);
+            shaftRear.rotation.z = Math.PI / 2;
+            shaftRear.position.x = 1.35; // Spans from x = +0.61 (outer face of webR) to x = +2.09 (flywheel hub)
+            crankGroup.add(shaftRear);
 
             const flywheel = new THREE.Mesh(new THREE.CylinderGeometry(2.15, 2.15, 0.55, 36), this.mats.forgedSteel);
             flywheel.rotation.z = Math.PI / 2;
@@ -2173,11 +2162,10 @@
             this.meshes4T.cylBlock = cylGroup;
             this.registerInspectable(cylSleeve, '4t_cylinder_block', 'Cylinder Block (Smooth Bore)', new THREE.Vector3(1.8, 0.5, 0));
 
-            // 5. Cylinder Head Flush Directly on Cylinder Block Deck (Zero Gap) with Vaulted Clearance Volume & Curved Intake Runner Below Cam Gear
+            // 5. Cylinder Head Flush Directly on Cylinder Block Deck
             const headGroup = new THREE.Group();
-            headGroup.position.y = 7.48; // Base of head (y = -1.24 in local coords) meets cylinder deck (y = 6.24) flush with zero gap
+            headGroup.position.y = 7.48;
 
-            // Vaulted Hemispherical/Pent-Roof Clearance Volume Dome Skirt Sitting Flush on Cylinder Deck (y = -1.24 to -0.86)
             const clearanceSkirtRear = this.createCurvedClearanceWallMesh(boreR * 1.00, boreR * 0.56, boreR + 0.36, 0.38, Math.PI * 0.5, Math.PI, this.headMat4T);
             clearanceSkirtRear.position.y = -1.24;
             headGroup.add(clearanceSkirtRear);
@@ -2187,7 +2175,6 @@
             this.meshes4T.clearanceSkirtFront = clearanceSkirtFront;
             headGroup.add(clearanceSkirtFront);
 
-            // Solid Upper Head Casting Block, Center Valve Bridge & Extended Side Walls Filling Flush Down to Cylinder Deck (y = -1.24 to +0.52)
             const headSolidUpperBlockRear = new THREE.Mesh(new THREE.BoxGeometry(3.42, 0.52, 1.40), this.headMat4T);
             headSolidUpperBlockRear.position.set(0, 0.26, -0.70);
             const headCenterBridgeRear = new THREE.Mesh(new THREE.BoxGeometry(0.68, 0.90, 1.15), this.headMat4T);
@@ -2198,19 +2185,18 @@
             headSideWallR.position.set(1.48, -0.36, -0.70);
             headGroup.add(headSolidUpperBlockRear, headCenterBridgeRear, headSideWallL, headSideWallR);
 
-            // Front Cover of Cylinder Head (Full height y = -1.24 to +0.52, flush on cylinder deck)
             const headHousingFront = new THREE.Mesh(new THREE.BoxGeometry(3.42, 1.76, 1.40), this.headMat4T);
             headHousingFront.position.set(0, -0.36, 0.70);
             headGroup.add(headHousingFront);
             this.meshes4T.headFrontCover = headHousingFront;
 
-            // Intake Manifold Runner: Dips safely BELOW the cam gear (cam gear bottom is at local y = 8.41 - 0.92 - 7.48 = +0.01) then curves back UP to level with Exhaust (local y = +0.48)
+            // Intake Manifold Runner
             const inRunnerCurve = new THREE.CatmullRomCurve3([
-                new THREE.Vector3(-2.65, 0.48, 0.0),   // Outer intake mouth level with exhaust manifold (y = +0.48)
-                new THREE.Vector3(-2.22, -0.48, 0.0),  // Sweeps down safely underneath the outer cam gear (X = -1.86, bottom at y = +0.01)
-                new THREE.Vector3(-1.45, -0.46, 0.0),  // Passes cleanly below cam gear & enters cylinder head wall
-                new THREE.Vector3(-0.76, -0.58, 0.0),  // Curves smoothly down into intake valve pocket
-                new THREE.Vector3(-0.62, -0.92, 0.0)   // Connects directly onto intake valve seat
+                new THREE.Vector3(-2.65, 0.48, 0.0),
+                new THREE.Vector3(-2.22, -0.48, 0.0),
+                new THREE.Vector3(-1.45, -0.46, 0.0),
+                new THREE.Vector3(-0.76, -0.58, 0.0),
+                new THREE.Vector3(-0.62, -0.92, 0.0)
             ]);
             const inManifold = new THREE.Mesh(new THREE.TubeGeometry(inRunnerCurve, 34, 0.34, 18, false), this.mats.intakeBlue);
             headGroup.add(inManifold);
@@ -2232,7 +2218,7 @@
             this.meshes4T.inSeatFront = inSeatRingFront;
             headGroup.add(inPocket, inSeatRingRear, inSeatRingFront);
 
-            // Exhaust Manifold Runner (Outer mouth at y = +0.48, matching Intake outer mouth height)
+            // Exhaust Manifold Runner
             const exRunnerCurve = new THREE.CatmullRomCurve3([
                 new THREE.Vector3(0.62, -0.92, 0),
                 new THREE.Vector3(0.76, -0.58, 0),
@@ -2263,7 +2249,7 @@
             this.meshes4T.head = headGroup;
             this.registerInspectable(headSolidUpperBlockRear, '4t_cylinder_head', 'Cylinder Head & Clearance Dome (4T)', new THREE.Vector3(1.9, 0.6, 0));
 
-            // 6. Poppet Valves (Intake & Exhaust) — Aligned with Flush Cylinder Head Valve Seats
+            // 6. Poppet Valves (Intake & Exhaust)
             const buildValveAssembly = (xPos, tiltZ, isIntake) => {
                 const vGroup = new THREE.Group();
                 vGroup.position.set(xPos, 6.62, 0);
@@ -2408,7 +2394,6 @@
             this.meshes4T.exCamLobe = createRealisticCamLobe(0.92, (-305 * Math.PI) / 180, 0xfb7185, -1, -0.22);
             camRotor.add(this.meshes4T.inCamLobe, this.meshes4T.exCamLobe);
 
-            // Cam Timing Sprocket & Hub (X = -1.86, R = 0.92) — Intake runner bends underneath this gear cleanly
             const camGear = new THREE.Mesh(new THREE.CylinderGeometry(0.92, 0.92, 0.22, 36), this.mats.bronze);
             camGear.rotation.z = Math.PI / 2;
             camGear.position.x = -1.86;
@@ -2473,7 +2458,6 @@
             root.add(chamberDomeMesh4);
             this.meshes4T.chamberDome = chamberDomeMesh4;
 
-            // Dynamic Swept Cylinder Gas Volume below TDC
             const sweptGasGeo4 = new THREE.CylinderGeometry(boreR * 0.96, boreR * 0.96, 1.0, 28);
             sweptGasGeo4.translate(0, 0.5, 0);
             const chamberMesh4 = new THREE.Mesh(sweptGasGeo4, this.mats.chamberGas4T);
@@ -2513,7 +2497,6 @@
             const molGeo = new THREE.SphereGeometry(0.065, 8, 8);
             const oilGeo = new THREE.SphereGeometry(0.055, 8, 8);
 
-            // 2-Stroke Stream Particles
             for (let i = 0; i < 80; i++) {
                 const mat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
                 const mesh = new THREE.Mesh(pGeo, mat);
@@ -2529,7 +2512,6 @@
                 });
             }
 
-            // 4-Stroke Stream Particles
             for (let i = 0; i < 42; i++) {
                 const mat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
                 const mesh = new THREE.Mesh(pGeo, mat);
@@ -2542,7 +2524,6 @@
                 });
             }
 
-            // 4-Stroke Oil Splash Droplets
             for (let i = 0; i < 34; i++) {
                 const oilMat = new THREE.MeshBasicMaterial({ color: 0xf59e0b, transparent: true, opacity: 0.88 });
                 const oilMesh = new THREE.Mesh(oilGeo, oilMat);
@@ -2557,7 +2538,6 @@
                 });
             }
 
-            // Combustion Chamber Compression Molecules
             for (let i = 0; i < 36; i++) {
                 const angle = (i * 2.39996);
                 const radFrac = Math.sqrt((i + 0.5) / 36) * 0.82;
@@ -2581,8 +2561,11 @@
          * =====================================================================
          */
         buildCadHelpers() {
-            this.gridHelper = new THREE.GridHelper(36, 36, 0x1e293b, 0x0f172a);
+            this.gridHelper = new THREE.GridHelper(36, 36, 0x334155, 0x1e293b);
             this.gridHelper.position.y = -3.2;
+            this.gridHelper.material.transparent = true;
+            this.gridHelper.material.opacity = 0.92;
+            this.gridHelper.renderOrder = -1;
             this.scene.add(this.gridHelper);
 
             this.cadLinesGroup = new THREE.Group();
@@ -2630,8 +2613,8 @@
 
         updateCadGuides() {
             const mmToUnit = 0.04;
-            const pistonCrownOffset2T = 1.025; // Top surface of 2-stroke piston (0.25 + 1.55 / 2)
-            const pistonCrownOffset4T = 0.960; // Top surface of 4-stroke piston (0.25 + 1.42 / 2)
+            const pistonCrownOffset2T = 1.025;
+            const pistonCrownOffset4T = 0.960;
 
             const tdc2Y = (this.physics.p2.stroke / 2.0 + this.physics.p2.rod) * mmToUnit + pistonCrownOffset2T;
             const bdc2Y = (-this.physics.p2.stroke / 2.0 + this.physics.p2.rod) * mmToUnit + pistonCrownOffset2T;
@@ -2711,15 +2694,14 @@
             const mmToUnit = 0.04;
             const boreScale2 = this.physics.p2.bore / 54.0;
             const boreScale4 = this.physics.p4.bore / 54.0;
-            const pistonCrownOffset2T = 1.025; // Top face of 2-stroke piston (0.25 + 1.55 / 2)
-            const pistonCrownOffset4T = 0.960; // Top face of 4-stroke piston (0.25 + 1.42 / 2)
+            const pistonCrownOffset2T = 1.025;
+            const pistonCrownOffset4T = 0.960;
 
-            // 1. UPDATE 2-STROKE MECHANICAL ASSEMBLY (90° ROTATED CRANKSHAFT AXIS = Z)
+            // 1. UPDATE 2-STROKE MECHANICAL ASSEMBLY
             const r2 = s2.r * mmToUnit;
             const l2 = s2.l * mmToUnit;
             const yPist2 = s2.yFromCrank * mmToUnit;
 
-            // Dynamic Cylinder Height & Top Deck Shift based on Stroke & Rod Length (2T)
             const defaultTop2 = 6.305;
             const curTop2 = (r2 + l2) + pistonCrownOffset2T;
             const deltaTop2 = curTop2 - defaultTop2;
@@ -2727,10 +2709,8 @@
             const cylHeightScale2 = Math.max(0.65, (curTop2 - cylBase2) / 3.85);
             const cylCenterY2 = cylBase2 + (3.85 * cylHeightScale2) / 2.0;
 
-            // Clearance volume height above TDC scales inversely with Compression Ratio (CR)
             const clearanceHeight2 = Math.max(0.12, 0.38 * (6.5 / Math.max(3.5, this.physics.p2.cr - 1.0)));
 
-            // Scale Cylinder Block, Front Cylinder Cover & Cylinder Head radially with Bore & vertically with Stroke (2T)
             if (this.meshes2T.cylBlock) {
                 this.meshes2T.cylBlock.scale.set(boreScale2, cylHeightScale2, boreScale2);
                 this.meshes2T.cylBlock.position.y = cylCenterY2 + (this.viewMode === 'exploded' ? 0.75 : 0);
@@ -2748,7 +2728,6 @@
                 this.meshes2T.sparkPlug.position.y = (curTop2 + 0.85 + clearanceHeight2) + (this.viewMode === 'exploded' ? 2.85 : 0);
             }
 
-            // Shift external ports & transfer port horizontally to stay flush with scaled cylinder wall
             const boreDelta2 = 1.35 * (boreScale2 - 1.0);
             if (this.meshes2T.intake) this.meshes2T.intake.position.x = -boreDelta2;
             if (this.meshes2T.reedAssembly && this.viewMode !== 'exploded') {
@@ -2763,7 +2742,6 @@
                 this.meshes2T.transferPort.scale.set(1, Math.max(0.75, 1 + deltaTop2 * 0.16), 1);
             }
 
-            // Keep 2-stroke crankcase shell accurately scaled to always enclose crank throw even at maximum stroke
             const requiredCcRadius2 = Math.max(2.35, r2 + 1.18);
             const ccScale2 = requiredCcRadius2 / 2.35;
             if (this.meshes2T.crankcase) this.meshes2T.crankcase.scale.set(ccScale2, ccScale2, 1);
@@ -2781,7 +2759,6 @@
             this.meshes2T.piston.position.set(0, yPist2, 0);
             this.meshes2T.piston.scale.set(boreScale2, 1, boreScale2);
 
-            // Animate 2-Stroke Reed Valve Petals
             if (this.meshes2T.topReedPivot && this.meshes2T.botReedPivot) {
                 const baseAngle = 0.34;
                 const openLift = s2.reedOpenFrac * 0.21;
@@ -2789,7 +2766,6 @@
                 this.meshes2T.botReedPivot.rotation.z = (baseAngle - openLift);
             }
 
-            // Rigid Domed Clearance Volume Roof at TDC + Dynamic Swept Cylinder below TDC
             const chamberTop2 = curTop2 + clearanceHeight2;
             const pistonCrownY2 = yPist2 + pistonCrownOffset2T;
             const chHeight2 = Math.max(0.08, chamberTop2 - pistonCrownY2);
@@ -2847,12 +2823,11 @@
                 this.meshes2T.detDomeMat.opacity = detFade2 * 0.65;
             }
 
-            // 2. UPDATE 4-STROKE MECHANICAL ASSEMBLY (ZERO GAP BETWEEN CYLINDER DECK & CYLINDER HEAD)
+            // 2. UPDATE 4-STROKE MECHANICAL ASSEMBLY
             const r4 = s4.r * mmToUnit;
             const l4 = s4.l * mmToUnit;
             const yPist4 = s4.yFromCrank * mmToUnit;
 
-            // Dynamic Cylinder Height & Top Deck Shift based on Stroke & Rod Length (4T)
             const defaultTop4 = 6.240;
             const curTop4 = (r4 + l4) + pistonCrownOffset4T;
             const deltaTop4 = curTop4 - defaultTop4;
@@ -2860,10 +2835,8 @@
             const cylHeightScale4 = Math.max(0.65, (curTop4 - cylBase4) / 3.85);
             const cylCenterY4 = cylBase4 + (3.85 * cylHeightScale4) / 2.0;
 
-            // Clearance volume height above TDC scales inversely with Compression Ratio (CR)
             const clearanceHeight4 = Math.max(0.12, 0.38 * (9.5 / Math.max(5.0, this.physics.p4.cr - 1.0)));
 
-            // Scale Cylinder Block, Front Cylinder Cover & Cylinder Head radially with Bore & vertically with Stroke (4T)
             if (this.meshes4T.cylBlock) {
                 this.meshes4T.cylBlock.scale.set(boreScale4, cylHeightScale4, boreScale4);
                 this.meshes4T.cylBlock.position.y = cylCenterY4 + (this.viewMode === 'exploded' ? 0.75 : 0);
@@ -2875,7 +2848,6 @@
             if (this.meshes4T.neckFront) this.meshes4T.neckFront.scale.set(boreScale4, 1, boreScale4);
             if (this.meshes4T.head) {
                 this.meshes4T.head.scale.set(boreScale4, 1, boreScale4);
-                // Base of head is at local y = -1.24, so positioning at curTop4 + 1.24 seats it completely flush on the cylinder deck with zero gap
                 this.meshes4T.head.position.y = (curTop4 + 1.24) + (this.viewMode === 'exploded' ? 1.45 : 0);
             }
             if (this.meshes4T.inValve && this.meshes4T.inValve.group) {
@@ -2896,7 +2868,6 @@
                 this.meshes4T.crankPin.position.set(0, r4, 0);
             }
 
-            // Dynamic Sloshing Oil Wave inside 4-Stroke Crankcase Sump
             if (this.meshes4T.oilFluid) {
                 const oilGeo = this.meshes4T.oilFluid.geometry;
                 const pos = oilGeo.attributes.position;
@@ -2926,7 +2897,6 @@
 
             this.meshes4T.camRotor.rotation.x = (s4.camAngleDeg * Math.PI) / 180.0;
 
-            // Animate Timing Chain Links along closed sprocket path (1:2 ratio) at X = -1.86
             if (this.timingChainCurve4T && this.timingChainLinks4T.length > 0) {
                 const camTopY = curTop4 + 2.05;
                 if (this.meshes4T.chainPoints && Math.abs(this.meshes4T.chainPoints[1].y - camTopY) > 0.001) {
@@ -2969,7 +2939,6 @@
             this.meshes4T.exValve.mover.position.y = -exLiftUnits;
             this.meshes4T.exValve.spring.scale.y = Math.max(0.32, 1.0 - (exLiftUnits / 0.66));
 
-            // Rigid Domed Clearance Volume Roof at TDC + Dynamic Swept Cylinder below TDC
             const chamberTop4 = curTop4 + clearanceHeight4;
             const pistonCrownY4 = yPist4 + pistonCrownOffset4T;
             const chHeight4 = Math.max(0.08, chamberTop4 - pistonCrownY4);
@@ -3189,7 +3158,7 @@
                 }
             });
 
-            // 4-Stroke Intake & Exhaust Duct Particles (Follows curved intake path dipping underneath cam gear then rising to exhaust level)
+            // 4-Stroke Intake & Exhaust Duct Particles
             this.particles4T.forEach((p, idx) => {
                 p.mesh.visible = visible && (this.engineVisibility !== '2t');
                 if (!p.mesh.visible) return;
@@ -3202,25 +3171,21 @@
                 if (idx < 21) {
                     p.mat.color.setHex(0x38bdf8);
                     if (t < 0.24) {
-                        // Outer mouth (X = -2.65, Y = +0.48) dipping underneath cam gear (X = -2.22, Y = -0.48)
                         const k = t / 0.24;
                         const px = (-2.65 + k * 0.43) * boreScale4;
                         const py = headBaseY4 + (0.48 - k * 0.96);
                         p.mesh.position.set(px, py, zOff);
                     } else if (t < 0.50) {
-                        // Horizontal pass underneath cam gear into head wall (X = -2.22 to -1.45, Y = -0.47)
                         const k = (t - 0.24) / 0.26;
                         const px = (-2.22 + k * 0.77) * boreScale4;
                         const py = headBaseY4 + (-0.48 + Math.sin(k * Math.PI) * 0.03);
                         p.mesh.position.set(px, py, zOff);
                     } else if (t < 0.72) {
-                        // Curves down into intake valve seat (X = -1.45 to -0.62, Y = -0.46 to -0.92)
                         const k = (t - 0.50) / 0.22;
                         const px = (-1.45 + k * 0.83) * boreScale4;
                         const py = headBaseY4 + (-0.46 - k * k * 0.46);
                         p.mesh.position.set(px, py, zOff);
                     } else {
-                        // Enters combustion chamber past open intake valve
                         const k = (t - 0.72) / 0.28;
                         const px = (-0.62 + k * 0.55) * boreScale4;
                         const py = seatY4 - k * Math.max(0.25, seatY4 - (crownY4 + 0.15));
@@ -3276,6 +3241,11 @@
             const h = this.container.clientHeight;
             let html = '';
 
+            // Adaptive light/dark styling for floating inspection labels
+            const labelStyleClass = this.isDark
+                ? 'bg-slate-900/90 border-sky-500/60 text-slate-100 shadow-lg'
+                : 'bg-white/95 border-sky-600/60 text-slate-900 shadow-md font-semibold';
+
             this.labelAnchors.forEach(item => {
                 if (!this.isObjectVisibleInHierarchy(item.mesh)) return;
 
@@ -3291,7 +3261,7 @@
 
                 if (sx >= 10 && sx <= w - 10 && sy >= 10 && sy <= h - 10) {
                     html += `<div style="transform: translate(${sx.toFixed(0)}px, ${sy.toFixed(0)}px)" 
-                        class="absolute -translate-x-1/2 -translate-y-1/2 px-1.5 py-0.5 rounded bg-slate-900/85 border border-sky-500/50 text-[9px] font-mono text-slate-100 whitespace-nowrap shadow">
+                        class="absolute -translate-x-1/2 -translate-y-1/2 px-1.5 py-0.5 rounded border text-[9px] font-mono whitespace-nowrap ${labelStyleClass}">
                         ${item.text}
                     </div>`;
                 }
@@ -3303,7 +3273,6 @@
         applyViewMode(mode) {
             this.viewMode = mode;
 
-            // Automatically hide inspection labels when switching away from inspection mode
             this.showLabels = (mode === 'inspection');
             updateOverlayButtons(this);
             if (!this.showLabels) {
@@ -3311,7 +3280,6 @@
                 if (layer) layer.innerHTML = '';
             }
 
-            // Reset exploded offsets first
             this.meshes2T.head.position.y = 6.72;
             this.meshes2T.sparkPlug.position.y = 7.45;
             this.meshes2T.cylBlock.position.y = 4.35;
@@ -3461,21 +3429,23 @@
                 this.meshes4T.root.position.x = offset;
                 if (this.cadGuides2T && this.cadGuides4T) {
                     this.cadGuides2T.grp.visible = true;
-                    this.cadGuides2T.grp.position.x = -offset;
                     this.cadGuides4T.grp.visible = true;
+                    this.cadGuides2T.grp.position.x = -offset;
                     this.cadGuides4T.grp.position.x = offset;
                 }
-                this.controls.target.set(0, 3.2, 0);
+                document.getElementById('hud-2t-card').classList.remove('hidden');
+                document.getElementById('hud-4t-card').classList.remove('hidden');
             } else if (val === '2t') {
                 this.meshes2T.root.visible = true;
                 this.meshes4T.root.visible = false;
                 this.meshes2T.root.position.x = 0;
                 if (this.cadGuides2T && this.cadGuides4T) {
                     this.cadGuides2T.grp.visible = true;
-                    this.cadGuides2T.grp.position.x = 0;
                     this.cadGuides4T.grp.visible = false;
+                    this.cadGuides2T.grp.position.x = 0;
                 }
-                this.controls.target.set(0, 3.2, 0);
+                document.getElementById('hud-2t-card').classList.remove('hidden');
+                document.getElementById('hud-4t-card').classList.add('hidden');
             } else if (val === '4t') {
                 this.meshes2T.root.visible = false;
                 this.meshes4T.root.visible = true;
@@ -3485,16 +3455,65 @@
                     this.cadGuides4T.grp.visible = true;
                     this.cadGuides4T.grp.position.x = 0;
                 }
-                this.controls.target.set(0, 3.6, 0);
+                document.getElementById('hud-2t-card').classList.add('hidden');
+                document.getElementById('hud-4t-card').classList.remove('hidden');
             }
+        }
+
+        setBlockOpacity(val) {
+            this.blockOpacity = parseFloat(val);
+            const effectiveOp = (this.viewMode === 'normal' || this.viewMode === 'sidebyside')
+                ? Math.min(this.blockOpacity, 0.58)
+                : this.blockOpacity;
+            this.blockMaterials.forEach(m => {
+                m.transparent = effectiveOp < 0.99;
+                m.opacity = effectiveOp;
+                m.depthWrite = effectiveOp >= 0.99;
+            });
         }
 
         setTheme(isDark) {
             this.isDark = isDark;
-            const bg = isDark ? 0x090d16 : 0xf1f5f9;
-            this.scene.background = new THREE.Color(bg);
-            this.scene.fog = new THREE.FogExp2(bg, 0.012);
-            this.gridHelper.material.color.setHex(isDark ? 0x1e293b : 0xcbd5e1);
+            const bgHex = isDark ? 0x090d16 : 0xf1f5f9;
+            this.scene.background = new THREE.Color(bgHex);
+            this.scene.fog = new THREE.FogExp2(bgHex, 0.012);
+
+            if (this.gridHelper) {
+                this.gridHelper.visible = true;
+                this.gridHelper.position.y = -3.2;
+
+                const mainGridHex = isDark ? 0x334155 : 0x94a3b8;
+                const subGridHex = isDark ? 0x1e293b : 0xcbd5e1;
+
+                if (Array.isArray(this.gridHelper.material)) {
+                    this.gridHelper.material.forEach((mat, idx) => {
+                        mat.color.setHex(idx === 0 ? mainGridHex : subGridHex);
+                        mat.transparent = true;
+                        mat.opacity = isDark ? 0.92 : 0.85;
+                        mat.needsUpdate = true;
+                    });
+                } else if (this.gridHelper.material) {
+                    const colorsAttr = this.gridHelper.geometry && this.gridHelper.geometry.attributes && this.gridHelper.geometry.attributes.color;
+                    if (colorsAttr) {
+                        const cMain = new THREE.Color(mainGridHex);
+                        const cSub = new THREE.Color(subGridHex);
+                        const numLines = colorsAttr.count / 2;
+                        const half = Math.floor(numLines / 2);
+                        for (let i = 0; i < numLines; i++) {
+                            const isMain = (i === 0 || i === half || i === numLines - 1);
+                            const col = isMain ? cMain : cSub;
+                            colorsAttr.setXYZ(i * 2, col.r, col.g, col.b);
+                            colorsAttr.setXYZ(i * 2 + 1, col.r, col.g, col.b);
+                        }
+                        colorsAttr.needsUpdate = true;
+                    } else {
+                        this.gridHelper.material.color.setHex(mainGridHex);
+                    }
+                    this.gridHelper.material.transparent = true;
+                    this.gridHelper.material.opacity = isDark ? 0.92 : 0.85;
+                    this.gridHelper.material.needsUpdate = true;
+                }
+            }
         }
 
         resetCamera() {
@@ -3507,43 +3526,32 @@
         }
 
         onResize() {
-            if (!this.container || !this.renderer || !this.camera) return;
             const w = this.container.clientWidth || window.innerWidth;
             const h = this.container.clientHeight || (window.innerHeight - 140);
-            this.camera.aspect = w / Math.max(1, h);
+            this.camera.aspect = w / h;
             this.camera.updateProjectionMatrix();
             this.renderer.setSize(w, h);
+            this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 
-            if (this.engineVisibility === 'both') {
+            if (this.engineVisibility === 'both' && this.meshes2T.root && this.meshes4T.root) {
                 const offset = this.getSideBySideOffset(w, h);
-                if (this.meshes2T && this.meshes2T.root) this.meshes2T.root.position.x = -offset;
-                if (this.meshes4T && this.meshes4T.root) this.meshes4T.root.position.x = offset;
+                this.meshes2T.root.position.x = -offset;
+                this.meshes4T.root.position.x = offset;
                 if (this.cadGuides2T && this.cadGuides4T) {
                     this.cadGuides2T.grp.position.x = -offset;
                     this.cadGuides4T.grp.position.x = offset;
                 }
             }
-        }
-    }
 
-    function updateOverlayButtons(visualizer = cadApp) {
-        if (!visualizer) return;
-        const map = {
-            gas: [document.getElementById('btn-ov-gas'), visualizer.showGas],
-            labels: [document.getElementById('btn-ov-labels'), visualizer.showLabels],
-            axes: [document.getElementById('btn-ov-axes'), visualizer.showAxes],
-            strokeHud: [document.getElementById('btn-ov-strokeHud'), visualizer.showStrokeHud]
-        };
-        Object.values(map).forEach(([btn, active]) => {
-            if (!btn) return;
-            btn.className = active
-                ? 'px-1.5 sm:px-2 py-1 sm:py-1.5 rounded-md text-[10px] sm:text-xs font-semibold bg-sky-500/20 text-sky-600 dark:text-sky-300 border border-sky-500/40 flex items-center justify-center gap-1 min-w-0 transition'
-                : 'px-1.5 sm:px-2 py-1 sm:py-1.5 rounded-md text-[10px] sm:text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700 flex items-center justify-center gap-1 min-w-0 transition';
-        });
-
-        const strokeHudEl = document.getElementById('hud-stroke-indicators');
-        if (strokeHudEl) {
-            strokeHudEl.classList.toggle('hidden', !visualizer.showStrokeHud);
+            if (this.controls && this.camera) {
+                const curDist = this.camera.position.distanceTo(this.controls.target);
+                const optDist = this.getOptimalCameraDistance(w, h);
+                if (Math.abs(curDist - optDist) > 1.2) {
+                    const dir = this.camera.position.clone().sub(this.controls.target).normalize();
+                    this.camera.position.copy(this.controls.target).addScaledVector(dir, optDist);
+                }
+                this.controls.update();
+            }
         }
     }
 
@@ -3552,239 +3560,262 @@
      * MODULE 4: REAL-TIME TELEMETRY CHARTS (CHART.JS)
      * =========================================================================
      */
-    let chartPos, chartVel, chartValve, chartPower;
-
-    function initTelemetryCharts(physics) {
-        const angles = [];
-        for (let a = 0; a <= 720; a += 15) angles.push(a + '°');
-
-        const commonOpts = {
-            responsive: true,
-            maintainAspectRatio: false,
-            animation: false,
-            plugins: {
-                legend: { labels: { color: '#94a3b8', font: { size: 9, family: 'Inter' }, boxWidth: 10 } }
-            },
-            scales: {
-                x: { ticks: { color: '#64748b', font: { size: 8 }, maxTicksLimit: 9 }, grid: { color: 'rgba(51,65,85,0.3)' } },
-                y: { ticks: { color: '#64748b', font: { size: 8 } }, grid: { color: 'rgba(51,65,85,0.3)' } }
-            }
-        };
-
-        chartPos = new Chart(document.getElementById('chart-piston-pos'), {
-            type: 'line',
-            data: {
-                labels: angles,
-                datasets: [
-                    { label: '2-Tak (mm)', data: [], borderColor: '#f59e0b', borderWidth: 1.8, pointRadius: 0, tension: 0.3 },
-                    { label: '4-Tak (mm)', data: [], borderColor: '#38bdf8', borderWidth: 1.8, borderDash: [4, 3], pointRadius: 0, tension: 0.3 }
-                ]
-            },
-            options: commonOpts
-        });
-
-        chartVel = new Chart(document.getElementById('chart-piston-vel'), {
-            type: 'line',
-            data: {
-                labels: angles,
-                datasets: [
-                    { label: 'Vel 2T (m/s)', data: [], borderColor: '#f59e0b', borderWidth: 1.6, pointRadius: 0, tension: 0.3 },
-                    { label: 'Vel 4T (m/s)', data: [], borderColor: '#38bdf8', borderWidth: 1.6, pointRadius: 0, tension: 0.3 }
-                ]
-            },
-            options: commonOpts
-        });
-
-        chartValve = new Chart(document.getElementById('chart-valve-lift'), {
-            type: 'line',
-            data: {
-                labels: angles,
-                datasets: [
-                    { label: '4T Intake Lift', data: [], borderColor: '#38bdf8', borderWidth: 1.6, pointRadius: 0 },
-                    { label: '4T Exhaust Lift', data: [], borderColor: '#fb7185', borderWidth: 1.6, pointRadius: 0 },
-                    { label: '2T Exhaust Port', data: [], borderColor: '#f59e0b', borderWidth: 1.4, borderDash: [3, 2], pointRadius: 0 }
-                ]
-            },
-            options: commonOpts
-        });
-
-        chartPower = new Chart(document.getElementById('chart-power-freq'), {
-            type: 'bar',
-            data: {
-                labels: ['0-180°', '180-360°', '360-540°', '540-720°'],
-                datasets: [
-                    { label: '2-Tak (2x Usaha / 720°)', data: [1, 0, 1, 0], backgroundColor: 'rgba(245, 158, 11, 0.75)' },
-                    { label: '4-Tak (1x Usaha / 720°)', data: [0, 0, 1, 0], backgroundColor: 'rgba(56, 189, 248, 0.75)' }
-                ]
-            },
-            options: {
-                ...commonOpts,
-                scales: {
-                    x: { ticks: { color: '#94a3b8', font: { size: 9 } }, grid: { display: false } },
-                    y: { min: 0, max: 1.2, ticks: { stepSize: 1, color: '#64748b', font: { size: 8 } }, grid: { color: 'rgba(51,65,85,0.3)' } }
-                }
-            }
-        });
-
-        rebuildStaticChartCurves(physics);
-    }
-
-    function rebuildStaticChartCurves(physics) {
-        if (!chartPos) return;
-        const pos2 = [], pos4 = [], vel2 = [], vel4 = [], inL = [], exL = [], ex2P = [];
-        const halfDur = physics.p4.vDur / 2.0;
-        const effTim = physics.p4.vTim + physics.physicsFaultOffset();
-        const inCenter = (110 - effTim + 720) % 720;
-        const exCenter = (610 - effTim + 720) % 720;
-
-        for (let a = 0; a <= 720; a += 15) {
-            const sc2 = physics.calcSliderCrank(a % 360, physics.p2.stroke, physics.p2.rod, physics.rpm);
-            const sc4 = physics.calcSliderCrank(a % 360, physics.p4.stroke, physics.p4.rod, physics.rpm);
-            pos2.push(sc2.dispFromTDC.toFixed(2));
-            pos4.push(sc4.dispFromTDC.toFixed(2));
-            vel2.push(sc2.vel.toFixed(2));
-            vel4.push(sc4.vel.toFixed(2));
-
-            let dIn = Math.abs(a - inCenter); if (dIn > 360) dIn = 720 - dIn;
-            inL.push(dIn <= halfDur ? (physics.p4.lift * Math.pow(Math.cos((dIn / halfDur) * Math.PI / 2), 1.6)).toFixed(2) : 0);
-
-            let dEx = Math.abs(a - exCenter); if (dEx > 360) dEx = 720 - dEx;
-            exL.push(dEx <= halfDur ? (physics.p4.lift * Math.pow(Math.cos((dEx / halfDur) * Math.PI / 2), 1.6)).toFixed(2) : 0);
-
-            const a2 = a % 360;
-            const exOpen = 180 - physics.p2.exDur / 2;
-            const exClose = 180 + physics.p2.exDur / 2;
-            ex2P.push((a2 >= exOpen && a2 <= exClose) ? (Math.sin(((a2 - exOpen) / physics.p2.exDur) * Math.PI) * 8).toFixed(2) : 0);
+    class TelemetryChartManager {
+        constructor(physics) {
+            this.physics = physics;
+            this.charts = {};
+            this.angles = [];
+            for (let a = 0; a <= 720; a += 15) this.angles.push(a);
+            this.initCharts();
         }
 
-        chartPos.data.datasets[0].data = pos2;
-        chartPos.data.datasets[1].data = pos4;
-        chartPos.update('none');
+        getChartColors() {
+            const isDark = document.documentElement.classList.contains('dark');
+            return {
+                tickColor: isDark ? '#94a3b8' : '#475569',
+                legendColor: isDark ? '#cbd5e1' : '#334155',
+                gridColor: isDark ? 'rgba(148, 163, 184, 0.12)' : 'rgba(100, 116, 139, 0.16)'
+            };
+        }
 
-        chartVel.data.datasets[0].data = vel2;
-        chartVel.data.datasets[1].data = vel4;
-        chartVel.update('none');
+        initCharts() {
+            const c = this.getChartColors();
+            const commonOpts = {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: false,
+                plugins: {
+                    legend: { labels: { color: c.legendColor, font: { size: 9 }, boxWidth: 10 } }
+                },
+                scales: {
+                    x: { ticks: { color: c.tickColor, font: { size: 8 }, maxTicksLimit: 9 }, grid: { color: c.gridColor } },
+                    y: { ticks: { color: c.tickColor, font: { size: 8 } }, grid: { color: c.gridColor } }
+                }
+            };
 
-        chartValve.data.datasets[0].data = inL;
-        chartValve.data.datasets[1].data = exL;
-        chartValve.data.datasets[2].data = ex2P;
-        chartValve.update('none');
+            this.charts.pos = new Chart(document.getElementById('chart-piston-pos'), {
+                type: 'line',
+                data: {
+                    labels: this.angles,
+                    datasets: [
+                        { label: '2T Posisi (mm)', data: [], borderColor: '#f59e0b', borderWidth: 1.8, pointRadius: 0 },
+                        { label: '4T Posisi (mm)', data: [], borderColor: '#38bdf8', borderWidth: 1.8, pointRadius: 0 },
+                        { label: 'Posisi Saat Ini', data: [], borderColor: '#f43f5e', backgroundColor: '#f43f5e', pointRadius: 4, showLine: false }
+                    ]
+                },
+                options: commonOpts
+            });
+
+            this.charts.vel = new Chart(document.getElementById('chart-piston-vel'), {
+                type: 'line',
+                data: {
+                    labels: this.angles,
+                    datasets: [
+                        { label: 'Kecepatan (m/s)', data: [], borderColor: '#10b981', borderWidth: 1.8, pointRadius: 0 },
+                        { label: 'Percepatan (x100 m/s²)', data: [], borderColor: '#a855f7', borderWidth: 1.4, pointRadius: 0 }
+                    ]
+                },
+                options: commonOpts
+            });
+
+            this.charts.valve = new Chart(document.getElementById('chart-valve-lift'), {
+                type: 'line',
+                data: {
+                    labels: this.angles,
+                    datasets: [
+                        { label: '4T Intake Lift (mm)', data: [], borderColor: '#38bdf8', borderWidth: 1.8, pointRadius: 0 },
+                        { label: '4T Exhaust Lift (mm)', data: [], borderColor: '#fb7185', borderWidth: 1.8, pointRadius: 0 },
+                        { label: '2T Exhaust Port (%)', data: [], borderColor: '#f59e0b', borderDash: [3, 3], borderWidth: 1.4, pointRadius: 0 }
+                    ]
+                },
+                options: commonOpts
+            });
+
+            this.charts.power = new Chart(document.getElementById('chart-power-freq'), {
+                type: 'bar',
+                data: {
+                    labels: ['0-180°', '180-360°', '360-540°', '540-720°'],
+                    datasets: [
+                        { label: '2-Tak (2x Usaha / 720°)', data: [1, 0, 1, 0], backgroundColor: 'rgba(245, 158, 11, 0.75)' },
+                        { label: '4-Tak (1x Usaha / 720°)', data: [0, 0, 1, 0], backgroundColor: 'rgba(56, 189, 248, 0.75)' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: false,
+                    plugins: { legend: { labels: { color: c.legendColor, font: { size: 9 }, boxWidth: 10 } } },
+                    scales: {
+                        x: { ticks: { color: c.tickColor, font: { size: 8 } }, grid: { display: false } },
+                        y: { min: 0, max: 1.2, ticks: { display: false }, grid: { color: c.gridColor } }
+                    }
+                }
+            });
+
+            this.recomputeCurves();
+        }
+
+        updateChartTheme() {
+            const c = this.getChartColors();
+            Object.values(this.charts).forEach(chart => {
+                if (chart.options.plugins && chart.options.plugins.legend && chart.options.plugins.legend.labels) {
+                    chart.options.plugins.legend.labels.color = c.legendColor;
+                }
+                if (chart.options.scales) {
+                    if (chart.options.scales.x) {
+                        if (chart.options.scales.x.ticks) chart.options.scales.x.ticks.color = c.tickColor;
+                        if (chart.options.scales.x.grid && chart.options.scales.x.grid.display !== false) {
+                            chart.options.scales.x.grid.color = c.gridColor;
+                        }
+                    }
+                    if (chart.options.scales.y) {
+                        if (chart.options.scales.y.ticks) chart.options.scales.y.ticks.color = c.tickColor;
+                        if (chart.options.scales.y.grid) chart.options.scales.y.grid.color = c.gridColor;
+                    }
+                }
+                chart.update('none');
+            });
+        }
+
+        recomputeCurves() {
+            const p2 = this.physics.p2;
+            const p4 = this.physics.p4;
+            const rpm = this.physics.rpm;
+
+            const pos2Arr = [], pos4Arr = [], vel4Arr = [], acc4Arr = [];
+            const inLiftArr = [], exLiftArr = [], ex2Arr = [];
+
+            const halfDur = p4.vDur / 2.0;
+            const inCenter = (110 - p4.vTim + 720) % 720;
+            const exCenter = (610 - p4.vTim + 720) % 720;
+
+            const exOpen2 = 180 - p2.exDur / 2;
+            const exClose2 = 180 + p2.exDur / 2;
+
+            this.angles.forEach(a => {
+                const sc2 = this.physics.calcSliderCrank(a % 360, p2.stroke, p2.rod, rpm);
+                const sc4 = this.physics.calcSliderCrank(a % 360, p4.stroke, p4.rod, rpm);
+                pos2Arr.push(sc2.dispFromTDC.toFixed(1));
+                pos4Arr.push(sc4.dispFromTDC.toFixed(1));
+                vel4Arr.push(sc4.vel.toFixed(2));
+                acc4Arr.push((sc4.acc / 100).toFixed(2));
+
+                let dIn = Math.abs(a - inCenter); if (dIn > 360) dIn = 720 - dIn;
+                inLiftArr.push(dIn <= halfDur ? (p4.lift * Math.pow(Math.cos((dIn / halfDur) * Math.PI / 2), 1.6)).toFixed(2) : 0);
+
+                let dEx = Math.abs(a - exCenter); if (dEx > 360) dEx = 720 - dEx;
+                exLiftArr.push(dEx <= halfDur ? (p4.lift * Math.pow(Math.cos((dEx / halfDur) * Math.PI / 2), 1.6)).toFixed(2) : 0);
+
+                const a2 = a % 360;
+                ex2Arr.push((a2 >= exOpen2 && a2 <= exClose2) ? (Math.sin(((a2 - exOpen2) / p2.exDur) * Math.PI) * 10).toFixed(2) : 0);
+            });
+
+            this.charts.pos.data.datasets[0].data = pos2Arr;
+            this.charts.pos.data.datasets[1].data = pos4Arr;
+            this.charts.pos.update('none');
+
+            this.charts.vel.data.datasets[0].data = vel4Arr;
+            this.charts.vel.data.datasets[1].data = acc4Arr;
+            this.charts.vel.update('none');
+
+            this.charts.valve.data.datasets[0].data = inLiftArr;
+            this.charts.valve.data.datasets[1].data = exLiftArr;
+            this.charts.valve.data.datasets[2].data = ex2Arr;
+            this.charts.valve.update('none');
+        }
+
+        updateMarker(angleDeg, dispMm) {
+            if (document.getElementById('panel-telemetry').classList.contains('hidden')) return;
+            if (document.getElementById('telemetry-charts-body').classList.contains('hidden')) return;
+
+            const idx = Math.round(angleDeg / 15) % this.angles.length;
+            const markerArr = new Array(this.angles.length).fill(null);
+            markerArr[idx] = dispMm.toFixed(1);
+            this.charts.pos.data.datasets[2].data = markerArr;
+            this.charts.pos.update('none');
+        }
     }
 
     /**
      * =========================================================================
-     * MODULE 5: UI CONTROLLERS, PANEL TOGGLES & REAL-TIME HUD UPDATER
+     * MODULE 5: UI CONTROLLER, EVENT HANDLERS & MAIN ANIMATION LOOP
      * =========================================================================
      */
     const physics = new EnginePhysicsEngine();
-    let cadApp;
-    let currentInspectorPart = null;
-    let currentInspectorTab = 'ident';
+    const cadApp = new EngineCadVisualizer(document.getElementById('cad-viewport'), physics);
+    const chartMgr = new TelemetryChartManager(physics);
 
-    function updateViewportHeight() {
-        const vh = (window.visualViewport ? window.visualViewport.height : window.innerHeight);
-        document.documentElement.style.setProperty('--app-height', `${vh}px`);
-        if (cadApp) cadApp.onResize();
+    let activeInspectorKey = null;
+    let activeInspectorTab = 'ident';
+
+    function populateStaticUI() {
+        const expContainer = document.getElementById('experiments-list');
+        expContainer.innerHTML = EXPERIMENTS_DATA.map(exp => `
+            <button onclick="runExperiment(${exp.id})" class="w-full text-left p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 dark:bg-slate-800/70 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-sky-500/50 transition group">
+                <div class="font-bold text-slate-900 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 text-xs">${exp.title}</div>
+                <div class="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5 leading-snug">${exp.desc}</div>
+            </button>
+        `).join('');
+
+        const faultContainer = document.getElementById('faults-list');
+        faultContainer.innerHTML = FAULTS_DATA.map(f => `
+            <button onclick="setFaultMode('${f.id}')" id="fault-btn-${f.id}" class="fault-btn w-full text-left p-2.5 rounded-xl ${f.id === 'none' ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-500/50' : 'bg-slate-50 dark:bg-slate-800/70 border-slate-200 dark:border-slate-700'} border hover:border-rose-500/50 transition">
+                <div class="font-bold ${f.id === 'none' ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-900 dark:text-slate-100'} text-xs">${f.title}</div>
+                <div class="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5 leading-snug">${f.desc}</div>
+            </button>
+        `).join('');
+
+        const tbody = document.getElementById('comparison-table-body');
+        tbody.innerHTML = COMPARISON_ROWS.map(r => `
+            <tr class="hover:bg-slate-100/80 dark:hover:bg-slate-800/40">
+                <td class="p-2 font-semibold text-slate-800 dark:text-slate-200 align-top">${r.param}</td>
+                <td class="p-2 text-amber-800 dark:text-amber-200/90 align-top">${r.t2}</td>
+                <td class="p-2 text-sky-800 dark:text-sky-200/90 align-top">${r.t4}</td>
+            </tr>
+        `).join('');
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-        updateViewportHeight();
-        if (window.visualViewport) {
-            window.visualViewport.addEventListener('resize', updateViewportHeight);
+    function runExperiment(id) {
+        const exp = EXPERIMENTS_DATA.find(e => e.id === id);
+        if (exp) exp.action();
+    }
+
+    function setFaultMode(faultId) {
+        physics.faultMode = faultId;
+        physics.computeState();
+
+        document.querySelectorAll('.fault-btn').forEach(btn => {
+            btn.classList.remove('ring-2', 'ring-rose-500', 'bg-rose-50', 'dark:bg-rose-950/40');
+        });
+        const activeBtn = document.getElementById(`fault-btn-${faultId}`);
+        if (activeBtn && faultId !== 'none') {
+            activeBtn.classList.add('ring-2', 'ring-rose-500', 'bg-rose-50', 'dark:bg-rose-950/40');
         }
-        window.addEventListener('resize', updateViewportHeight);
-        window.addEventListener('orientationchange', () => setTimeout(updateViewportHeight, 120));
 
-        const container = document.getElementById('cad-viewport');
-        cadApp = new EngineCadVisualizer(container, physics);
-        initTelemetryCharts(physics);
-        populateDrawerLists();
-
-        let lastTime = performance.now();
-        function animate(now) {
-            requestAnimationFrame(animate);
-            const dt = Math.min(0.05, (now - lastTime) / 1000.0);
-            lastTime = now;
-
-            physics.step(dt);
-            cadApp.update();
-            updateHudAndTelemetry();
-        }
-        requestAnimationFrame(animate);
-    });
-
-    function updateHudAndTelemetry() {
-        const s2 = physics.state2T;
-        const s4 = physics.state4T;
-
-        document.getElementById('slider-crank-angle').value = Math.round(physics.masterAngleDeg);
-        document.getElementById('lbl-crank-angle').textContent = Math.round(physics.masterAngleDeg) + '°';
-
-        document.getElementById('hdr-2t-phase').textContent = s2.phase.split(': ')[1] || s2.phase;
-        document.getElementById('hdr-4t-phase').textContent = s4.phase;
-
-        document.getElementById('badge-2t-angle').textContent = s2.ang.toFixed(0) + '° / 360°';
-        document.getElementById('badge-2t-stroke').textContent = s2.phase;
-
-        const setBadgeState = (id, label, open) => {
-            const el = document.getElementById(id);
-            el.textContent = label + (open ? 'BUKA' : 'TUTUP');
-            el.className = open
-                ? 'px-0.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 truncate'
-                : 'px-0.5 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700 truncate';
-        };
-        setBadgeState('port-2t-in', 'INT: ', s2.reedOpenFrac > 0.08);
-        setBadgeState('port-2t-tr', 'TRANS: ', s2.trOpenFrac > 0.08);
-        setBadgeState('port-2t-ex', 'EXH: ', s2.exOpenFrac > 0.08);
-
-        document.getElementById('badge-4t-angle').textContent = s4.ang.toFixed(0) + '° / 720°';
-        document.getElementById('badge-4t-stroke').textContent = s4.phase;
-        setBadgeState('valve-4t-in', 'IN: ', s4.inOpenFrac > 0.08);
-        setBadgeState('valve-4t-ex', 'EX: ', s4.exOpenFrac > 0.08);
-        document.getElementById('cam-4t-rpm').textContent = `CAM ${s4.camAngleDeg.toFixed(0)}°`;
-
-        if (!document.getElementById('panel-telemetry').classList.contains('hidden')) {
-            document.getElementById('tel-2t-rpm').textContent = physics.rpm + ' RPM';
-            document.getElementById('tel-2t-ang').textContent = s2.ang.toFixed(1) + '°';
-            document.getElementById('tel-2t-pos').textContent = s2.dispFromTDC.toFixed(2) + ' mm';
-            document.getElementById('tel-2t-vel').textContent = s2.vel.toFixed(2) + ' m/s';
-            document.getElementById('tel-2t-acc').textContent = Math.round(s2.acc) + ' m/s²';
-            document.getElementById('tel-2t-rod').textContent = s2.betaDeg.toFixed(1) + '°';
-            document.getElementById('tel-2t-trq').textContent = s2.torque.toFixed(1) + ' Nm';
-            document.getElementById('tel-2t-pwr').textContent = s2.powerKw.toFixed(2) + ' kW';
-            document.getElementById('tel-2t-cycle').textContent = s2.gasState.toUpperCase();
-
-            document.getElementById('tel-2t-p-in').textContent = 'INT: ' + (s2.reedOpenFrac > 0.08 ? 'OPEN' : 'SHUT');
-            document.getElementById('tel-2t-p-tr').textContent = 'TR: ' + (s2.trOpenFrac > 0.08 ? 'OPEN' : 'SHUT');
-            document.getElementById('tel-2t-p-ex').textContent = 'EX: ' + (s2.exOpenFrac > 0.08 ? 'OPEN' : 'SHUT');
-
-            document.getElementById('tel-4t-rpm').textContent = `${physics.rpm} / ${Math.round(s4.camRpm)}`;
-            document.getElementById('tel-4t-ang').textContent = s4.ang.toFixed(1) + '°';
-            document.getElementById('tel-4t-pos').textContent = s4.dispFromTDC.toFixed(2) + ' mm';
-            document.getElementById('tel-4t-vel').textContent = s4.vel.toFixed(2) + ' m/s';
-            document.getElementById('tel-4t-acc').textContent = Math.round(s4.acc) + ' m/s²';
-            document.getElementById('tel-4t-rod').textContent = s4.betaDeg.toFixed(1) + '°';
-            document.getElementById('tel-4t-inl').textContent = s4.inValveLift.toFixed(2) + ' mm';
-            document.getElementById('tel-4t-exl').textContent = s4.exValveLift.toFixed(2) + ' mm';
-            document.getElementById('tel-4t-trq').textContent = s4.torque.toFixed(1) + ' Nm';
-            document.getElementById('tel-4t-pwr').textContent = s4.powerKw.toFixed(2) + ' kW';
-            document.getElementById('tel-4t-cycle').textContent = s4.gasState.toUpperCase();
+        const banner = document.getElementById('fault-alert-banner');
+        if (faultId === 'none') {
+            banner.classList.add('hidden');
+        } else {
+            const fObj = FAULTS_DATA.find(x => x.id === faultId);
+            document.getElementById('fault-alert-title').textContent = fObj.title;
+            document.getElementById('fault-alert-desc').textContent = fObj.desc;
+            banner.classList.remove('hidden');
         }
     }
 
     function togglePlay() {
         physics.isPlaying = !physics.isPlaying;
+        const btn = document.getElementById('btn-play-pause');
         const icon = document.getElementById('icon-play-pause');
         const txt = document.getElementById('txt-play-pause');
-        const btn = document.getElementById('btn-play-pause');
         if (physics.isPlaying) {
+            btn.className = 'px-1.5 sm:px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] sm:text-xs font-bold flex items-center justify-center gap-1 sm:gap-1.5 shadow-sm min-w-0 transition';
             icon.className = 'fa-solid fa-pause shrink-0';
             txt.textContent = 'Pause';
-            btn.className = 'px-1.5 sm:px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] sm:text-xs font-bold flex items-center justify-center gap-1 sm:gap-1.5 shadow-sm min-w-0 transition';
         } else {
+            btn.className = 'px-1.5 sm:px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-[11px] sm:text-xs font-bold flex items-center justify-center gap-1 sm:gap-1.5 shadow-sm min-w-0 transition';
             icon.className = 'fa-solid fa-play shrink-0';
             txt.textContent = 'Play';
-            btn.className = 'px-1.5 sm:px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-[11px] sm:text-xs font-bold flex items-center justify-center gap-1 sm:gap-1.5 shadow-sm min-w-0 transition';
         }
     }
 
@@ -3796,56 +3827,46 @@
     function toggleSlowMo() {
         physics.slowMo = !physics.slowMo;
         const btn = document.getElementById('btn-slowmo');
-        btn.className = physics.slowMo
-            ? 'px-1.5 sm:px-3 py-1.5 rounded-lg bg-amber-500/20 text-amber-600 dark:text-amber-300 border border-amber-500/50 text-[11px] sm:text-xs font-bold flex items-center justify-center gap-1 sm:gap-1.5 min-w-0 transition'
-            : 'px-1.5 sm:px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-[11px] sm:text-xs font-semibold flex items-center justify-center gap-1 sm:gap-1.5 min-w-0 transition';
+        if (physics.slowMo) {
+            btn.classList.add('ring-2', 'ring-amber-400', 'bg-amber-500/20');
+        } else {
+            btn.classList.remove('ring-2', 'ring-amber-400', 'bg-amber-500/20');
+        }
     }
 
     function resetSimulation() {
-        // 1. Reset Sudut Crankshaft, RPM, Speed & SlowMo ke kondisi awal
         physics.setAngle(0);
-        physics.rpm = 1200;
-        physics.simSpeed = 1.0;
-        if (physics.slowMo) {
-            physics.slowMo = false;
-            const slowBtn = document.getElementById('btn-slowmo');
-            if (slowBtn) {
-                slowBtn.className = 'px-1.5 sm:px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-[11px] sm:text-xs font-semibold flex items-center justify-center gap-1 sm:gap-1.5 min-w-0 transition';
-            }
-        }
+        setFaultMode('none');
+        setEngineRpm(1200);
         document.getElementById('slider-rpm').value = 1200;
-        document.getElementById('lbl-rpm').textContent = '1200';
+        setSimSpeed(1.0);
         document.getElementById('slider-speed').value = 1.0;
-        document.getElementById('lbl-speed').textContent = '1.0x';
 
-        // 2. Reset Seluruh Parameter Spesifikasi 2-Tak & 4-Tak di Panel Laboratorium ke Default
+        if (physics.slowMo) {
+            toggleSlowMo();
+        }
+
+        setBlockOpacity(1.0);
+        document.getElementById('slider-opacity').value = 1.0;
+
+        setEngineVisibility('both');
+        document.getElementById('sel-engine-display').value = 'both';
+        setViewMode('normal');
+
         resetEngineParams('2t');
         resetEngineParams('4t');
 
-        // 3. Reset Mode Gangguan (Fault Simulation) ke Kondisi Normal Pabrikan
-        setFaultMode('none');
-
-        // 4. Reset Mode Tampilan, Opasitas Blok, Filter Mesin, Overlay & Kamera CAD
-        setEngineVisibility('both');
-        document.getElementById('sel-engine-display').value = 'both';
-        setBlockOpacity(1.0);
-        document.getElementById('slider-opacity').value = 1.0;
-        setViewMode('normal');
-        if (cadApp) {
-            cadApp.showGas = true;
-            cadApp.showLabels = false;
-            cadApp.showAxes = true;
-            cadApp.showStrokeHud = false;
-            cadApp.cadLinesGroup.visible = true;
-            updateOverlayButtons(cadApp);
-            cadApp.resetCamera();
+        physics.isPlaying = true;
+        const btn = document.getElementById('btn-play-pause');
+        const icon = document.getElementById('icon-play-pause');
+        const txt = document.getElementById('txt-play-pause');
+        if (btn && icon && txt) {
+            btn.className = 'px-1.5 sm:px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] sm:text-xs font-bold flex items-center justify-center gap-1 sm:gap-1.5 shadow-sm min-w-0 transition';
+            icon.className = 'fa-solid fa-pause shrink-0';
+            txt.textContent = 'Pause';
         }
-        closeInspector();
 
-        // 5. Pastikan Simulasi Kembali Berjalan (Play)
-        if (!physics.isPlaying) {
-            togglePlay();
-        }
+        cadApp.resetCamera();
     }
 
     function scrubCrankAngle(val) {
@@ -3855,194 +3876,180 @@
 
     function setEngineRpm(val) {
         physics.rpm = parseInt(val, 10);
-        document.getElementById('lbl-rpm').textContent = val;
+        document.getElementById('lbl-rpm').textContent = physics.rpm;
         physics.computeState();
-        rebuildStaticChartCurves(physics);
+        chartMgr.recomputeCurves();
     }
 
     function setSimSpeed(val) {
         physics.simSpeed = parseFloat(val);
-        document.getElementById('lbl-speed').textContent = parseFloat(val).toFixed(1) + 'x';
+        document.getElementById('lbl-speed').textContent = physics.simSpeed.toFixed(1) + 'x';
     }
 
     function setBlockOpacity(val) {
-        cadApp.blockOpacity = parseFloat(val);
-        cadApp.applyViewMode(cadApp.viewMode);
-    }
-
-    function setViewMode(mode) {
-        document.querySelectorAll('.mode-btn').forEach(btn => {
-            const active = btn.dataset.mode === mode;
-            btn.className = active
-                ? 'mode-btn active px-2.5 py-1 rounded-md text-[11px] font-semibold bg-sky-600 text-white shadow-sm shrink-0 transition'
-                : 'mode-btn px-2.5 py-1 rounded-md text-[11px] font-medium bg-slate-200/90 hover:bg-slate-300 text-slate-700 dark:bg-slate-800/90 dark:hover:bg-slate-700 dark:text-slate-300 shrink-0 transition';
-        });
-        cadApp.applyViewMode(mode);
+        cadApp.setBlockOpacity(val);
     }
 
     function setEngineVisibility(val) {
         cadApp.setEngineVisibility(val);
     }
 
-    function toggleOverlay(key) {
-        if (key === 'gas') cadApp.showGas = !cadApp.showGas;
-        if (key === 'labels') cadApp.showLabels = !cadApp.showLabels;
-        if (key === 'axes') {
+    function setViewMode(mode) {
+        document.querySelectorAll('.mode-btn').forEach(b => {
+            if (b.dataset.mode === mode) {
+                b.className = 'mode-btn active px-2.5 py-1 rounded-md text-[11px] font-semibold bg-sky-600 text-white shadow-sm shrink-0 transition';
+            } else {
+                b.className = 'mode-btn px-2.5 py-1 rounded-md text-[11px] font-medium bg-slate-200/90 hover:bg-slate-300 text-slate-700 dark:bg-slate-800/90 dark:hover:bg-slate-700 dark:text-slate-300 shrink-0 transition';
+            }
+        });
+        cadApp.applyViewMode(mode);
+    }
+
+    function toggleOverlay(type) {
+        if (type === 'gas') cadApp.showGas = !cadApp.showGas;
+        if (type === 'labels') cadApp.showLabels = !cadApp.showLabels;
+        if (type === 'axes') {
             cadApp.showAxes = !cadApp.showAxes;
             cadApp.cadLinesGroup.visible = cadApp.showAxes;
         }
-        if (key === 'strokeHud') {
+        if (type === 'strokeHud') {
             cadApp.showStrokeHud = !cadApp.showStrokeHud;
+            const hudEl = document.getElementById('hud-stroke-indicators');
+            if (hudEl) hudEl.classList.toggle('hidden', !cadApp.showStrokeHud);
         }
         updateOverlayButtons(cadApp);
     }
 
-    function setOverlay(key, state) {
-        if (key === 'gas') cadApp.showGas = state;
-        if (key === 'labels') cadApp.showLabels = state;
-        if (key === 'axes') {
+    function setOverlay(type, state) {
+        if (type === 'gas') cadApp.showGas = state;
+        if (type === 'labels') cadApp.showLabels = state;
+        if (type === 'axes') {
             cadApp.showAxes = state;
             cadApp.cadLinesGroup.visible = state;
         }
-        if (key === 'strokeHud') {
+        if (type === 'strokeHud') {
             cadApp.showStrokeHud = state;
+            const hudEl = document.getElementById('hud-stroke-indicators');
+            if (hudEl) hudEl.classList.toggle('hidden', !state);
         }
         updateOverlayButtons(cadApp);
     }
 
-    function togglePanel(which, forceState = null) {
-        const el = document.getElementById('panel-' + which);
-        const show = forceState !== null ? forceState : el.classList.contains('hidden');
-        el.classList.toggle('hidden', !show);
+    function updateOverlayButtons(app) {
+        const setStyle = (id, active) => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.className = active
+                ? 'px-1.5 sm:px-2 py-1 sm:py-1.5 rounded-md text-[10px] sm:text-xs font-semibold bg-sky-500/20 text-sky-600 dark:text-sky-300 border border-sky-500/40 flex items-center justify-center gap-1 min-w-0 transition'
+                : 'px-1.5 sm:px-2 py-1 sm:py-1.5 rounded-md text-[10px] sm:text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700 flex items-center justify-center gap-1 min-w-0 transition';
+        };
+        setStyle('btn-ov-gas', app.showGas);
+        setStyle('btn-ov-labels', app.showLabels);
+        setStyle('btn-ov-axes', app.showAxes);
+        setStyle('btn-ov-strokeHud', app.showStrokeHud);
+    }
+
+    function togglePanel(panelName, forceOpen = null) {
+        const el = document.getElementById(`panel-${panelName}`);
+        const isHidden = el.classList.contains('hidden');
+        const shouldOpen = forceOpen !== null ? forceOpen : isHidden;
+
+        if (shouldOpen) {
+            el.classList.remove('hidden');
+            if (panelName === 'telemetry') chartMgr.recomputeCurves();
+        } else {
+            el.classList.add('hidden');
+        }
     }
 
     function switchTelemetryTab(tab) {
-        const isNum = tab === 'numeric';
-        document.getElementById('telemetry-numeric-body').classList.toggle('hidden', !isNum);
-        document.getElementById('telemetry-charts-body').classList.toggle('hidden', isNum);
+        const numBody = document.getElementById('telemetry-numeric-body');
+        const chartBody = document.getElementById('telemetry-charts-body');
+        const tNum = document.getElementById('t-tab-numeric');
+        const tChart = document.getElementById('t-tab-charts');
 
-        document.getElementById('t-tab-numeric').className = isNum
-            ? 'py-2 text-sky-400 border-b-2 border-sky-400'
-            : 'py-2 text-slate-400 hover:text-slate-200';
-        document.getElementById('t-tab-charts').className = !isNum
-            ? 'py-2 text-sky-400 border-b-2 border-sky-400'
-            : 'py-2 text-slate-400 hover:text-slate-200';
+        if (tab === 'numeric') {
+            numBody.classList.remove('hidden');
+            chartBody.classList.add('hidden');
+            tNum.className = 'py-2 text-sky-600 dark:text-sky-400 border-b-2 border-sky-600 dark:border-sky-400';
+            tChart.className = 'py-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200';
+        } else {
+            numBody.classList.add('hidden');
+            chartBody.classList.remove('hidden');
+            tChart.className = 'py-2 text-sky-600 dark:text-sky-400 border-b-2 border-sky-600 dark:border-sky-400';
+            tNum.className = 'py-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200';
+            chartMgr.recomputeCurves();
+        }
     }
 
     function switchDrawerTab(tab) {
         ['params', 'experiments', 'faults', 'compare'].forEach(t => {
-            document.getElementById('drawer-' + t).classList.toggle('hidden', t !== tab);
-            document.getElementById('d-tab-' + t).className = (t === tab)
-                ? 'py-2.5 text-emerald-400 border-b-2 border-emerald-400'
-                : 'py-2.5 text-slate-400 hover:text-slate-200';
+            document.getElementById(`drawer-${t}`).classList.toggle('hidden', t !== tab);
+            const btn = document.getElementById(`d-tab-${t}`);
+            btn.className = (t === tab)
+                ? 'py-2.5 text-emerald-600 dark:text-emerald-400 border-b-2 border-emerald-600 dark:border-emerald-400'
+                : 'py-2.5 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200';
         });
     }
 
-    function openComponentInspector(partKey) {
-        const info = COMPONENT_DB[partKey];
-        if (!info) return;
-        currentInspectorPart = info;
-        document.getElementById('insp-engine-tag').textContent = info.engine;
-        document.getElementById('insp-title').textContent = info.title;
-        document.getElementById('panel-inspector').classList.remove('hidden');
-        setInspectorTab(currentInspectorTab);
-    }
+    function updateEngineParam(eng, key, rawVal) {
+        const val = parseFloat(rawVal);
+        const target = eng === '2t' ? physics.p2 : physics.p4;
+        target[key] = val;
 
-    function setInspectorTab(tab) {
-        currentInspectorTab = tab;
-        document.querySelectorAll('.insp-tab-btn').forEach(b => {
-            const act = b.dataset.tab === tab;
-            b.className = act
-                ? 'insp-tab-btn active py-2 text-sky-400 border-b-2 border-sky-400'
-                : 'insp-tab-btn py-2 text-slate-400 hover:text-slate-200';
-        });
-        if (!currentInspectorPart) return;
-        const map = {
-            ident: `<div class="font-bold text-slate-100 mb-1">Identifikasi Komponen:</div><p>${currentInspectorPart.ident}</p>`,
-            work: `<div class="font-bold text-emerald-400 mb-1">Cara Kerja dalam Siklus:</div><p>${currentInspectorPart.work}</p>`,
-            comp: `<div class="font-bold text-amber-400 mb-1">Perbandingan 2 Tak vs 4 Tak:</div><p>${currentInspectorPart.comp}</p>`,
-            fact: `<div class="font-bold text-sky-400 mb-1">Fakta & Prinsip Teknik:</div><p>${currentInspectorPart.fact}</p>`
-        };
-        document.getElementById('insp-content').innerHTML = map[tab];
-    }
+        const sweptCc = (Math.PI / 4) * Math.pow(target.bore / 10, 2) * (target.stroke / 10);
 
-    function closeInspector() {
-        document.getElementById('panel-inspector').classList.add('hidden');
-    }
-
-    function updateEngineParam(eng, param, val) {
-        const v = parseFloat(val);
-        if (eng === '2t') {
-            physics.p2[param] = v;
-            if (param === 'bore' || param === 'stroke') {
-                // Bore & stroke physically alter swept volume Vs; recalculate CR from constant clearance volume Vc
-                const vs = (Math.PI / 4) * Math.pow(physics.p2.bore / 10, 2) * (physics.p2.stroke / 10);
-                const newCr = Math.max(4.5, Math.min(16.0, (vs + physics.p2.vc) / physics.p2.vc));
-                physics.p2.cr = Number(newCr.toFixed(1));
-                document.getElementById('inp-2t-cr').value = physics.p2.cr;
-                document.getElementById('val-2t-cr').textContent = physics.p2.cr.toFixed(1) + ' : 1';
-            } else if (param === 'cr') {
-                // Direct CR adjustment updates clearance volume Vc for the current swept volume
-                const vs = (Math.PI / 4) * Math.pow(physics.p2.bore / 10, 2) * (physics.p2.stroke / 10);
-                physics.p2.vc = vs / Math.max(0.5, v - 1.0);
+        if (key === 'bore' || key === 'stroke') {
+            const newCr = (sweptCc + target.vc) / target.vc;
+            target.cr = Math.round(newCr * 10) / 10;
+            const crSlider = document.getElementById(`inp-${eng}-cr`);
+            if (crSlider) {
+                if (target.cr > parseFloat(crSlider.max)) crSlider.max = Math.ceil(target.cr + 2);
+                if (target.cr < parseFloat(crSlider.min)) crSlider.min = Math.max(2.0, Math.floor(target.cr - 1));
+                crSlider.value = target.cr;
             }
-
-            if (param === 'bore') document.getElementById('val-2t-bore').textContent = v + ' mm';
-            if (param === 'stroke') document.getElementById('val-2t-stroke').textContent = v + ' mm';
-            if (param === 'rod') document.getElementById('val-2t-rod').textContent = v + ' mm';
-            if (param === 'cr') document.getElementById('val-2t-cr').textContent = v.toFixed(1) + ' : 1';
-            if (param === 'exDur') document.getElementById('val-2t-exdur').textContent = v + '° CA';
-            if (param === 'trDur') document.getElementById('val-2t-trdur').textContent = v + '° CA';
-
-            const cc = (Math.PI / 4) * Math.pow(physics.p2.bore / 10, 2) * (physics.p2.stroke / 10);
-            const vc = cc / (physics.p2.cr - 1);
-            document.getElementById('calc-2t-cc').textContent = cc.toFixed(1) + ' cc';
-            document.getElementById('calc-2t-vc').textContent = vc.toFixed(1) + ' cc';
-        } else {
-            physics.p4[param] = v;
-            if (param === 'bore' || param === 'stroke') {
-                // Bore & stroke physically alter swept volume Vs; recalculate CR from constant clearance volume Vc
-                const vs = (Math.PI / 4) * Math.pow(physics.p4.bore / 10, 2) * (physics.p4.stroke / 10);
-                const newCr = Math.max(6.0, Math.min(22.0, (vs + physics.p4.vc) / physics.p4.vc));
-                physics.p4.cr = Number(newCr.toFixed(1));
-                document.getElementById('inp-4t-cr').value = physics.p4.cr;
-                document.getElementById('val-4t-cr').textContent = physics.p4.cr.toFixed(1) + ' : 1';
-            } else if (param === 'cr') {
-                // Direct CR adjustment updates clearance volume Vc for the current swept volume
-                const vs = (Math.PI / 4) * Math.pow(physics.p4.bore / 10, 2) * (physics.p4.stroke / 10);
-                physics.p4.vc = vs / Math.max(0.5, v - 1.0);
-            }
-
-            if (param === 'bore') document.getElementById('val-4t-bore').textContent = v + ' mm';
-            if (param === 'stroke') document.getElementById('val-4t-stroke').textContent = v + ' mm';
-            if (param === 'rod') document.getElementById('val-4t-rod').textContent = v + ' mm';
-            if (param === 'cr') document.getElementById('val-4t-cr').textContent = v.toFixed(1) + ' : 1';
-            if (param === 'lift') document.getElementById('val-4t-lift').textContent = v.toFixed(1) + ' mm';
-            if (param === 'vDur') document.getElementById('val-4t-vdur').textContent = `${v}° / ${v}°`;
-            if (param === 'vTim') document.getElementById('val-4t-vtim').textContent = `${v > 0 ? '+' : ''}${v}° CA`;
-
-            const cc = (Math.PI / 4) * Math.pow(physics.p4.bore / 10, 2) * (physics.p4.stroke / 10);
-            const vc = cc / (physics.p4.cr - 1);
-            document.getElementById('calc-4t-cc').textContent = cc.toFixed(1) + ' cc';
-            document.getElementById('calc-4t-vc').textContent = vc.toFixed(1) + ' cc';
+        } else if (key === 'cr') {
+            target.vc = sweptCc / Math.max(0.5, target.cr - 1);
         }
+
+        if (eng === '2t') {
+            document.getElementById('val-2t-bore').textContent = `${target.bore} mm`;
+            document.getElementById('val-2t-stroke').textContent = `${target.stroke} mm`;
+            document.getElementById('val-2t-rod').textContent = `${target.rod} mm`;
+            document.getElementById('val-2t-cr').textContent = `${target.cr.toFixed(1)} : 1`;
+            document.getElementById('val-2t-exdur').textContent = `${target.exDur}° CA`;
+            document.getElementById('val-2t-trdur').textContent = `${target.trDur}° CA`;
+            document.getElementById('calc-2t-cc').textContent = `${sweptCc.toFixed(1)} cc`;
+            document.getElementById('calc-2t-vc').textContent = `${target.vc.toFixed(1)} cc`;
+        } else {
+            document.getElementById('val-4t-bore').textContent = `${target.bore} mm`;
+            document.getElementById('val-4t-stroke').textContent = `${target.stroke} mm`;
+            document.getElementById('val-4t-rod').textContent = `${target.rod} mm`;
+            document.getElementById('val-4t-cr').textContent = `${target.cr.toFixed(1)} : 1`;
+            document.getElementById('val-4t-lift').textContent = `${target.lift.toFixed(1)} mm`;
+            document.getElementById('val-4t-vdur').textContent = `${target.vDur}° / ${target.vDur}°`;
+            document.getElementById('val-4t-vtim').textContent = `${target.vTim > 0 ? '+' : ''}${target.vTim}° CA`;
+            document.getElementById('calc-4t-cc').textContent = `${sweptCc.toFixed(1)} cc`;
+            document.getElementById('calc-4t-vc').textContent = `${target.vc.toFixed(1)} cc`;
+        }
+
         physics.computeState();
-        rebuildStaticChartCurves(physics);
+        chartMgr.recomputeCurves();
     }
 
     function resetEngineParams(eng) {
+        const sweptStd = (Math.PI / 4) * Math.pow(54 / 10, 2) * (54 / 10);
         if (eng === '2t') {
-            const defs = { bore: 54, stroke: 54, rod: 105, cr: 7.5, exDur: 170, trDur: 124 };
-            Object.entries(defs).forEach(([k, val]) => updateEngineParam('2t', k, val));
+            physics.p2 = { bore: 54, stroke: 54, rod: 105, cr: 7.5, vc: sweptStd / 6.5, exDur: 170, trDur: 124 };
             document.getElementById('inp-2t-bore').value = 54;
             document.getElementById('inp-2t-stroke').value = 54;
             document.getElementById('inp-2t-rod').value = 105;
             document.getElementById('inp-2t-cr').value = 7.5;
             document.getElementById('inp-2t-exdur').value = 170;
             document.getElementById('inp-2t-trdur').value = 124;
+            updateEngineParam('2t', 'bore', 54);
         } else {
-            const defs = { bore: 54, stroke: 54, rod: 105, cr: 10.5, lift: 8.5, vDur: 220, vTim: 0 };
-            Object.entries(defs).forEach(([k, val]) => updateEngineParam('4t', k, val));
+            physics.p4 = { bore: 54, stroke: 54, rod: 105, cr: 10.5, vc: sweptStd / 9.5, lift: 8.5, vDur: 220, vTim: 0 };
             document.getElementById('inp-4t-bore').value = 54;
             document.getElementById('inp-4t-stroke').value = 54;
             document.getElementById('inp-4t-rod').value = 105;
@@ -4050,60 +4057,48 @@
             document.getElementById('inp-4t-lift').value = 8.5;
             document.getElementById('inp-4t-vdur').value = 220;
             document.getElementById('inp-4t-vtim').value = 0;
+            updateEngineParam('4t', 'bore', 54);
         }
     }
 
-    function setFaultMode(faultId) {
-        physics.faultMode = faultId;
-        physics.computeState();
-        rebuildStaticChartCurves(physics);
+    function openComponentInspector(partKey) {
+        const data = COMPONENT_DB[partKey];
+        if (!data) return;
+        activeInspectorKey = partKey;
 
-        const banner = document.getElementById('fault-alert-banner');
-        const found = FAULTS_DATA.find(f => f.id === faultId);
-        if (faultId === 'none' || !found) {
-            banner.classList.add('hidden');
-        } else {
-            document.getElementById('fault-alert-title').textContent = found.title;
-            document.getElementById('fault-alert-desc').textContent = found.desc;
-            banner.classList.remove('hidden');
-        }
+        document.getElementById('insp-engine-tag').textContent = data.engine;
+        document.getElementById('insp-title').textContent = data.title;
+        document.getElementById('panel-inspector').classList.remove('hidden');
+        setInspectorTab(activeInspectorTab);
+    }
 
-        document.querySelectorAll('.fault-card').forEach(card => {
-            const active = card.dataset.fault === faultId;
-            card.className = active
-                ? 'fault-card p-2.5 rounded-xl bg-rose-950/70 border border-rose-500 cursor-pointer transition'
-                : 'fault-card p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700 cursor-pointer transition';
+    function setInspectorTab(tab) {
+        activeInspectorTab = tab;
+        document.querySelectorAll('.insp-tab-btn').forEach(b => {
+            if (b.dataset.tab === tab) {
+                b.className = 'insp-tab-btn active py-2 text-sky-600 dark:text-sky-400 border-b-2 border-sky-600 dark:border-sky-400';
+            } else {
+                b.className = 'insp-tab-btn py-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200';
+            }
         });
+
+        if (!activeInspectorKey) return;
+        const data = COMPONENT_DB[activeInspectorKey];
+        const titles = {
+            ident: 'Identifikasi & Konstruksi Komponen',
+            work: 'Prinsip & Cara Kerja Mekanis',
+            comp: 'Perbandingan Karakteristik (2-Tak vs 4-Tak)',
+            fact: 'Fakta Rekayasa & Analisis Teknik'
+        };
+        document.getElementById('insp-content').innerHTML = `
+            <div class="font-bold text-sky-700 dark:text-sky-300 text-[11px] uppercase tracking-wide">${titles[tab]}</div>
+            <p class="text-slate-700 dark:text-slate-200">${data[tab]}</p>
+        `;
     }
 
-    function populateDrawerLists() {
-        const expContainer = document.getElementById('experiments-list');
-        expContainer.innerHTML = EXPERIMENTS_DATA.map((exp, idx) => `
-            <div onclick="EXPERIMENTS_DATA[${idx}].action()" class="p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700 hover:border-sky-500/60 cursor-pointer transition group">
-                <div class="flex items-center justify-between">
-                    <span class="font-bold text-slate-100 group-hover:text-sky-400 text-[11px]">${exp.title}</span>
-                    <i class="fa-solid fa-play text-[10px] text-sky-400 opacity-70 group-hover:opacity-100"></i>
-                </div>
-                <p class="text-[11px] text-slate-400 mt-1 leading-snug">${exp.desc}</p>
-            </div>
-        `).join('');
-
-        const faultContainer = document.getElementById('faults-list');
-        faultContainer.innerHTML = FAULTS_DATA.map(f => `
-            <div onclick="setFaultMode('${f.id}')" data-fault="${f.id}" class="fault-card p-2.5 rounded-xl ${f.id === 'none' ? 'bg-rose-950/70 border-rose-500' : 'bg-slate-800/60 border-slate-700'} hover:bg-slate-800 border cursor-pointer transition">
-                <div class="font-bold text-slate-100 text-[11px]">${f.title}</div>
-                <p class="text-[11px] text-slate-400 mt-1 leading-snug">${f.desc}</p>
-            </div>
-        `).join('');
-
-        const tbody = document.getElementById('comparison-table-body');
-        tbody.innerHTML = COMPARISON_ROWS.map(r => `
-            <tr class="hover:bg-slate-800/40">
-                <td class="p-2 font-semibold text-slate-200 align-top">${r.param}</td>
-                <td class="p-2 text-amber-200/90 align-top">${r.t2}</td>
-                <td class="p-2 text-sky-200/90 align-top">${r.t4}</td>
-            </tr>
-        `).join('');
+    function closeInspector() {
+        document.getElementById('panel-inspector').classList.add('hidden');
+        activeInspectorKey = null;
     }
 
     function toggleCadTheme() {
@@ -4112,67 +4107,174 @@
         document.getElementById('icon-sun').classList.toggle('hidden', !isDark);
         document.getElementById('icon-moon').classList.toggle('hidden', isDark);
         cadApp.setTheme(isDark);
+        chartMgr.updateChartTheme();
     }
 
-    function updateCanvasFullscreenButton(isFull) {
+    function updateTelemetryHUD() {
+        const s2 = physics.state2T;
+        const s4 = physics.state4T;
+
+        document.getElementById('slider-crank-angle').value = Math.round(physics.masterAngleDeg);
+        document.getElementById('lbl-crank-angle').textContent = `${Math.round(physics.masterAngleDeg)}°`;
+
+        document.getElementById('hdr-2t-phase').textContent = s2.phase.split(': ')[1] || s2.phase;
+        document.getElementById('hdr-4t-phase').textContent = s4.phase;
+
+        document.getElementById('badge-2t-angle').textContent = `${s2.ang.toFixed(0)}°`;
+        document.getElementById('badge-2t-stroke').textContent = s2.phase;
+
+        const pIn = document.getElementById('port-2t-in');
+        const pTr = document.getElementById('port-2t-tr');
+        const pEx = document.getElementById('port-2t-ex');
+
+        pIn.textContent = s2.reedOpenFrac > 0.05 ? 'INT: BUKA' : 'INT: TUTUP';
+        pIn.className = s2.reedOpenFrac > 0.05
+            ? 'px-0.5 py-0.5 rounded bg-emerald-500/15 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 truncate'
+            : 'px-0.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700 truncate';
+
+        pTr.textContent = s2.trOpenFrac > 0.05 ? 'TRANS: BUKA' : 'TRANS: TUTUP';
+        pTr.className = s2.trOpenFrac > 0.05
+            ? 'px-0.5 py-0.5 rounded bg-cyan-500/15 dark:bg-cyan-500/20 text-cyan-700 dark:text-cyan-300 border border-cyan-500/30 truncate'
+            : 'px-0.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700 truncate';
+
+        pEx.textContent = s2.exOpenFrac > 0.05 ? 'EXH: BUKA' : 'EXH: TUTUP';
+        pEx.className = s2.exOpenFrac > 0.05
+            ? 'px-0.5 py-0.5 rounded bg-rose-500/15 dark:bg-rose-500/20 text-rose-700 dark:text-rose-300 border border-rose-500/30 truncate'
+            : 'px-0.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700 truncate';
+
+        document.getElementById('badge-4t-angle').textContent = `${s4.ang.toFixed(0)}°`;
+        document.getElementById('badge-4t-stroke').textContent = s4.phase;
+
+        const vIn = document.getElementById('valve-4t-in');
+        const vEx = document.getElementById('valve-4t-ex');
+        vIn.textContent = s4.inOpenFrac > 0.05 ? `IN: ${s4.inValveLift.toFixed(1)}mm` : 'IN: TUTUP';
+        vIn.className = s4.inOpenFrac > 0.05
+            ? 'px-0.5 py-0.5 rounded bg-sky-500/15 dark:bg-sky-500/20 text-sky-700 dark:text-sky-300 border border-sky-500/30 truncate'
+            : 'px-0.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700 truncate';
+
+        vEx.textContent = s4.exOpenFrac > 0.05 ? `EX: ${s4.exValveLift.toFixed(1)}mm` : 'EX: TUTUP';
+        vEx.className = s4.exOpenFrac > 0.05
+            ? 'px-0.5 py-0.5 rounded bg-rose-500/15 dark:bg-rose-500/20 text-rose-700 dark:text-rose-300 border border-rose-500/30 truncate'
+            : 'px-0.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700 truncate';
+
+        document.getElementById('cam-4t-rpm').textContent = `CAM ${Math.round(s4.camAngleDeg)}°`;
+
+        if (!document.getElementById('panel-telemetry').classList.contains('hidden')) {
+            document.getElementById('tel-2t-cycle').textContent = s2.gasState.toUpperCase();
+            document.getElementById('tel-2t-rpm').textContent = `${physics.rpm} RPM`;
+            document.getElementById('tel-2t-ang').textContent = `${s2.ang.toFixed(1)}°`;
+            document.getElementById('tel-2t-pos').textContent = `${s2.dispFromTDC.toFixed(2)} mm`;
+            document.getElementById('tel-2t-vel').textContent = `${s2.vel.toFixed(2)} m/s`;
+            document.getElementById('tel-2t-acc').textContent = `${Math.round(s2.acc)} m/s²`;
+            document.getElementById('tel-2t-rod').textContent = `${s2.betaDeg.toFixed(1)}°`;
+            document.getElementById('tel-2t-trq').textContent = `${s2.torque.toFixed(1)} Nm`;
+            document.getElementById('tel-2t-pwr').textContent = `${s2.powerKw.toFixed(2)} kW`;
+
+            document.getElementById('tel-2t-p-in').textContent = s2.reedOpenFrac > 0.05 ? 'INT: OPEN' : 'INT: SHUT';
+            document.getElementById('tel-2t-p-tr').textContent = s2.trOpenFrac > 0.05 ? 'TR: OPEN' : 'TR: SHUT';
+            document.getElementById('tel-2t-p-ex').textContent = s2.exOpenFrac > 0.05 ? 'EX: OPEN' : 'EX: SHUT';
+
+            document.getElementById('tel-4t-cycle').textContent = s4.gasState.toUpperCase();
+            document.getElementById('tel-4t-rpm').textContent = `${physics.rpm} / ${Math.round(s4.camRpm)}`;
+            document.getElementById('tel-4t-ang').textContent = `${s4.ang.toFixed(1)}°`;
+            document.getElementById('tel-4t-pos').textContent = `${s4.dispFromTDC.toFixed(2)} mm`;
+            document.getElementById('tel-4t-vel').textContent = `${s4.vel.toFixed(2)} m/s`;
+            document.getElementById('tel-4t-acc').textContent = `${Math.round(s4.acc)} m/s²`;
+            document.getElementById('tel-4t-rod').textContent = `${s4.betaDeg.toFixed(1)}°`;
+            document.getElementById('tel-4t-inl').textContent = `${s4.inValveLift.toFixed(2)} mm`;
+            document.getElementById('tel-4t-exl').textContent = `${s4.exValveLift.toFixed(2)} mm`;
+            document.getElementById('tel-4t-trq').textContent = `${s4.torque.toFixed(1)} Nm`;
+            document.getElementById('tel-4t-pwr').textContent = `${s4.powerKw.toFixed(2)} kW`;
+
+            chartMgr.updateMarker(s4.ang, s4.dispFromTDC);
+        }
+    }
+
+    function syncViewportHeight() {
+        const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+        document.documentElement.style.setProperty('--app-height', `${vh}px`);
+        if (cadApp) cadApp.onResize();
+    }
+    window.addEventListener('resize', syncViewportHeight);
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', syncViewportHeight);
+    }
+    syncViewportHeight();
+
+    function updateFullscreenButtonUI(isFs) {
         const icon = document.getElementById('icon-canvas-fullscreen');
         const txt = document.getElementById('txt-canvas-fullscreen');
         if (!icon || !txt) return;
-        if (isFull) {
-            icon.className = 'fa-solid fa-compress text-amber-400';
+        if (isFs) {
+            icon.className = 'fa-solid fa-compress text-amber-500 dark:text-amber-400';
             txt.textContent = 'Keluar Layar Penuh';
         } else {
-            icon.className = 'fa-solid fa-expand text-sky-400';
+            icon.className = 'fa-solid fa-expand text-sky-600 dark:text-sky-400';
             txt.textContent = 'Layar Penuh';
         }
     }
 
     async function toggleCanvasFullscreen() {
-        const viewport = document.getElementById('cad-viewport');
-        const fsElem = document.fullscreenElement || document.webkitFullscreenElement;
-        const isPureFull = document.body.classList.contains('canvas-pure-fullscreen');
+        const viewportEl = document.getElementById('cad-viewport');
+        const fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+        const isPureFs = document.body.classList.contains('canvas-pure-fullscreen');
 
-        if (fsElem || isPureFull) {
-            document.body.classList.remove('canvas-pure-fullscreen');
-            if (fsElem) {
-                try {
-                    if (document.exitFullscreen) await document.exitFullscreen();
-                    else if (document.webkitExitFullscreen) await document.webkitExitFullscreen();
-                } catch (e) {}
+        if (!fsEl && !isPureFs) {
+            try {
+                if (viewportEl.requestFullscreen) {
+                    await viewportEl.requestFullscreen();
+                } else if (viewportEl.webkitRequestFullscreen) {
+                    await viewportEl.webkitRequestFullscreen();
+                } else {
+                    throw new Error('Fullscreen API unavailable');
+                }
+            } catch (err) {
+                document.body.classList.add('canvas-pure-fullscreen');
+                updateFullscreenButtonUI(true);
+                syncViewportHeight();
             }
-            updateCanvasFullscreenButton(false);
-            setTimeout(() => { updateViewportHeight(); }, 80);
-            return;
-        }
-
-        let nativeFsSucceeded = false;
-        try {
-            if (viewport.requestFullscreen) {
-                await viewport.requestFullscreen();
-                nativeFsSucceeded = true;
-            } else if (viewport.webkitRequestFullscreen) {
-                await viewport.webkitRequestFullscreen();
-                nativeFsSucceeded = true;
+        } else {
+            if (fsEl) {
+                if (document.exitFullscreen) {
+                    await document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    await document.webkitExitFullscreen();
+                }
             }
-        } catch (err) {
-            nativeFsSucceeded = false;
+            if (document.body.classList.contains('canvas-pure-fullscreen')) {
+                document.body.classList.remove('canvas-pure-fullscreen');
+                updateFullscreenButtonUI(false);
+                syncViewportHeight();
+            }
         }
-
-        if (!nativeFsSucceeded) {
-            document.body.classList.add('canvas-pure-fullscreen');
-        }
-        updateCanvasFullscreenButton(true);
-        setTimeout(() => { updateViewportHeight(); }, 80);
     }
 
-    document.addEventListener('fullscreenchange', () => {
+    function handleNativeFullscreenChange() {
         const isFs = Boolean(document.fullscreenElement || document.webkitFullscreenElement);
         if (!isFs) {
             document.body.classList.remove('canvas-pure-fullscreen');
         }
-        updateCanvasFullscreenButton(isFs);
-        setTimeout(() => { updateViewportHeight(); }, 80);
-    });
+        updateFullscreenButtonUI(isFs);
+        setTimeout(syncViewportHeight, 60);
+    }
+    document.addEventListener('fullscreenchange', handleNativeFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleNativeFullscreenChange);
+
+    // Initialize UI & Start 60 FPS Simulation Loop
+    populateStaticUI();
+    let lastTime = performance.now();
+
+    function animate(now) {
+        requestAnimationFrame(animate);
+        const dt = Math.min(0.05, (now - lastTime) / 1000.0);
+        lastTime = now;
+
+        physics.step(dt);
+        cadApp.update();
+        updateTelemetryHUD();
+    }
+
+    requestAnimationFrame(animate);
     </script>
 </body>
 </html>
