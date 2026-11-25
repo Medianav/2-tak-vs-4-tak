@@ -469,7 +469,7 @@
             <!-- =================================================================
                  SLIDE-OVER ENGINEERING DRAWER: PARAMS, EXPERIMENTS, FAULTS, TABLE (LIGHT & DARK)
             ================================================================== -->
-            <aside id="panel-drawer" class="hidden absolute top-0 right-0 bottom-0 w-full sm:w-[420px] bg-white/95 dark:bg-slate-900/96 backdrop-blur-xl border-l border-slate-300 dark:border-slate-700 shadow-2xl z-30 flex flex-col text-slate-900 dark:text-slate-100">
+            <aside id="panel-drawer" class="hidden absolute top-0 right-0 bottom-0 w-full sm:w-[420px] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-l border-slate-300 dark:border-slate-700 shadow-2xl z-30 flex flex-col text-slate-900 dark:text-slate-100">
                 <div class="px-4 py-3 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-950/60">
                     <div class="flex items-center gap-2">
                         <i class="fa-solid fa-flask-vial text-emerald-600 dark:text-emerald-400"></i>
@@ -995,8 +995,12 @@
             const trOpenFrac = (ang2 >= trOpenAng && ang2 <= trCloseAng)
                 ? Math.sin(((ang2 - trOpenAng) / trDur) * Math.PI) : 0;
 
-            const reedOpenFrac = (ang2 > 190 && ang2 < 355)
-                ? Math.sin(((ang2 - 190) / 165) * Math.PI) : 0;
+            // Piston-controlled intake: port intake hanya terbuka saat skirt piston naik
+            // melewatinya, memuncak tepat di TMA, lalu tertutup lagi oleh sisi piston.
+            const intakeOpenAng = 292; // 68° sebelum TMA
+            const intakeDur = 136;     // jendela buka 136°, simetris terhadap TMA
+            const reedAng = (ang2 - intakeOpenAng + 360) % 360;
+            const reedOpenFrac = reedAng < intakeDur ? Math.sin((reedAng / intakeDur) * Math.PI) : 0;
 
             const isSpark2 = (ang2 >= 344 || ang2 <= 14);
 
@@ -1035,6 +1039,8 @@
                 exOpenFrac: exOpenFrac2,
                 trOpenFrac,
                 reedOpenFrac,
+                intakeOpenAng,
+                intakeDur,
                 isSpark: isSpark2,
                 torque: torque2,
                 powerKw: powerKw2
@@ -1238,8 +1244,10 @@
                 return m;
             };
 
-            this.crankCaseMat2T = makeBlockMat(0x475569);
             this.blockMat2T = makeBlockMat(0x64748b);
+            // Material khusus crankcase 2T: agar pada mode cutaway rumah engkol bisa
+            // dipotong pada bidang yang sama dengan blok silinder (z = 0).
+            this.crankCaseMat2T = makeBlockMat(0x64748b);
             this.headMat2T = makeBlockMat(0x94a3b8);
 
             this.crankCaseMat4T = makeBlockMat(0x334155);
@@ -1371,10 +1379,13 @@
         createPistonMesh(boreRadius, isTwoStroke, partKey) {
             const group = new THREE.Group();
             const r = boreRadius * 0.996;
-            const height = isTwoStroke ? 1.55 : 1.42;
+            // Piston 2 tak memakai skirt lebih panjang supaya saat TMA sisi piston
+            // menutup penuh exhaust port dan transfer port (port timing oleh piston).
+            const height = isTwoStroke ? 2.35 : 1.42;
 
             const body = new THREE.Mesh(new THREE.CylinderGeometry(r, r, height, 36), this.mats.pistonAlloy);
-            body.position.y = 0.25;
+            // Mahkota piston tetap di ketinggian semula; skirt 2 tak memanjang ke bawah.
+            body.position.y = (isTwoStroke ? 1.025 : 0.96) - height / 2;
             body.castShadow = true;
             group.add(body);
 
@@ -1579,39 +1590,82 @@
             const boreR = 1.35;
             const rodL = 4.2;
 
-            // 1. Sealed Crankcase
+            // 1. Crankcase Unibody — rumah engkol menyatu dengan blok silinder.
+            //    Seluruh atap crankcase dihilangkan (bukaan 180°) sehingga hanya sisi
+            //    samping dan bawah yang tertutup; dinding samping menirus naik dan menyatu
+            //    dengan sisi bawah blok silinder, jadi stang seher bebas bergerak.
             const ccGroup = new THREE.Group();
             const ccRadius = 2.35;
-            const ccDepth = 2.15;
+            const neckBotR = 2.02;                 // radius bawah leher silinder
+            const ccDepth = neckBotR * 2;          // muka depan/belakang sejajar dengan dasar blok silinder
+            const ccThroatHalf = Math.PI / 2;      // atap crankcase dibuka penuh (180°)
+            const neckH = 0.90;
+            const neckMidY = 2.15;
+            const ccWallTopY = neckMidY - neckH / 2; // dinding samping berhenti di tepi bawah leher
+            const ccWallTilt = Math.atan2(ccRadius - neckBotR, ccWallTopY);
+            const ccWallLen = Math.hypot(ccRadius - neckBotR, ccWallTopY);
 
-            const ccRearCap = new THREE.Mesh(
-                new THREE.CylinderGeometry(ccRadius, ccRadius, 0.26, 36),
-                this.crankCaseMat2T
-            );
-            ccRearCap.rotation.x = Math.PI / 2;
+            // Profil U: busur bawah + dinding samping menirus ke dasar blok silinder.
+            const ccProfile = new THREE.Shape();
+            ccProfile.moveTo(neckBotR, ccWallTopY);
+            ccProfile.lineTo(ccRadius, 0);
+            ccProfile.absarc(0, 0, ccRadius, 0, Math.PI, true);
+            ccProfile.lineTo(-neckBotR, ccWallTopY);
+            ccProfile.closePath();
+
+            // Dinding belakang crankcase: profil U dengan bagian atas terbuka.
+            const ccRearCap = new THREE.Mesh(new THREE.ShapeGeometry(ccProfile, 48), this.crankCaseMat2T);
             ccRearCap.position.z = -ccDepth / 2;
             ccGroup.add(ccRearCap);
 
             const unibodyGroup2T = new THREE.Group();
+
+            // Selubung crankcase: hanya busur bawah 180°, tanpa atap.
             const ccOuterBarrel = new THREE.Mesh(
-                new THREE.CylinderGeometry(ccRadius, ccRadius, ccDepth, 36, 1, true),
+                new THREE.CylinderGeometry(ccRadius, ccRadius, ccDepth, 48, 1, true, -ccThroatHalf, Math.PI * 2 - ccThroatHalf * 2),
                 this.crankCaseMat2T
             );
             ccOuterBarrel.rotation.x = Math.PI / 2;
             unibodyGroup2T.add(ccOuterBarrel);
 
-            const ccFrontPlate = new THREE.Mesh(
-                new THREE.CircleGeometry(ccRadius, 36),
-                this.crankCaseMat2T
-            );
+            // Tutup depan crankcase: profil U yang sama (terbuka di bagian atas).
+            const ccFrontPlate = new THREE.Mesh(new THREE.ShapeGeometry(ccProfile, 48), this.crankCaseMat2T);
             ccFrontPlate.position.z = ccDepth / 2;
             unibodyGroup2T.add(ccFrontPlate);
 
+            // Dinding samping: menirus dari bibir drum ke tepi bawah leher silinder.
+            const ccSideWallR = new THREE.Mesh(new THREE.BoxGeometry(0.16, ccWallLen, ccDepth), this.crankCaseMat2T);
+            ccSideWallR.position.set((ccRadius + neckBotR) / 2, ccWallTopY / 2, 0);
+            ccSideWallR.rotation.z = ccWallTilt;
+            ccGroup.add(ccSideWallR);
+
+            const ccSideWallL = ccSideWallR.clone();
+            ccSideWallL.position.x = -(ccRadius + neckBotR) / 2;
+            ccSideWallL.rotation.z = -ccWallTilt;
+            ccGroup.add(ccSideWallL);
+
+            // Dek atas crankcase: menutup sudut di luar diameter silinder dan
+            // menyatu dengan dinding luar blok; bagian tengah tetap terbuka.
+            const ccDeckShape2T = new THREE.Shape();
+            ccDeckShape2T.moveTo(-ccDepth / 2, -ccDepth / 2);
+            ccDeckShape2T.lineTo(ccDepth / 2, -ccDepth / 2);
+            ccDeckShape2T.lineTo(ccDepth / 2, ccDepth / 2);
+            ccDeckShape2T.lineTo(-ccDepth / 2, ccDepth / 2);
+            ccDeckShape2T.closePath();
+            const ccDeckHole2T = new THREE.Path();
+            ccDeckHole2T.absarc(0, 0, neckBotR - 0.02, 0, Math.PI * 2, true);
+            ccDeckShape2T.holes.push(ccDeckHole2T);
+            const ccDeckGeo2T = new THREE.ShapeGeometry(ccDeckShape2T, 48);
+            ccDeckGeo2T.rotateX(-Math.PI / 2);
+            const ccDeck2T = new THREE.Mesh(ccDeckGeo2T, this.crankCaseMat2T);
+            ccDeck2T.position.y = ccWallTopY;
+            ccGroup.add(ccDeck2T);
+
             const neckFront = new THREE.Mesh(
-                new THREE.CylinderGeometry(boreR + 0.34, 2.02, 0.90, 32, 1, true, -Math.PI * 0.5, Math.PI),
+                new THREE.CylinderGeometry(boreR + 0.34, neckBotR, neckH, 32, 1, true, -Math.PI * 0.5, Math.PI),
                 this.blockMat2T
             );
-            neckFront.position.y = 2.15;
+            neckFront.position.y = neckMidY;
             unibodyGroup2T.add(neckFront);
 
             const cylFrontCover = new THREE.Mesh(
@@ -1624,11 +1678,12 @@
             root.add(unibodyGroup2T);
             this.meshes2T.unibodyCover = unibodyGroup2T;
             this.meshes2T.crankCover = ccOuterBarrel;
+            this.meshes2T.crankFrontPlate = ccFrontPlate;
             this.meshes2T.neckFront = neckFront;
             this.meshes2T.cylFrontCover = cylFrontCover;
 
             const ccGas = new THREE.Mesh(
-                new THREE.CylinderGeometry(ccRadius - 0.16, ccRadius - 0.16, ccDepth - 0.32, 32, 1, true),
+                new THREE.CylinderGeometry(ccRadius - 0.16, ccRadius - 0.16, ccDepth - 0.32, 32, 1, true, -ccThroatHalf, Math.PI * 2 - ccThroatHalf * 2),
                 this.mats.crankGas2T
             );
             ccGas.rotation.x = Math.PI / 2;
@@ -1666,9 +1721,9 @@
             shaftFront.position.x = -0.82;
             crankInner90.add(shaftFront);
 
-            const shaftRear = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 1.45, 20), this.mats.forgedSteel);
+            const shaftRear = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 2.05, 20), this.mats.forgedSteel);
             shaftRear.rotation.z = Math.PI / 2;
-            shaftRear.position.x = 1.15;
+            shaftRear.position.x = 1.44;
             crankInner90.add(shaftRear);
 
             const crankPin = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 0.62, 20), this.mats.bronze);
@@ -1679,9 +1734,9 @@
 
             const flywheel = new THREE.Mesh(new THREE.CylinderGeometry(1.85, 1.85, 0.55, 32), this.mats.forgedSteel);
             flywheel.rotation.z = Math.PI / 2;
-            flywheel.position.x = 1.85;
+            flywheel.position.x = 2.55; // digeser keluar agar tidak menabrak dinding belakang crankcase
             const fwMark = new THREE.Mesh(new THREE.BoxGeometry(0.58, 0.25, 0.25), new THREE.MeshBasicMaterial({ color: 0xf59e0b }));
-            fwMark.position.set(1.85, 1.74, 0);
+            fwMark.position.set(2.55, 1.74, 0);
             crankInner90.add(flywheel, fwMark);
 
             crankGroup.add(crankInner90);
@@ -1991,26 +2046,103 @@
             const boreR = 1.35;
             const rodL = 4.2;
 
-            // 1. Crankcase & Oil Sump
+            // 1. Crankcase & Oil Sump — lebar sama dengan dinding silinder dan bukaan atas
+            //    sejajar dengan sisi samping serta depan/belakang blok silinder.
             const ccGroup = new THREE.Group();
-            const upperCcRear = new THREE.Mesh(
-                new THREE.CylinderGeometry(2.15, 2.15, 1.6, 32, 1, false, Math.PI * 0.5, Math.PI),
-                this.crankCaseMat4T
+            const ccHalfW = boreR + 0.36;       // 1.71 = radius luar dinding silinder
+            const ccTopY = 4.35 - 3.85 / 2;     // 2.425 = dasar blok silinder
+
+            // Profil U muka depan/belakang: dinding tegak + lengkung bawah crankcase.
+            const ccProfile4T = new THREE.Shape();
+            ccProfile4T.moveTo(ccHalfW, ccTopY);
+            ccProfile4T.lineTo(ccHalfW, 0);
+            ccProfile4T.absarc(0, 0, ccHalfW, 0, Math.PI, true);
+            ccProfile4T.lineTo(-ccHalfW, ccTopY);
+            ccProfile4T.closePath();
+
+            // Profil samping (bidang Y-Z): busur crankcase langsung berlanjut menjadi
+            // bak oli coran — satu kesatuan, tanpa plat/bak terpisah di bawahnya.
+            const sumpNeckY = -2.30;
+            const sumpBottomY = -2.55;
+            const sumpLipZ = 0.99;
+            const sumpFloorZ = 0.80;
+            const ccBottomPts = [];
+            for (let i = 0; i <= 10; i++) {
+                const ang = -(Math.PI / 4) * (i / 10);
+                ccBottomPts.push(new THREE.Vector2(ccHalfW * Math.cos(ang), ccHalfW * Math.sin(ang)));
+            }
+            ccBottomPts.push(
+                new THREE.Vector2(sumpLipZ, sumpNeckY),
+                new THREE.Vector2(sumpFloorZ, sumpBottomY),
+                new THREE.Vector2(-sumpFloorZ, sumpBottomY),
+                new THREE.Vector2(-sumpLipZ, sumpNeckY)
             );
-            upperCcRear.rotation.z = Math.PI / 2;
-            ccGroup.add(upperCcRear);
+            for (let i = 0; i <= 10; i++) {
+                const ang = -Math.PI * 0.75 - (Math.PI / 4) * (i / 10);
+                ccBottomPts.push(new THREE.Vector2(ccHalfW * Math.cos(ang), ccHalfW * Math.sin(ang)));
+            }
+
+            const ccSideProfile4T = new THREE.Shape();
+            ccSideProfile4T.moveTo(ccHalfW, ccTopY);
+            ccSideProfile4T.lineTo(ccHalfW, 0);
+            for (let i = 1; i < ccBottomPts.length; i++) {
+                ccSideProfile4T.lineTo(ccBottomPts[i].x, ccBottomPts[i].y);
+            }
+            ccSideProfile4T.lineTo(-ccHalfW, ccTopY);
+            ccSideProfile4T.closePath();
+
+            // Dinding ujung kiri/kanan (selebar poros engkol = lebar blok), termasuk bak oli.
+            const ccSideWallR4 = new THREE.Mesh(new THREE.ShapeGeometry(ccSideProfile4T, 64), this.crankCaseMat4T);
+            ccSideWallR4.rotation.y = Math.PI / 2;
+            ccSideWallR4.position.x = ccHalfW;
+            const ccSideWallL4 = ccSideWallR4.clone();
+            ccSideWallL4.position.x = -ccHalfW;
+            ccGroup.add(ccSideWallR4, ccSideWallL4);
 
             const unibodyGroup4T = new THREE.Group();
-            const upperCcFrontCover = new THREE.Mesh(
-                new THREE.CylinderGeometry(2.15, 2.15, 1.6, 32, 1, false, -Math.PI * 0.5, Math.PI),
-                this.crankCaseMat4T
-            );
-            upperCcFrontCover.rotation.z = Math.PI / 2;
-            unibodyGroup4T.add(upperCcFrontCover);
 
-            const oilPanFrontCover = new THREE.Mesh(new THREE.BoxGeometry(2.4, 1.2, 1.4), this.crankCaseMat4T);
-            oilPanFrontCover.position.set(0, -2.1, 0.7);
-            unibodyGroup4T.add(oilPanFrontCover);
+            // Dinding depan (hilang otomatis pada mode cutaway) & belakang.
+            const ccFrontWall = new THREE.Mesh(new THREE.ShapeGeometry(ccProfile4T, 48), this.crankCaseMat4T);
+            ccFrontWall.position.z = ccHalfW;
+            unibodyGroup4T.add(ccFrontWall);
+
+            const ccRearWall = new THREE.Mesh(new THREE.ShapeGeometry(ccProfile4T, 48), this.crankCaseMat4T);
+            ccRearWall.position.z = -ccHalfW;
+            ccGroup.add(ccRearWall);
+
+            // Selubung bawah + bak oli: satu permukaan coran menerus (loft sepanjang
+            // sumbu engkol), jadi oli di bak menyatu dengan ruang crankcase di atasnya.
+            const troughCols = ccBottomPts.length;
+            const troughPos = [];
+            const troughIdx = [];
+            ccBottomPts.forEach(p => troughPos.push(-ccHalfW, p.y, -p.x));
+            ccBottomPts.forEach(p => troughPos.push(ccHalfW, p.y, -p.x));
+            for (let i = 0; i < troughCols - 1; i++) {
+                troughIdx.push(i, troughCols + i, i + 1, i + 1, troughCols + i, troughCols + i + 1);
+            }
+            const troughGeo = new THREE.BufferGeometry();
+            troughGeo.setAttribute('position', new THREE.Float32BufferAttribute(troughPos, 3));
+            troughGeo.setIndex(troughIdx);
+            troughGeo.computeVertexNormals();
+            const ccTrough = new THREE.Mesh(troughGeo, this.crankCaseMat4T);
+            ccGroup.add(ccTrough);
+
+            // Dek atas crankcase: menutup sudut di luar diameter silinder dan
+            // menyatu dengan dinding luar blok; bagian tengah tetap terbuka.
+            const ccDeckShape4T = new THREE.Shape();
+            ccDeckShape4T.moveTo(-ccHalfW, -ccHalfW);
+            ccDeckShape4T.lineTo(ccHalfW, -ccHalfW);
+            ccDeckShape4T.lineTo(ccHalfW, ccHalfW);
+            ccDeckShape4T.lineTo(-ccHalfW, ccHalfW);
+            ccDeckShape4T.closePath();
+            const ccDeckHole4T = new THREE.Path();
+            ccDeckHole4T.absarc(0, 0, ccHalfW - 0.02, 0, Math.PI * 2, true);
+            ccDeckShape4T.holes.push(ccDeckHole4T);
+            const ccDeckGeo4T = new THREE.ShapeGeometry(ccDeckShape4T, 48);
+            ccDeckGeo4T.rotateX(-Math.PI / 2);
+            const ccDeck4T = new THREE.Mesh(ccDeckGeo4T, this.crankCaseMat4T);
+            ccDeck4T.position.y = ccTopY;
+            ccGroup.add(ccDeck4T);
 
             const neckFront4 = new THREE.Mesh(
                 new THREE.CylinderGeometry(boreR + 0.36, 1.88, 0.90, 32, 1, true, -Math.PI * 0.5, Math.PI),
@@ -2028,17 +2160,12 @@
 
             root.add(unibodyGroup4T);
             this.meshes4T.unibodyCover = unibodyGroup4T;
-            this.meshes4T.crankCover = upperCcFrontCover;
-            this.meshes4T.oilSumpCover = oilPanFrontCover;
+            this.meshes4T.crankCover = ccFrontWall;
             this.meshes4T.neckFront = neckFront4;
             this.meshes4T.cylFrontCover = cylFrontCover4;
 
-            const oilPanRear = new THREE.Mesh(new THREE.BoxGeometry(2.4, 1.2, 1.4), this.crankCaseMat4T);
-            oilPanRear.position.set(0, -2.1, -0.7);
-            ccGroup.add(oilPanRear);
-
             // Dynamic Sloshing Oil Pool inside Oil Sump
-            const oilFluidGeo = new THREE.BoxGeometry(2.1, 0.75, 2.5, 14, 1, 14);
+            const oilFluidGeo = new THREE.BoxGeometry(2.7, 0.42, 1.55, 14, 1, 14);
             const oilPosAttr = oilFluidGeo.attributes.position;
             const oilBaseY = new Float32Array(oilPosAttr.count);
             for (let i = 0; i < oilPosAttr.count; i++) {
@@ -2046,14 +2173,30 @@
             }
             oilFluidGeo.userData.baseY = oilBaseY;
             const oilFluid = new THREE.Mesh(oilFluidGeo, this.mats.oilAmber);
-            oilFluid.position.y = -2.25;
+            oilFluid.position.y = -2.27;
             ccGroup.add(oilFluid);
             this.meshes4T.oilFluid = oilFluid;
 
+            // Cipratan oli: counterweight mengaduk oli di bak lalu memercikkannya ke atas.
+            const splashCount = 110;
+            const splashGeo = new THREE.BufferGeometry();
+            const splashDrops = [];
+            for (let i = 0; i < splashCount; i++) {
+                splashDrops.push({ x: 0, y: -2.06, z: 0, vx: 0, vy: 0, vz: 0 });
+            }
+            splashGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(splashCount * 3), 3));
+            const oilSplash = new THREE.Points(splashGeo, new THREE.PointsMaterial({
+                color: 0xf59e0b, size: 0.09, transparent: true, opacity: 0.9, depthWrite: false
+            }));
+            oilSplash.frustumCulled = false;
+            ccGroup.add(oilSplash);
+            this.meshes4T.oilSplash = oilSplash;
+            this.meshes4T.oilSplashDrops = splashDrops;
+
             root.add(ccGroup);
             this.meshes4T.crankcase = ccGroup;
-            this.registerInspectable(oilPanRear, '4t_oil_sump', 'Oil Sump & Pelumasan (4T)', new THREE.Vector3(1.8, -2.1, 0));
-            this.registerInspectable(upperCcFrontCover, '4t_crankshaft', 'Unibody Crankcase & Cylinder Cover (4T)');
+            this.registerInspectable(ccTrough, '4t_oil_sump', 'Oil Sump & Pelumasan (4T)', new THREE.Vector3(1.8, -2.1, 0));
+            this.registerInspectable(ccFrontWall, '4t_crankshaft', 'Unibody Crankcase & Cylinder Cover (4T)');
 
             // 2. Crankshaft with Counterweights, Flywheel & Split Main Shafts (ONLY on outer sides of webs, NEVER piercing inside)
             const crankGroup = new THREE.Group();
@@ -2083,27 +2226,27 @@
             this.meshes4T.crankPin = crankPin;
 
             // Split Main Journal Shafts: strictly attached to the OUTER faces of the counterweights (no center shaft piercing inside)
-            const shaftFront = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 1.38, 20), this.mats.forgedSteel);
+            const shaftFront = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 1.81, 20), this.mats.forgedSteel);
             shaftFront.rotation.z = Math.PI / 2;
-            shaftFront.position.x = -1.30; // Spans from x = -1.99 (outer timing sprocket) to x = -0.61 (outer face of webL)
+            shaftFront.position.x = -1.515; // Spans from x = -2.42 (outer timing sprocket) to x = -0.61 (outer face of webL)
             crankGroup.add(shaftFront);
 
-            const shaftRear = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 1.48, 20), this.mats.forgedSteel);
+            const shaftRear = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 2.12, 20), this.mats.forgedSteel);
             shaftRear.rotation.z = Math.PI / 2;
-            shaftRear.position.x = 1.35; // Spans from x = +0.61 (outer face of webR) to x = +2.09 (flywheel hub)
+            shaftRear.position.x = 1.68; // Spans from x = +0.62 (outer face of webR) to x = +2.74 (flywheel hub)
             crankGroup.add(shaftRear);
 
             const flywheel = new THREE.Mesh(new THREE.CylinderGeometry(2.15, 2.15, 0.55, 36), this.mats.forgedSteel);
             flywheel.rotation.z = Math.PI / 2;
-            flywheel.position.x = 1.95;
+            flywheel.position.x = 2.45; // digeser keluar dari dinding crankcase yang kini selebar blok
             const fwMark = new THREE.Mesh(new THREE.BoxGeometry(0.58, 0.25, 0.25), new THREE.MeshBasicMaterial({ color: 0x38bdf8 }));
-            fwMark.position.set(1.95, 2.02, 0);
+            fwMark.position.set(2.45, 2.02, 0);
             crankGroup.add(flywheel, fwMark);
 
-            // Crank Timing Sprocket at X = -1.86
+            // Crank Timing Sprocket at X = -2.30 (digeser agar tidak menempel dinding crankcase)
             const crankGear = new THREE.Mesh(new THREE.CylinderGeometry(0.46, 0.46, 0.24, 18), this.mats.bronze);
             crankGear.rotation.z = Math.PI / 2;
-            crankGear.position.x = -1.86;
+            crankGear.position.x = -2.30;
             crankGroup.add(crankGear);
 
             root.add(crankGroup);
@@ -2190,16 +2333,19 @@
             headGroup.add(headHousingFront);
             this.meshes4T.headFrontCover = headHousingFront;
 
-            // Intake Manifold Runner
+            // Intake Manifold Runner — diloloskan di bawah gear timing lalu menjulur
+            // keluar melewati muka gear agar tidak terpotong (sejajar exhaust).
             const inRunnerCurve = new THREE.CatmullRomCurve3([
-                new THREE.Vector3(-2.65, 0.48, 0.0),
-                new THREE.Vector3(-2.22, -0.48, 0.0),
-                new THREE.Vector3(-1.45, -0.46, 0.0),
-                new THREE.Vector3(-0.76, -0.58, 0.0),
-                new THREE.Vector3(-0.62, -0.92, 0.0)
+                new THREE.Vector3(-0.62, -0.92, 0.0),
+                new THREE.Vector3(-0.86, -0.60, 0.0),
+                new THREE.Vector3(-1.62, -0.52, 0.0),
+                new THREE.Vector3(-2.52, -0.53, 0.0),
+                new THREE.Vector3(-3.05, 0.12, 0.0)
             ]);
             const inManifold = new THREE.Mesh(new THREE.TubeGeometry(inRunnerCurve, 34, 0.34, 18, false), this.mats.intakeBlue);
             headGroup.add(inManifold);
+            // Centerline runner dipakai animasi aliran gas agar partikel tetap di dalam tube.
+            this.meshes4T.intakeCurve = inRunnerCurve;
 
             const inPocket = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.48, 0.36, 24, 1, true), this.mats.intakeBlue);
             inPocket.position.set(-0.63, -0.86, 0);
@@ -2321,9 +2467,9 @@
             camAssembly.position.set(0, 8.29, 0);
 
             const camRotor = new THREE.Group();
-            const camShaftBar = new THREE.Mesh(new THREE.CylinderGeometry(0.20, 0.20, 3.25, 20), this.mats.forgedSteel);
+            const camShaftBar = new THREE.Mesh(new THREE.CylinderGeometry(0.20, 0.20, 3.69, 20), this.mats.forgedSteel);
             camShaftBar.rotation.z = Math.PI / 2;
-            camShaftBar.position.x = -0.24;
+            camShaftBar.position.x = -0.458;
             camRotor.add(camShaftBar);
 
             // Helper function to generate realistic cam lobe sized dynamically to match valve lift travel
@@ -2413,14 +2559,14 @@
 
             const camGear = new THREE.Mesh(new THREE.CylinderGeometry(0.92, 0.92, 0.22, 36), this.mats.bronze);
             camGear.rotation.z = Math.PI / 2;
-            camGear.position.x = -1.86;
+            camGear.position.x = -2.30;
 
             const camGearWeb = new THREE.Mesh(new THREE.CylinderGeometry(0.76, 0.76, 0.25, 24), this.mats.crankSteel);
             camGearWeb.rotation.z = Math.PI / 2;
-            camGearWeb.position.x = -1.86;
+            camGearWeb.position.x = -2.30;
 
             const camMark = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.20, 0.18), new THREE.MeshBasicMaterial({ color: 0xf43f5e }));
-            camMark.position.set(-1.86, 0.86, 0);
+            camMark.position.set(-2.30, 0.86, 0);
             camRotor.add(camGear, camGearWeb, camMark);
 
             camAssembly.add(camRotor);
@@ -2430,14 +2576,14 @@
             camRotor.traverse(c => { if (c.isMesh) this.registerInspectable(c, '4t_camshaft'); });
             this.registerInspectable(camGear, '4t_camshaft', 'Camshaft & Timing Gear (1:2)', new THREE.Vector3(-2.1, 0.65, 0), true);
 
-            // Timing Chain Loop + Animated Chain Links at X = -1.86
+            // Timing Chain Loop + Animated Chain Links at X = -2.30
             const chainPoints = [
-                new THREE.Vector3(-1.86, 0, -0.46),
-                new THREE.Vector3(-1.86, 8.29, -0.92),
-                new THREE.Vector3(-1.86, 9.21, 0),
-                new THREE.Vector3(-1.86, 8.29, 0.92),
-                new THREE.Vector3(-1.86, 0, 0.46),
-                new THREE.Vector3(-1.86, -0.46, 0)
+                new THREE.Vector3(-2.30, 0, -0.46),
+                new THREE.Vector3(-2.30, 8.29, -0.92),
+                new THREE.Vector3(-2.30, 9.21, 0),
+                new THREE.Vector3(-2.30, 8.29, 0.92),
+                new THREE.Vector3(-2.30, 0, 0.46),
+                new THREE.Vector3(-2.30, -0.46, 0)
             ];
             const chainCurve = new THREE.CatmullRomCurve3(chainPoints, true);
             this.timingChainCurve4T = chainCurve;
@@ -2763,14 +2909,16 @@
             const ccScale2 = requiredCcRadius2 / 2.35;
             if (this.meshes2T.crankcase) this.meshes2T.crankcase.scale.set(ccScale2, ccScale2, 1);
             if (this.meshes2T.crankCover) this.meshes2T.crankCover.scale.set(ccScale2, 1, ccScale2);
+            if (this.meshes2T.crankFrontPlate) this.meshes2T.crankFrontPlate.scale.set(ccScale2, ccScale2, 1);
 
-            this.meshes2T.crankshaft.rotation.set(0, 0, -s2.theta);
+            // Poros engkol 2 tak berputar berlawanan arah jarum jam (dilihat dari depan).
+            this.meshes2T.crankshaft.rotation.set(0, 0, s2.theta);
             this.meshes2T.crankPin.position.set(0, r2, 0);
 
-            const crankPinX2 = r2 * Math.sin(s2.theta);
+            const crankPinX2 = -r2 * Math.sin(s2.theta);
             const crankPinY2 = r2 * Math.cos(s2.theta);
             this.meshes2T.conrod.position.set(crankPinX2, crankPinY2, 0);
-            this.meshes2T.conrod.rotation.set(0, 0, Math.asin(s2.sinB));
+            this.meshes2T.conrod.rotation.set(0, 0, -Math.asin(s2.sinB));
             this.meshes2T.conrod.scale.set(1, l2 / 4.2, 1);
 
             this.meshes2T.piston.position.set(0, yPist2, 0);
@@ -2901,6 +3049,38 @@
                     }
                 }
                 pos.needsUpdate = true;
+            }
+
+            if (this.meshes4T.oilSplash && this.physics.isPlaying) {
+                const now = performance.now();
+                const sdt = Math.min(0.05, (now - (this.oilSplashTime || now)) / 1000);
+                this.oilSplashTime = now;
+                const drops = this.meshes4T.oilSplashDrops;
+                const splashArr = this.meshes4T.oilSplash.geometry.attributes.position.array;
+                const oilTopY = -2.06;
+                const throwPower = Math.min(1, 0.5 + this.physics.rpm / 3000);
+                for (let i = 0; i < drops.length; i++) {
+                    const d = drops[i];
+                    if (d.vy === 0) {
+                        // dilempar dari sisi counterweight yang menyapu permukaan oli
+                        const sweep = Math.sin(s4.theta + i * 2.39996);
+                        d.x = (Math.random() * 2 - 1) * 1.2;
+                        d.z = (Math.random() * 2 - 1) * 0.5;
+                        d.y = oilTopY + Math.random() * 0.04;
+                        d.vx = (Math.random() * 2 - 1) * 0.35;
+                        d.vz = sweep * (0.45 + Math.random() * 0.75) * throwPower;
+                        d.vy = (2.4 + Math.random() * 3.0) * throwPower;
+                    }
+                    d.vy -= 7.5 * sdt;
+                    d.x += d.vx * sdt;
+                    d.y += d.vy * sdt;
+                    d.z += d.vz * sdt;
+                    if (d.y <= oilTopY && d.vy < 0) { d.y = oilTopY; d.vy = 0; } // jatuh kembali ke oli
+                    splashArr[i * 3] = d.x;
+                    splashArr[i * 3 + 1] = d.y;
+                    splashArr[i * 3 + 2] = d.z;
+                }
+                this.meshes4T.oilSplash.geometry.attributes.position.needsUpdate = true;
             }
 
             const crankPinX4 = r4 * Math.sin(s4.theta);
@@ -3101,7 +3281,7 @@
                 const zOff = p.lane;
 
                 if (idx < 16) {
-                    const inProg = s2.reedOpenFrac > 0.02 ? (((s2.ang - 190 + 360) % 360) / 165) : 0;
+                    const inProg = s2.reedOpenFrac > 0.02 ? (((s2.ang - s2.intakeOpenAng + 360) % 360) / s2.intakeDur) : 0;
                     const t = ((idx / 16) * 2.0 + inProg * 1.9) % 1.0;
                     p.mat.color.setHex(0x38bdf8);
                     p.mesh.scale.setScalar(0.92);
@@ -3210,26 +3390,25 @@
 
                 if (idx < 21) {
                     p.mat.color.setHex(0x38bdf8);
-                    if (t < 0.24) {
-                        const k = t / 0.24;
-                        const px = (-2.65 + k * 0.43) * boreScale4;
-                        const py = headBaseY4 + (0.48 - k * 0.96);
-                        p.mesh.position.set(px, py, zOff);
-                    } else if (t < 0.50) {
-                        const k = (t - 0.24) / 0.26;
-                        const px = (-2.22 + k * 0.77) * boreScale4;
-                        const py = headBaseY4 + (-0.48 + Math.sin(k * Math.PI) * 0.03);
-                        p.mesh.position.set(px, py, zOff);
-                    } else if (t < 0.72) {
-                        const k = (t - 0.50) / 0.22;
-                        const px = (-1.45 + k * 0.83) * boreScale4;
-                        const py = headBaseY4 + (-0.46 - k * k * 0.46);
-                        p.mesh.position.set(px, py, zOff);
+                    // Aliran mengikuti centerline runner intake (inRunnerCurve) supaya
+                    // partikel selalu berada di dalam dinding tube, bukan di luarnya.
+                    const duct = this.meshes4T.intakeCurve;
+                    const ductSpan = 0.80;
+                    if (t < ductSpan) {
+                        const k = t / ductSpan;
+                        const c = duct.getPointAt(1 - k);
+                        const wob = Math.sin(k * Math.PI * 3.0 + p.phase * 11.0) * 0.05;
+                        const drift = Math.cos(k * Math.PI * 2.0 + p.phase * 7.0) * 0.06;
+                        p.mesh.position.set(
+                            c.x * boreScale4,
+                            headBaseY4 + c.y + wob,
+                            (c.z + p.lane + drift) * boreScale4
+                        );
                     } else {
-                        const k = (t - 0.72) / 0.28;
-                        const px = (-0.62 + k * 0.55) * boreScale4;
+                        const k = (t - ductSpan) / (1 - ductSpan);
+                        const px = -0.62 * boreScale4;
                         const py = seatY4 - k * Math.max(0.25, seatY4 - (crownY4 + 0.15));
-                        p.mesh.position.set(px, py, zOff);
+                        p.mesh.position.set(px, py, (p.lane + 0.06) * boreScale4);
                     }
                     p.mesh.visible = s4.inOpenFrac > 0.08;
                 } else {
@@ -3346,6 +3525,18 @@
 
             const isNormalLike = (mode === 'normal' || mode === 'sidebyside');
             const showFrontCaps = (isNormalLike || mode === 'exploded' || mode === 'transparent');
+
+            // Cutaway: crankcase kedua mesin ikut dipotong pada bidang z = 0 —
+            // separuh depan dibuang, segaris dengan potongan blok silinder di atasnya.
+            const crankCutPlanes = (mode === 'cutaway')
+                ? [new THREE.Plane(new THREE.Vector3(0, 0, -1), 0)]
+                : null;
+            if (this.renderer) this.renderer.localClippingEnabled = true;
+            [this.crankCaseMat2T, this.crankCaseMat4T, this.mats && this.mats.crankGas2T, this.mats && this.mats.oilAmber].forEach(m => {
+                if (!m) return;
+                m.clippingPlanes = crankCutPlanes;
+                m.needsUpdate = true;
+            });
 
             if (this.meshes2T.unibodyCover) {
                 this.meshes2T.unibodyCover.visible = showFrontCaps;
